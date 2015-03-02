@@ -1,0 +1,9 @@
+.DS_Store
+1/*.m~
+*.gz
+*.aux
+*.log
+*.ps
+*.dvi
+
+
