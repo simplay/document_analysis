@@ -3,7 +3,7 @@ clc
 clear all;
 close all;
 
-img = imread('Input/shapes0.png');
+img = imread('Input/Shapes1.png');
 img = ~img;
 img = im2double(img);
 
@@ -46,5 +46,5 @@ for m=1:100:M,
         idx = idx + 1;
     end
 end
-disp(['equaltity count: ',num2str(equalityCount)]);
+disp(['equality count: ',num2str(equalityCount)]);
 
