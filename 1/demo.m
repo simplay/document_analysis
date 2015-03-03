@@ -5,7 +5,7 @@ close all;
 
 filename = 'Shapes0';
 
-PREPROCESS = 3;
+PREPROCESS = 2;
 filepathname = ['Input/', filename];
 if PREPROCESS == 1 || PREPROCESS == 2,
     filepathname = strcat(filepathname,'_noisy');
@@ -52,7 +52,11 @@ for m=1:100:M,
         subimage = imfilter(subimage, G, 'same');
         
         % retrieve corners in subimages using a harris-corner-detector.
-        [~, c] = corners(subimage, 1.0, 0.5, 1);
+        threshold = 0.24;
+        if (PREPROCESS == 3)
+            threshold = 0.5;
+        end
+        [~, c] = corners(subimage, 1.0, threshold, 1);
         
         % classify shapes in subimage.
         shape_classification = '';
