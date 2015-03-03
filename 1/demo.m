@@ -3,9 +3,10 @@ clc
 clear all;
 close all;
 
-filename = 'Shapes1';
+filename = 'Shapes0';
 
-img = imread(['Input/', filename, '.png']);
+PREPROCESS = 2;
+img = imread(['Input/', filename, '_noisy.png']);
 img = ~img;
 img = im2double(img);
 
@@ -17,6 +18,18 @@ ground_truth_classification = textread(['Input/', filename, '.txt'], '%s');
 
 idx = 1;
 equalityCount = 0;
+
+if (PREPROCESS == 1)
+    se = strel('diamond',1);
+    img_dil = imdilate(img, se);
+    se = strel('diamond',2);
+    img_preprocessed = imerode(img_dil,se);
+elseif (PREPROCESS == 2)
+    img_preprocessed = medfilt2(img, [5 5]);
+else
+    img_preprocessed = img;
+end
+imshow(img_preprocessed)
 % iterate over all subimages and classify them. Compare classified results
 % with given solution stored in ''
 for m=1:100:M,
@@ -53,7 +66,7 @@ for m=1:100:M,
             strcmp(current_reference_solution, shape_classification);
         
         disp([num2str(idx), '. ', shape_classification, '<=>', current_reference_solution, ...
-            ' ' , num2str(strcmp(current_reference_solution, shape_classification))])
+            ' ' , num2str(length(c))])
         
         % update index counter for next iteration.
         idx = idx + 1;
