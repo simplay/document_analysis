@@ -5,7 +5,7 @@ close all;
 
 filename = 'Shapes0';
 
-PREPROCESS = 2;
+PREPROCESS = 3;
 filepathname = ['Input/', filename];
 if PREPROCESS == 1 || PREPROCESS == 2,
     filepathname = strcat(filepathname,'_noisy');
@@ -30,10 +30,7 @@ if (PREPROCESS == 1)
     se = strel('diamond',2);
     img_preprocessed = imerode(img_dil,se);
 elseif (PREPROCESS == 2)
-    img_preprocessed = medfilt2(img, [10 10]);
-
-    img_preprocessed = wiener2(img);
-    
+    img_preprocessed = medfilt2(img, [5 5]);
 else
     img_preprocessed = img;
 end
@@ -47,7 +44,9 @@ for m=1:100:M,
         % from constraint: given images is segmented into 100x100
         % subimages.
         subimage = img_preprocessed(m:m+99, n:n+99);
-        
+        if(PREPROCESS == 1 || PREPROCESS == 2) 
+            subimage = restoreImg(subimage, 2.3);
+        end
         % preprocess image - pre-smooth it => good results
         G = fspecial('gaussian');
         subimage = imfilter(subimage, G, 'same');
