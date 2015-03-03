@@ -50,13 +50,14 @@ for m=1:100:M,
         % preprocess image - pre-smooth it => good results
         G = fspecial('gaussian');
         subimage = imfilter(subimage, G, 'same');
-        
         % retrieve corners in subimages using a harris-corner-detector.
         threshold = 0.24;
+        radius = 3;
         if (PREPROCESS == 3)
             threshold = 0.5;
+            radius = 1;
         end
-        [~, c] = corners(subimage, 1.0, threshold, 1);
+        [~, c] = corners(subimage, 1.0, threshold, radius);
         
         % classify shapes in subimage.
         shape_classification = '';
