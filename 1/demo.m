@@ -3,7 +3,9 @@ clc
 clear all;
 close all;
 
-img = imread('Input/Shapes1.png');
+filename = 'Shapes1';
+
+img = imread(['Input/', filename, '.png']);
 img = ~img;
 img = im2double(img);
 
@@ -13,7 +15,7 @@ img = im2double(img);
 
 % Traverse Imgae: image consists of 100 x 100 pixels subimages:
 slice = ones(100,1);
-solution = textread('Input/Shapes0.txt','%s');
+solution = textread(['Input/', filename, '.txt'],'%s');
 
 idx = 1;
 equalityCount = 0;
