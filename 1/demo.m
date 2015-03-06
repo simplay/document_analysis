@@ -19,7 +19,7 @@ img = ~img;
 img = im2double(img);
 
 
-%img = imnoise(img,'gaussian', 0, 1);
+img = imnoise(img,'gaussian', 0, .1);
 
 PREPROCESS = detectNoiseType(img);
 
@@ -53,7 +53,7 @@ for m=1:100:M,
         % from constraint: given images is segmented into 100x100
         % subimages.
         subimage = img_preprocessed(m:m+99, n:n+99);
-        if(PREPROCESS == 1 || PREPROCESS == 2) 
+        if(PREPROCESS == 2) 
             subimage = restoreImg(subimage, 2.3);
         end
         % preprocess image - pre-smooth it => good results
@@ -61,6 +61,7 @@ for m=1:100:M,
         subimage = imfilter(subimage, G, 'same');
         % retrieve corners in subimages using a harris-corner-detector.
         threshold = 0.24;
+        
         radius = 3;
         if (PREPROCESS == 3)
             threshold = 0.5;
