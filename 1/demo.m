@@ -8,9 +8,9 @@ filename = 'Shapes0';
 suffix = '_noisy';
 suffix = '';
 
-
+isNoiseInputImage = 1;
 filepathname = ['Input/', filename];
-if PREPROCESS == 1 || PREPROCESS == 2,
+if isNoiseInputImage == 1,
     filepathname = strcat(filepathname, suffix);
 end
 
@@ -23,18 +23,16 @@ img = im2double(img);
 
 PREPROCESS = detectNoiseType(img);
 
-
 % Image img is (M x N)
 [M,N] = size(img); 
 
 ground_truth_classification = textread(['Input/', filename, '.txt'], '%s');
 
+% correct gaussian noise using a wiener filter - relying on a common
+% degregation noise model:
+%       given_image := conv(clean_img, blur_kernel) + noise
 if (PREPROCESS == 1)
-    se = strel('diamond',1);
-    img_dil = imdilate(img, se);
-    se = strel('diamond',2);
-    img_preprocessed = imerode(img_dil,se);
-    
+    img_preprocessed = wiener2(img,[5 5]);
 % median filter
 elseif (PREPROCESS == 2)
     img_preprocessed = medfilt2(img, [5 5]);
