@@ -18,11 +18,7 @@ img = im2double(img);
 % Image img is (M x N)
 [M,N] = size(img); 
 
-% Traverse Image: image consists of 100 x 100 pixels subimages:
 ground_truth_classification = textread(['Input/', filename, '.txt'], '%s');
-
-idx = 1;
-equalityCount = 0;
 
 if (PREPROCESS == 1)
     se = strel('diamond',1);
@@ -34,9 +30,13 @@ elseif (PREPROCESS == 2)
 else
     img_preprocessed = img;
 end
+
 imshow(img_preprocessed)
-% iterate over all subimages and classify them. Compare classified results
-% with given solution stored in ''
+idx = 1;
+equalityCount = 0;
+% Iterate over all subimages of size 100x100
+% and classify them. Compare classification results
+% with ground truth stored in 'ground_truth_classification'
 for m=1:100:M,
     for n=1:100:N,
         counter = 0;
