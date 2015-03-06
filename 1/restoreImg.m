@@ -4,14 +4,8 @@ function [ out ] = restoreImg( img, N )
     g = fspecial('gaussian', max(1,fix(6*N)), N);
     
     % Smoothed squared image derivatives
-    blurredImg = conv2(img, g, 'same'); 
-    for k=1:10000,
-        if blurredImg(k) < 0.8,
-            blurredImg(k) = 0;
-        else
-            blurredImg(k) = 1;
-        end
-    end
-    out = blurredImg;
+    blurredImg = conv2(img, g, 'same');
+    % Apply thresholding to reconstruct edges.
+    out = double(im2bw(blurredImg, 0.8));
 end
 
