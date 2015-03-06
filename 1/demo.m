@@ -3,17 +3,26 @@ clc
 clear all;
 close all;
 
+%filename = 'Shapes2N2A';
 filename = 'Shapes0';
+suffix = '_noisy';
+suffix = '';
 
-PREPROCESS = 2;
+
 filepathname = ['Input/', filename];
 if PREPROCESS == 1 || PREPROCESS == 2,
-    filepathname = strcat(filepathname,'_noisy');
+    filepathname = strcat(filepathname, suffix);
 end
 
 img = imread(strcat(filepathname, '.png'));
 img = ~img;
 img = im2double(img);
+
+
+%img = imnoise(img,'gaussian', 0, 1);
+
+PREPROCESS = detectNoiseType(img);
+
 
 % Image img is (M x N)
 [M,N] = size(img); 
@@ -24,11 +33,14 @@ ground_truth_classification = textread(['Input/', filename, '.txt'], '%s');
 idx = 1;
 equalityCount = 0;
 
+% Gaussian noise correction
 if (PREPROCESS == 1)
     se = strel('diamond',1);
     img_dil = imdilate(img, se);
     se = strel('diamond',2);
     img_preprocessed = imerode(img_dil,se);
+    
+% median filter
 elseif (PREPROCESS == 2)
     img_preprocessed = medfilt2(img, [5 5]);
 else
@@ -40,7 +52,7 @@ imshow(img_preprocessed)
 for m=1:100:M,
     for n=1:100:N,
         counter = 0;
-        
+        keyboard
         % from constraint: given images is segmented into 100x100
         % subimages.
         subimage = img_preprocessed(m:m+99, n:n+99);
