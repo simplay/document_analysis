@@ -33,7 +33,7 @@ ground_truth_classification = textread(['Input/', filename, '.txt'], '%s');
 %       given_image := conv(clean_img, blur_kernel) + noise
 if (PREPROCESS == 1)
     img_preprocessed = wiener2(img,[5 5]);
-% median filter
+% Median filter, effective against salt and pepper noise.
 elseif (PREPROCESS == 2)
     img_preprocessed = medfilt2(img, [5 5]);
 else
@@ -43,6 +43,10 @@ end
 imshow(img_preprocessed)
 idx = 1;
 equalityCount = 0;
+% For building confusion matrix, 80 cases with 4 possible outcomes/classes.
+targets = zeros(4, 80);
+outputs = zeros(4, 80);
+
 % Iterate over all subimages of size 100x100
 % and classify them. Compare classification results
 % with ground truth stored in 'ground_truth_classification'
@@ -84,6 +88,10 @@ for m=1:100:M,
         % report results from current iteration.
         current_reference_solution = strjoin(ground_truth_classification(idx));
         
+        % Save for showing confusion matrix later on.
+        targets(shape_to_class_nr(current_reference_solution), idx) = 1;
+        outputs(shape_to_class_nr(shape_classification), idx) = 1;
+
         equalityCount = equalityCount + ... 
             strcmp(current_reference_solution, shape_classification);
         
@@ -95,4 +103,10 @@ for m=1:100:M,
     end
 end
 disp(['equality count: ',num2str(equalityCount)]);
+
+%% Draw confusion matrix of classifications.
+plotconfusion(targets, outputs, filepathname)
+confusion_labels = {'circle' 'triangle' 'square' 'star', 'Overall'};
+set(gca,'xticklabel', confusion_labels)
+set(gca,'yticklabel', confusion_labels)
 
