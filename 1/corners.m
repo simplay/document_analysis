@@ -52,11 +52,22 @@ function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radiu
     % visit a windowLength^2 in R and find max in this neighborhood. 
     % replace set at each pixel location the found max. neighborhood value.
     % i.e. the nonmax supression
-    localMaxima = ordfilt2(R, windowLength^2, ones(windowLength));
+    localMaxima = ordfilt2(response, windowLength^2, ones(windowLength));
     
     % consider only max. values that are bigger than a given minimal
     % threshold boundary. I.e. count only real maxima. Find indices of
     % significant local maxima.
-	[rowIdxs, columnIdxs] = find((R==localMaxima)&(R>lowerBound));   
+	[rowIdxs, columnIdxs] = find((response==localMaxima)&(response>lowerBound));
+    
+    % Matlab built in method for finding regional max.
+%     responseThresholded = response;
+%     responseThresholded(response < lowerBound) = 0;
+%     %If there is no response above the threshold, there are no corners.
+%     if sum(responseThresholded(:)) == 0
+%         rowIdxs = [];
+%         columnIdxs = [];
+%     else
+%         [rowIdxs, columnIdxs] = find(imregionalmax(responseThresholded, 8) == 1);
+%     end
 end
 	
