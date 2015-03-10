@@ -1,14 +1,14 @@
-function [ nr_corners ] = shape_to_class_nr( shape )
+function [ class_nr ] = shapeToClassNr( shape )
 %SHAPE_TO_NR_CORNERS Takes a string describing a shape and returns the
 %number of corners of it.
     if strcmp(shape, 'circle')
-        nr_corners = 1;
+        class_nr = 1;
     elseif strcmp(shape, 'triangle')
-        nr_corners = 2;
+        class_nr = 2;
     elseif strcmp(shape, 'square'),
-        nr_corners = 3;
+        class_nr = 3;
     elseif strcmp(shape, 'star');
-        nr_corners = 4;
+        class_nr = 4;
     end
 end
 
