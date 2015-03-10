@@ -48,7 +48,8 @@ equalityCount = 0;
 targets = zeros(4, 80);
 outputs = zeros(4, 80);
 failures = zeros(size(img));
-failure_responses = zeros(size(img));
+hits = zeros(size(img));
+responses = zeros(size(img));
 
 % Iterate over all subimages of size 100x100
 % and classify them. Compare classification results
@@ -96,10 +97,11 @@ for m=1:100:M,
 
         if strcmp(current_reference_solution, shape_classification)
             equalityCount = equalityCount + 1;
+            hits(current_range) = subimage;
         else
             failures(current_range) = subimage;
-            failure_responses(current_range) = response;
         end
+        responses(current_range) = response;
         
         disp([num2str(idx), '. ', shape_classification, ' <=> ', current_reference_solution, ...
             ' ' , num2str(length(c))])
@@ -115,4 +117,9 @@ plotconfusion(targets, outputs, filepathname)
 confusion_labels = {'circle' 'triangle' 'square' 'star', 'Overall'};
 set(gca,'xticklabel', confusion_labels)
 set(gca,'yticklabel', confusion_labels)
+failure_image = responses;
+failure_image(:,:,2) = hits;
+failure_image(:,:,3) = failures;
+figure;
+imshow(failure_image);
 
