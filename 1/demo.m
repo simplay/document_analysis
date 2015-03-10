@@ -6,7 +6,7 @@ close all;
 %filename = 'Shapes2N2A';
 filename = 'Shapes0';
 suffix = '_noisy';
-suffix = '';
+%suffix = '';
 
 isNoiseInputImage = 1;
 filepathname = ['Input/', filename];
@@ -19,7 +19,7 @@ img = ~img;
 img = im2double(img);
 
 
-img = imnoise(img,'gaussian', 0, .1);
+%img = imnoise(img,'gaussian', 0.0, .04);
 
 PREPROCESS = detectNoiseType(img);
 
@@ -61,7 +61,6 @@ for m=1:100:M,
         subimage = imfilter(subimage, G, 'same');
         % retrieve corners in subimages using a harris-corner-detector.
         threshold = 0.24;
-        
         radius = 3;
         if (PREPROCESS == 3)
             threshold = 0.5;
@@ -71,7 +70,7 @@ for m=1:100:M,
         
         % classify shapes in subimage.
         shape_classification = '';
-        if length(c) == 0,
+        if length(c) < 3,
             shape_classification = 'circle';
         elseif length(c) == 3
             shape_classification = 'triangle';
