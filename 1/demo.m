@@ -8,6 +8,7 @@ filename = 'Shapes0';
 suffix = '_noisy';
 %suffix = '';
 
+useBilatFilter = 1;
 isNoiseInputImage = 1;
 filepathname = ['Input/', filename];
 if isNoiseInputImage == 1,
@@ -36,11 +37,11 @@ if (PREPROCESS == 1)
 % Median filter, effective against salt and pepper noise.
 elseif (PREPROCESS == 2)
     img_preprocessed = medfilt2(img, [5 5]);
-    img_preprocessed = restoreImg(img_preprocessed, 2.3);
+    img_preprocessed = restoreImg(img_preprocessed, 2.3, useBilatFilter);
 else
     img_preprocessed = img;
 end
-
+%%
 imshow(img_preprocessed)
 idx = 1;
 equalityCount = 0;
@@ -54,6 +55,8 @@ responses = zeros(size(img));
 % Iterate over all subimages of size 100x100
 % and classify them. Compare classification results
 % with ground truth stored in 'ground_truth_classification'
+
+
 for m=1:100:M,
     for n=1:100:N,
         counter = 0;
@@ -67,6 +70,7 @@ for m=1:100:M,
         G = fspecial('gaussian');
         subimage = imfilter(subimage, G, 'same');
         % retrieve corners in subimages using a harris-corner-detector.
+        threshold = 0.24;
         threshold = 0.24;
         radius = 3;
         if (PREPROCESS == 3)
