@@ -19,7 +19,7 @@ img = ~img;
 img = im2double(img);
 
 
-img = imnoise(img,'gaussian', 0, .1);
+%img = imnoise(img,'gaussian', 0, .1);
 
 PREPROCESS = detectNoiseType(img);
 
@@ -36,6 +36,7 @@ if (PREPROCESS == 1)
 % Median filter, effective against salt and pepper noise.
 elseif (PREPROCESS == 2)
     img_preprocessed = medfilt2(img, [5 5]);
+    img_preprocessed = restoreImg(img_preprocessed, 2.3);
 else
     img_preprocessed = img;
 end
@@ -46,6 +47,8 @@ equalityCount = 0;
 % For building confusion matrix, 80 cases with 4 possible outcomes/classes.
 targets = zeros(4, 80);
 outputs = zeros(4, 80);
+failures = zeros(size(img));
+failure_responses = zeros(size(img));
 
 % Iterate over all subimages of size 100x100
 % and classify them. Compare classification results
@@ -56,10 +59,9 @@ for m=1:100:M,
         
         % from constraint: given images is segmented into 100x100
         % subimages.
-        subimage = img_preprocessed(m:m+99, n:n+99);
-        if(PREPROCESS == 2) 
-            subimage = restoreImg(subimage, 2.3);
-        end
+        current_range = false(size(img));
+        current_range(m:m+99, n:n+99) = true;
+        subimage = reshape(img_preprocessed(current_range), 100, 100);
         % preprocess image - pre-smooth it => good results
         G = fspecial('gaussian');
         subimage = imfilter(subimage, G, 'same');
@@ -71,7 +73,7 @@ for m=1:100:M,
             threshold = 0.5;
             radius = 1;
         end
-        [~, c] = corners(subimage, 1.0, threshold, radius);
+        [~, c, response] = corners(subimage, 1.0, threshold, radius);
         
         % classify shapes in subimage.
         shape_classification = '';
@@ -92,10 +94,14 @@ for m=1:100:M,
         targets(shape_to_class_nr(current_reference_solution), idx) = 1;
         outputs(shape_to_class_nr(shape_classification), idx) = 1;
 
-        equalityCount = equalityCount + ... 
-            strcmp(current_reference_solution, shape_classification);
+        if strcmp(current_reference_solution, shape_classification)
+            equalityCount = equalityCount + 1;
+        else
+            failures(current_range) = subimage;
+            failure_responses(current_range) = response;
+        end
         
-        disp([num2str(idx), '. ', shape_classification, '<=>', current_reference_solution, ...
+        disp([num2str(idx), '. ', shape_classification, ' <=> ', current_reference_solution, ...
             ' ' , num2str(length(c))])
         
         % update index counter for next iteration.

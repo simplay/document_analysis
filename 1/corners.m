@@ -20,8 +20,8 @@
 % @param radius Integer window base radius (usually 1).
 % @return rowIdxs array of row indices in image of maxima (corner)
 % @return columnIdxs array of column indices in image of maxima (corner)
-%
-function [rowIdxs, columnIdxs] = corners(img, sigma, lowerBound, radius)
+% @return response, the response of the corner detector on the given image.
+function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radius)
     
     % sobel derivative kernel
     dx = [-1 0 1; -1 0 1; -1 0 1]; 
@@ -44,7 +44,7 @@ function [rowIdxs, columnIdxs] = corners(img, sigma, lowerBound, radius)
     k=0.06;
     
     % response of detector: det(H) - k(trace(H)^2)
-    R = (Sx2.*Sy2 - Sxy.^2) - k*(Sx2 + Sy2).^2; 
+    response = (Sx2.*Sy2 - Sxy.^2) - k*(Sx2 + Sy2).^2; 
 
     % neithborhood window size - common assumption twice radius recentered (+1).
 	windowLength = (2*radius+1);
