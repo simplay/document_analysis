@@ -3,10 +3,8 @@ clc
 clear all;
 close all;
 
-%filename = 'Shapes2N2A';
-filename = 'Shapes0';
-suffix = '_noisy';
-%suffix = '';
+filename = 'Shapes2';
+suffix = 'N2A';
 
 useBilatFilter = 1;
 isNoiseInputImage = 1;
@@ -41,8 +39,8 @@ elseif (PREPROCESS == 2)
 else
     img_preprocessed = img;
 end
-%%
-imshow(img_preprocessed)
+
+%% Run analysis
 idx = 1;
 equalityCount = 0;
 % For building confusion matrix, 80 cases with 4 possible outcomes/classes.
@@ -55,7 +53,6 @@ responses = zeros(size(img));
 % Iterate over all subimages of size 100x100
 % and classify them. Compare classification results
 % with ground truth stored in 'ground_truth_classification'
-
 
 for m=1:100:M,
     for n=1:100:N,
@@ -70,17 +67,17 @@ for m=1:100:M,
         G = fspecial('gaussian');
         subimage = imfilter(subimage, G, 'same');
         % retrieve corners in subimages using a harris-corner-detector.
-        threshold = 0.24;
-        threshold = 0.24;
+        threshold = 0.21;
         radius = 3;
+        minBlobSizeFactor = 0.3;
         if (PREPROCESS == 3)
             threshold = 0.5;
             radius = 1;
         end
-        [~, c, response] = corners(subimage, 1.0, threshold, radius);
+        [~, c, response] = corners(subimage, 1.0, threshold, radius, ...
+            minBlobSizeFactor);
         
         % classify shapes in subimage.
-        shape_classification = '';
         if length(c) < 3
             shape_classification = 'circle';
         elseif length(c) == 3
@@ -123,6 +120,9 @@ set(gca,'yticklabel', confusion_labels)
 failure_image = responses;
 failure_image(:,:,2) = hits;
 failure_image(:,:,3) = failures;
-figure;
-imshow(failure_image);
+figure; imshow(failure_image);
 
+img_vs_preprocessed = img;
+img_vs_preprocessed(:,:,2) = img_preprocessed;
+img_vs_preprocessed(:,:,3) = zeros(size(img));
+figure; imshow(img_vs_preprocessed);

@@ -17,11 +17,14 @@
 % @param sigma std usually equal 1.
 % @param lowerBound float. a corner candidate must be bigger than this
 % bound. Only significant maximal values should be identified as an corner.
+% @param minBlobSizeFactor float in [0, 1]. Only maxima with a certain
+% extension are valid as corners. This threshold is minBlobSizeFactor *
+% mean(blobsize). To count all blobs as corners, set this to 0.
 % @param radius Integer window base radius (usually 1).
 % @return rowIdxs array of row indices in image of maxima (corner)
 % @return columnIdxs array of column indices in image of maxima (corner)
 % @return response, the response of the corner detector on the given image.
-function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radius)
+function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radius, minBlobSizeFactor)
     
     % sobel derivative kernel
     dx = [-1 0 1; -1 0 1; -1 0 1]; 
@@ -59,15 +62,19 @@ function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radiu
     % significant local maxima.
 	[rowIdxs, columnIdxs] = find((response==localMaxima)&(response>lowerBound));
     
-    % Matlab built in method for finding regional max.
-%     responseThresholded = response;
-%     responseThresholded(response < lowerBound) = 0;
-%     %If there is no response above the threshold, there are no corners.
-%     if sum(responseThresholded(:)) == 0
-%         rowIdxs = [];
-%         columnIdxs = [];
-%     else
-%         [rowIdxs, columnIdxs] = find(imregionalmax(responseThresholded, 8) == 1);
-%     end
+    % Alternative way for finding regional max that is more resistant
+    % against 'double-peaks' by rejecting maximas that are only extending
+    % over a small neighbourhood.
+    d = strel('disk', 1);
+    response2 = imdilate(response, d);
+    [labels, num] = bwlabel(im2bw(response2, lowerBound));
+    counts = zeros(1, num);
+    for i = 1:num 
+        counts(i) = sum(labels(:) == i);
+    end
+    big_counts = counts(counts > mean(counts) * minBlobSizeFactor);
+    
+    % Make result compatible with old output.
+    columnIdxs = zeros(1, numel(big_counts));
 end
 	
