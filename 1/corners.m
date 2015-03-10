@@ -20,8 +20,8 @@
 % @param radius Integer window base radius (usually 1).
 % @return rowIdxs array of row indices in image of maxima (corner)
 % @return columnIdxs array of column indices in image of maxima (corner)
-%
-function [rowIdxs, columnIdxs] = corners(img, sigma, lowerBound, radius)
+% @return response, the response of the corner detector on the given image.
+function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radius)
     
     % sobel derivative kernel
     dx = [-1 0 1; -1 0 1; -1 0 1]; 
@@ -44,7 +44,7 @@ function [rowIdxs, columnIdxs] = corners(img, sigma, lowerBound, radius)
     k=0.06;
     
     % response of detector: det(H) - k(trace(H)^2)
-    R = (Sx2.*Sy2 - Sxy.^2) - k*(Sx2 + Sy2).^2; 
+    response = (Sx2.*Sy2 - Sxy.^2) - k*(Sx2 + Sy2).^2; 
 
     % neithborhood window size - common assumption twice radius recentered (+1).
 	windowLength = (2*radius+1);
@@ -52,11 +52,22 @@ function [rowIdxs, columnIdxs] = corners(img, sigma, lowerBound, radius)
     % visit a windowLength^2 in R and find max in this neighborhood. 
     % replace set at each pixel location the found max. neighborhood value.
     % i.e. the nonmax supression
-    localMaxima = ordfilt2(R, windowLength^2, ones(windowLength));
+    localMaxima = ordfilt2(response, windowLength^2, ones(windowLength));
     
     % consider only max. values that are bigger than a given minimal
     % threshold boundary. I.e. count only real maxima. Find indices of
     % significant local maxima.
-	[rowIdxs, columnIdxs] = find((R==localMaxima)&(R>lowerBound));   
+	[rowIdxs, columnIdxs] = find((response==localMaxima)&(response>lowerBound));
+    
+    % Matlab built in method for finding regional max.
+%     responseThresholded = response;
+%     responseThresholded(response < lowerBound) = 0;
+%     %If there is no response above the threshold, there are no corners.
+%     if sum(responseThresholded(:)) == 0
+%         rowIdxs = [];
+%         columnIdxs = [];
+%     else
+%         [rowIdxs, columnIdxs] = find(imregionalmax(responseThresholded, 8) == 1);
+%     end
 end
 	
