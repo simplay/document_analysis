@@ -78,7 +78,7 @@ for m=1:100:M,
         
         % classify shapes in subimage.
         shape_classification = '';
-        if length(c) == 0,
+        if length(c) < 3
             shape_classification = 'circle';
         elseif length(c) == 3
             shape_classification = 'triangle';
