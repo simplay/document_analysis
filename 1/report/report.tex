@@ -127,12 +127,12 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+  \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
@@ -252,7 +252,7 @@
 
 
 % *** SUBFIGURE PACKAGES ***
-%\usepackage[tight,footnotesize]{subfigure}
+\usepackage[tight,footnotesize]{subfigure}
 % subfigure.sty was written by Steven Douglas Cochran. This package makes it
 % easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
 % work, it is a good idea to load it with the tight package option to reduce
@@ -398,7 +398,26 @@ yadayada
 \subsection{Corner detection}
 \label{sub:corner_detection}
 
-% subsection corner_detection (end)
+\begin{figure}%
+\centering
+\subfigure[Shape]{\includegraphics[width=0.1\textwidth]{square}}
+\subfigure[Response]{\includegraphics[width=0.1\textwidth]{square_response}}\\
+\subfigure[Sx]{\includegraphics[width=0.1\textwidth]{square_sx2_smoothed}}
+\subfigure[Sy]{\includegraphics[width=0.1\textwidth]{square_sy2_smoothed}}
+\subfigure[Sxy]{\includegraphics[width=0.1\textwidth]{square_sxy_smoothed}}
+\caption{A square and TODO}
+
+\end{figure}
+
+\begin{figure}%
+\centering
+\subfigure[Noisy shape]{\includegraphics[width=0.1\textwidth]{triangle_noisy}}
+\subfigure[Preprocessed]{\includegraphics[width=0.1\textwidth]{triangle_noisy_preprocessed}} \\
+\subfigure[Response]{\includegraphics[width=0.1\textwidth]{triangle_noisy_response_with_rect}}
+\subfigure[Detail of response]{\includegraphics[width=0.1\textwidth]{triangle_noisy_detail_response}}
+\caption{Nasty double peak and tiny thingy}
+
+\end{figure}% subsection corner_detection (end)
 
 \section{Results}
 \label{sec:results}
