@@ -360,7 +360,7 @@
 % affiliations
 \author{\IEEEauthorblockN{Michael Single}
 \IEEEauthorblockA{University of Berne\\
-09-???-??}
+08-917-445}
 \and
 \IEEEauthorblockN{Stefan Moser}
 \IEEEauthorblockA{University of Berne\\
@@ -387,6 +387,12 @@ field of text recognition there is the task to classify scanned characters to co
 a digital representation of a text.
 
 \section{Algorithm}
+The goal of our algorithm is to detect the type of shape contained in a provided binary valued, potentially noisy image. The shape can be arbitrary orientated and scaled. We only have to be able to detect the, triangles, squares, circles and a regular 5-corner star. The key idea of our algorithm is to detect all corners of a shape image. For this purpose we decided to implement a Harris corner detector. Such a detector works well for clean images. However, since the given input shape-images may suffer from either noise (Salt & Pepper noise) or also could exhibit degenerated edges we first have to apply a preprocessing step onto the input images before applying the corner detector. In summary our algorithm does the following for each given input image:
+	\begin{itemize}
+		\item remove potentially present noise
+		\item restore degenerated shapes
+		\item detect corners and classify
+	\end{itemize}  
 
 \subsection{Preprocessing}
 yadayada
