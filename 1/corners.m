@@ -67,14 +67,10 @@ function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radiu
     % over a small neighbourhood.
     d = strel('disk', 1);
     response2 = imdilate(response, d);
-    [labels, num] = bwlabel(im2bw(response2, lowerBound));
-    counts = zeros(1, num);
-    for i = 1:num 
-        counts(i) = sum(labels(:) == i);
-    end
-    big_counts = counts(counts > mean(counts) * minBlobSizeFactor);
+    [~, ~, size_components] = connectedComponents(im2bw(response2, lowerBound));
+    nr_big_components = sum(size_components > mean(size_components) * minBlobSizeFactor);
     
     % Make result compatible with old output.
-    columnIdxs = zeros(1, numel(big_counts));
+    columnIdxs = zeros(1, nr_big_components);
 end
 	
