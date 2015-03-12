@@ -20,7 +20,7 @@ outputs = zeros(4, 80);
 failures = zeros(size(img));
 hits = zeros(size(img));
 responses = zeros(size(img));
-
+f = fopen([filename, suffix, '.txt'], 'w');
 % Iterate over all subimages of size 100x100
 % and classify them. Compare classification results
 % with ground truth stored in 'ground_truth_classification'
@@ -46,12 +46,15 @@ for m=1:100:M,
         shape_classification = nrCornersToShape(numel(c));
         
         % report results from current iteration.
+        fprintf(f, [shape_classification, '\n']);
         current_reference_solution = strjoin(gt(idx));
-        
+        disp([num2str(idx), '. ', shape_classification, ' <=> ', current_reference_solution, ...
+            ' ' , num2str(length(c))])
+
         % Save for showing confusion matrix later on.
         targets(shapeToClassNr(current_reference_solution), idx) = 1;
         outputs(shapeToClassNr(shape_classification), idx) = 1;
-
+        
         if strcmp(current_reference_solution, shape_classification)
             equalityCount = equalityCount + 1;
             hits(current_range) = subimage;
@@ -59,14 +62,12 @@ for m=1:100:M,
             failures(current_range) = subimage;
         end
         responses(current_range) = response;
-        
-        disp([num2str(idx), '. ', shape_classification, ' <=> ', current_reference_solution, ...
-            ' ' , num2str(length(c))])
-        
+                
         % update index counter for next iteration.
         idx = idx + 1;
     end
 end
+fclose(f);
 disp(['equality count: ',num2str(equalityCount)]);
 
 %% Draw confusion matrix of classifications and other debug images.
