@@ -422,8 +422,13 @@ Finally for deciding whether an image suffers from fringes. Comparing a clean im
 Lastly, If no of the previous checks have yielded any result, we assume that our image does not suffer from any kind of degeneration.   
   
 \subsection{Preprocessing}
+From the degeneration detection step we know what kind of issues we have to deal with. 
+
 \subsection{Corner Detection}
+
 \subsection{Shape Classification}
+The classification of a shape is actually the simplest. We simply the number of detected corners resulting from the previous step. There is a one to one correspondence between the number of detected corners and the number of corners that a triangular or squared shape exhibit. However, when given a circular shape, our Harris detector does return zero corners. Thus, if we have zero corners detected, we assume we found a circle. Lastly, there is the classification of the 5-star. Most of the times our harris detector is robust enough and detects 5 corners. However, there are certain cases when it detects more than 5 corners. Therefore we assume we detected a 5-star shape if the corner count is at least equal 5.
+
 
 \label{sub:corner_detection}
 
