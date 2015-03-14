@@ -405,6 +405,9 @@ In summary our algorithm does the following for each given input image:
 In the following a more detailed explanation how the separate algorithmic steps work.
 
 \subsection{Detect Degeneration Type}
+Given input images may suffer from either noise or the edges of the shapes could be fringed.
+Hence, we first want to detect the type of image degeneration and then apply a customized preprocessing that directly addresses present issue. Our algorithm is able to detect whether an image exhibits gaussian noise, Salt-and Peper noise, fringes shape edges or has no (significant) degeneration.
+  
 \subsection{Preprocessing}
 \subsection{Corner Detection}
 \subsection{Shape Classification}
