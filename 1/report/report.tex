@@ -387,11 +387,19 @@ field of text recognition there is the task to classify scanned characters to co
 a digital representation of a text.
 
 \section{Algorithm}
-The goal of our algorithm is to detect the type of shape contained in a provided binary valued, potentially noisy image. The shape can be arbitrary orientated and scaled. We only have to be able to detect the, triangles, squares, circles and a regular 5-corner star. The key idea of our algorithm is to detect all corners of a shape image. For this purpose we decided to implement a Harris corner detector. Such a detector works well for clean images. However, since the given input shape-images may suffer from either noise (Salt & Pepper noise) or also could exhibit degenerated edges we first have to apply a preprocessing step onto the input images before applying the corner detector. In summary our algorithm does the following for each given input image:
+The goal of our algorithm is to detect the type of shape contained in a provided binary valued image. Such a given image may suffer from either different types of noise or its shapes may exhibit fringes. \\
+
+% TODO: ADD FIGURE Depicting IMAGE OF SHAPE TYPES and their possible degenerations degeneration
+
+In this work we only are interested in detecting triangle-, square-, regular 5-star- or circle-shapes. However, each such shape can be arbitrary oriented and scaled. \\
+
+The key idea of our approach is to detect all corners of a shape-image and then classify a shape according to the detected numbers of corners. For this purpose we decided to implement a Harris corner detector. Such a detector works well for clean images (FOOTNOTE: i.e. images that do not suffer from noise or exhibit shapes having fringes). However, since given images may suffer from various degenerations, a preprocessing of the input is required before applying the classification. \\
+
+In summary our algorithm does the following for each given input image:
 	\begin{itemize}
-		\item remove potentially present noise
-		\item restore degenerated shapes
-		\item detect corners and classify
+		\item Detect type of degeneration present in input image
+		\item Apply corresponding preprocessing step
+		\item Detect Corners and Classify
 	\end{itemize}  
 
 \subsection{Preprocessing}
