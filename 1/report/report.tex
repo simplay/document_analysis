@@ -406,7 +406,20 @@ In the following a more detailed explanation how the separate algorithmic steps 
 
 \subsection{Detect Degeneration Type}
 Given input images may suffer from either noise or the edges of the shapes could be fringed.
-Hence, we first want to detect the type of image degeneration and then apply a customized preprocessing that directly addresses present issue. Our algorithm is able to detect whether an image exhibits gaussian noise, Salt-and Peper noise, fringes shape edges or has no (significant) degeneration.
+Hence, we first want to detect the type of image degeneration and then apply a customized preprocessing that directly addresses present issue. Our algorithm is able to detect whether an image exhibits gaussian noise, Salt-and Pepper noise, fringes shape edges or has no (significant) degeneration. \\
+
+Since our image is binary valued we can detect Gaussian noise by computing the histogram of the image. If it has more than two bins (zero/one-valued bins) then we know there are other responses present in the image which is a characteristic property of gaussian noise. \\
+
+ The Salt and Pepper noise can be corrected by applying a median filter onto an image. Therefore we simply apply a certain median filter onto the image and compute the difference between the input image and its median filtered version. In case the difference is too large we assume that there is Salt and Pepper noise present. \\
+
+Finally for deciding whether an image suffers from fringes. Comparing a clean image with its fringe version, we notice that fringes are pixels along the edges that are wrong valued (holes and dents along shape edges). This we to extract the difference between a clean version of the image and the finge version by computing some border along the finge image. If the difference is too big, we say there are fringes present. \\
+	
+	Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying a thresholding. Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. We combine this mask with the input image by a component-wise operation. The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. We count all pixels equal one and decide whether this corresponds to a fringe count.
+	
+	
+	% TODO (ADD FOOTNOTE: in our convention one means that the pixel belongs to the shape and zero that the pixel belongs to the background. 
+
+Lastly, If no of the previous checks have yielded any result, we assume that our image does not suffer from any kind of degeneration.   
   
 \subsection{Preprocessing}
 \subsection{Corner Detection}
