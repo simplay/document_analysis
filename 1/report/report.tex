@@ -503,10 +503,10 @@ Similarly, we classify a shape as a star if 5 or more corners are detected.
 
 \begin{figure}%
 \centering
-\subfigure[Original]{\includegraphics[width=0.2\textwidth]{square_noisy} \label{fig:triangle_fringes}}
-\subfigure[Preprocessed]{\includegraphics[width=0.2\textwidth]{square_noisy_preprocessed}} \\
-\subfigure[Response]{\includegraphics[width=0.2\textwidth]{square_noisy_response_with_rect}}
-\subfigure[Detail of response]{\includegraphics[width=0.2\textwidth]{square_noisy_detail_response}}
+\subfigure[Original]{\includegraphics[width=0.13\textwidth]{square_noisy} \label{fig:triangle_fringes}}
+\subfigure[Preprocessed]{\includegraphics[width=0.13\textwidth]{square_noisy_preprocessed}} 
+\subfigure[Response]{\includegraphics[width=0.13\textwidth]{square_noisy_response_with_rect}} \\
+\subfigure[Detail of response]{\includegraphics[width=0.18\textwidth]{square_noisy_detail_response}}
 \caption{For this square, we have a very low response for one of the corners. 
 An oversimplifed thresholding results in wrongfully rejecting too many corners. 
 For this reason, we mainly depend on the blob size for
@@ -538,18 +538,26 @@ Details can be seen in the code delivered with the report.
 \subfigure[Gaussian noise]{
 \includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes0_gaussian_noise}
 }
-\caption{blah}
+\caption{Confusion matrices for various input images.}
 \label{fig:confusion_matrices}
 \end{figure}
 
 \section{Conclusion}
-In this work we described an algorithm capable to classify the type of a shape in a given image. For this purpose we are relying on a Harris corner detector. 
-Thanks to an advanced preprocessing step, our classifier still works sufficiently well even if a input images suffers from issues such as noise or fringes. In conclusion, we have seen that our classifier has a detection rate of about 95 percentage. In addition we extended that it can handle images that suffer from Gaussian noise. The detection rate was similar well as for other data sets.
+In this work we described an algorithm capable of classifying the type of a shape in a given image. For this purpose we are relying on a Harris corner detector. 
+Thanks to advanced preprocessing, our classifier still works sufficiently well even if a input images suffers from issues such as noise or fringes. 
+In conclusion, we have seen that our classifier has a detection rate above 90\%. 
+In addition we extended the algorithm to handle images that suffer from Gaussian noise. 
+The detection rate was similar well as for other data sets.
 
-Currently, our classifier is limit to binary valued images. Furthermore it fails detecting corners of extremely smoothed shapes such as circles \footnote{In our corner to shape classification we assume that circles exhibit fewer than three corners} due to our corner detector algorithm.
+Currently, our classifier is limited to binary valued images. Furthermore it fails to differentiate between extremely smoothed shapes such as circles, ellipses and curvatures\footnote{In our corner to shape classification we assume that circles exhibit fewer than three corners} due to our corner detector algorithm.
 
-For future work we could try to implement a probabilistic detection model that is based on machine learning. Furthermore we could try to classify arbitrary shapes such as letters for example. Another interesting idea would be to handle different types of noise distributions or combinations of image issues. Lastly, could enhance the Gaussian noise correction by assuming a different, non-linear noise degradation model. 
+We assume that our algorithm could classify contours equally well as solid shapes. 
+However, due to time constraints we could not verify this claim.
 
+For future work we could try to implement a probabilistic detection model that is based on machine learning. 
+Furthermore we could try to classify arbitrary shapes such as letters for example. 
+Another interesting idea would be to handle different types of noise distributions or combinations of degenerations. 
+Lastly, could enhance the Gaussian noise correction by assuming a different, non-linear noise degradation model. 
 
 % section results (end)
 % An example of a floating figure using the graphicx package.
