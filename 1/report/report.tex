@@ -422,7 +422,15 @@ Finally for deciding whether an image suffers from fringes. Comparing a clean im
 Lastly, If no of the previous checks have yielded any result, we assume that our image does not suffer from any kind of degeneration.   
   
 \subsection{Preprocessing}
-From the degeneration detection step we know what kind of issues we have to deal with. 
+From the degeneration detection step we know what kind of issues we have to deal with. The simplest case occurs if no issue was detected. then our algorithm can skip this step and thus can directly start to detect corners in the image. \\
+
+When fringes were detected this means that our image has degenerated edges. Such edges either exhibit holes or dents. 
+% TODO show shape with different fringe levels and show what holes or dents actually are.
+This is why we have to apply an edge-restoration. The idea is to smooth the edges out and then compute a new image by applying a thresholding. If a smoothed pixel is below some given threshold value then we say, that this pixel does not belong to the shape's edge and contrary otherwise. \\
+
+In case Salt-and Pepper noise was detected, we have to apply a so called median filter. Such a filter performs a Salt and Pepper noise reduction by removing outlier peak responses in the input image. Technically, this is achieved by convolving the input image with local neighbourhood-window that got its center value replaced with its median value. However, the filtered image suffers now from some kind of soft-fringes. this is why we also have to apply the edge restoration step described above before. \\
+
+For Gaussian noise assume we have given a degradation model where noise behaves additively and is normal distributed. Using such a noise-model we are allowed to apply so called Wiener-Filter (a non-linear probabilistic noise reduction). 
 
 \subsection{Corner Detection}
 
