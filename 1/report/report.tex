@@ -332,13 +332,18 @@ Shape recognition has been an interest in computer science since long ago. Espec
 field of text recognition there is the task to classify scanned characters to construct 
 a digital representation of a text.
 
+\begin{figure}[H]%
+\centering
+\includegraphics[width=0.1\textwidth]{square}
+\caption{Nasty double peak and tiny thingy}
+\label{fig:tranformed_elementary_shapes}
+\end{figure}% subsection corner_detection (end)
+
 \section{Algorithm}
 The goal of our algorithm is to detect the type of shape contained in a provided binary valued image. 
 Such a given image may suffer from either different types of noise or its shapes may exhibit fringes. \\
 
-% TODO: ADD FIGURE Depicting IMAGE OF SHAPE TYPES and their possible degenerations degeneration
-
-In this work we only are interested in detecting triangle-, square-, regular 5-star- or circle-shapes. However, each such shape can be arbitrary oriented and scaled. \\
+In this work we only are interested in detecting triangle-, square-, regular 5-star- or circle-shapes. However, each such shape can be arbitrary oriented and scaled. Some example input images are shown in figure $\ref{fig:tranformed_elementary_shapes}$. \\
 
 The key idea of our approach is to detect all corners of a shape-image and then classify a shape according to the detected numbers of corners. For this purpose we decided to implement a Harris corner detector. Such a detector works well for clean images (FOOTNOTE: i.e. images that do not suffer from noise or exhibit shapes having fringes). However, since given images may suffer from various degenerations, a preprocessing of the input is required before applying the classification. \\
 
@@ -366,12 +371,7 @@ Throughout this report we call this type of distortion \emph{fringes}.
 Here, we extract the difference between a clean version of the image and the fringe version by computing some border along the fringe image. 
 If the difference is too big, we say there are fringes present. \\
 	
-Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying a thresholding. Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. We combine this mask with the input image by a component-wise operation. The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. We count all pixels equal one and decide whether this corresponds to a fringe count.
-	
-	
-	% TODO (ADD FOOTNOTE: in our convention one means that the pixel belongs to the shape and zero that the pixel belongs to the background. 
-
-If none of the previously described checks yielded a positive result, we assume that our image does not suffer from any kind of degeneration.
+Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying a thresholding. Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. We combine this mask with the input image by a component-wise operation. The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. We count all pixels equal one and decide whether this corresponds to a fringe count \footnote{Our convention: pixel value of 1 means that it belongs to the shape and 0 that the pixel belongs to the background}. If none of the previously described checks yielded a positive result, we assume that our image does not suffer from any kind of degeneration.
   
 \subsection{Preprocessing}
 From the degeneration detection step we know what kind of issues we have to deal with. The simplest case occurs if no noise has been detected. Then our algorithm can skip this step and thus can directly start to detect corners in the image. \\
