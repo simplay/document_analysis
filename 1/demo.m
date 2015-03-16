@@ -20,7 +20,7 @@ outputs = zeros(4, 80);
 failures = zeros(size(img));
 hits = zeros(size(img));
 responses = zeros(size(img));
-f = fopen([filename, suffix, '.txt'], 'w');
+f = fopen(['output/', filename, suffix, '.txt'], 'w');
 % Iterate over all subimages of size 100x100
 % and classify them. Compare classification results
 % with ground truth stored in 'ground_truth_classification'
@@ -48,8 +48,6 @@ for m=1:100:M,
         % report results from current iteration.
         fprintf(f, [shape_classification, '\n']);
         current_reference_solution = strjoin(gt(idx));
-        disp([num2str(idx), '. ', shape_classification, ' <=> ', current_reference_solution, ...
-            ' ' , num2str(length(c))])
 
         % Save for showing confusion matrix later on.
         targets(shapeToClassNr(current_reference_solution), idx) = 1;
@@ -59,6 +57,8 @@ for m=1:100:M,
             equalityCount = equalityCount + 1;
             hits(current_range) = subimage;
         else
+            disp([num2str(idx), '. ', shape_classification, ' <=> ', ...
+                current_reference_solution, ' ' , num2str(length(c))])
             failures(current_range) = subimage;
         end
         responses(current_range) = response;
