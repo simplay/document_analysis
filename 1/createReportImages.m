@@ -80,3 +80,28 @@ if OUTPUT == 1
     imwrite(detail_with_rect(2:101, 2:101, :), [img_prefix, '_detail_response.png'])
 end
 close all
+
+%% Comparison gaussian vs bilateral blur on fringes.
+filename = 'Input/Shapes2N2A';
+suffix = '';
+img_full = readImgFileByName(filename);
+
+m = 6*100 + 1;
+n = 0*100 + 1;
+
+current_range = false(size(img_full));
+current_range(m:m+99, n:n+99) = true;
+img = reshape(img_full(current_range), 100, 100);
+spatial_sigma = 2;
+img_bilat_smoothed = im2bw(bfilt(img, spatial_sigma, 2), 0.8);
+g = fspecial('gaussian', max(1,fix(6*spatial_sigma)), spatial_sigma);
+img_gaussian_smoothed = im2bw(imfilter(img, g), 0.8);
+prefix = 'smoothing_comparison';
+
+imwrite(img_bilat_smoothed, [prefix, '_bilat.png']);
+imwrite(img_gaussian_smoothed, [prefix, '_gauss.png']);
+
+diff = im2double(img_bilat_smoothed);
+diff(:,:,2) = im2double(img_gaussian_smoothed);
+diff(:,:,3) = 0;
+imshow(diff);
