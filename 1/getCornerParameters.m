@@ -8,7 +8,7 @@ function [ threshold ] = getCornerParameters( preprocessingFlag )
     elseif preprocessingFlag == 2;
         threshold = 0.21;
     else
-        threshold = 0.24;
+        threshold = 0.56;
     end
 end
 

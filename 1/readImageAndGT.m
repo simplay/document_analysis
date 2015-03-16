@@ -11,12 +11,13 @@ function [ img_preprocessed, gt, img, PREPROCESS ] = readImageAndGT(filename, su
     % Image img is (M x N)
 
     gt = textread(['Input/', filename, '.txt'], '%s');
-
+    G = fspecial('gaussian');
     % correct gaussian noise using a wiener filter - relying on a common
     % degregation noise model:
     %       given_image := conv(clean_img, blur_kernel) + noise
     if (PREPROCESS == 1)
         img_preprocessed = wiener2(img,[5 5]);
+        G = fspecial('gaussian',[5 5], 1);
     % Median filter, effective against salt and pepper noise.
     elseif (PREPROCESS == 4)
         img_preprocessed = restoreImg(img, 2.3, false);
@@ -28,8 +29,9 @@ function [ img_preprocessed, gt, img, PREPROCESS ] = readImageAndGT(filename, su
     end
 
     % preprocess image for sobel edge detector - pre-smooth it => good results
-    G = fspecial('gaussian');
     img_preprocessed = imfilter(img_preprocessed, G, 'same');
-
+    if (PREPROCESS == 1)
+        img_preprocessed = double(im2bw(img_preprocessed, 0.5));
+    end
 end
 

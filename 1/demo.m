@@ -47,6 +47,7 @@ for m=1:100:M,
         
         radius = 3;
         minBlobSizeFactor = 0.3;
+        
         [~, c, response] = corners(subimage, 1.0, threshold, radius, ...
             minBlobSizeFactor);
         
