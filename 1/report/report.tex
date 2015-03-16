@@ -386,13 +386,7 @@ In case salt-and-pepper noise was detected, we have to apply a so called median 
 For Gaussian noise assume we have given a degradation model where noise behaves additively and is normal distributed. Using such a noise-model we are allowed to apply so called Wiener-Filter (a non-linear probabilistic noise reduction). 
 
 \subsection{Corner Detection}
-
-\subsection{Shape Classification}
-The classification of a shape is actually the simplest. We simply the number of detected corners resulting from the previous step. There is a one to one correspondence between the number of detected corners and the number of corners that a triangular or squared shape exhibit. However, when given a circular shape, our Harris detector does return zero corners. Thus, if we have zero corners detected, we assume we found a circle. Lastly, there is the classification of the 5-star. Most of the times our Harris detector is robust enough and detects 5 corners. However, there are certain cases when it detects more than 5 corners. Therefore we assume we detected a 5-star shape if the corner count is at least equal 5.
-
-
-\label{sub:corner_detection}
-Given a clean image of a shape, either initially given or resulting from a previous pre-processing step, we want to find its corners. Our constraint that each image only contains one shape allows us to directly relate the number of detected corners with the type of shape we are dealing with. \\
+Given a pre-processed clean image of a shape we want to find its corners. Our constraint that each image only contains one shape allows us to directly relate the number of detected corners with the type of shape we are dealing with. \\
 
 For detecting corners we rely on the so called Harris corner detector. We can think of it as a special kind of kernel applied to the image. the result is a binary image that only exhibits some small pixel blobs, usually having a radius at most of 3 pixels. These blobs are supposed to form the corners of the image. \\ 
 
@@ -406,7 +400,14 @@ In order to make the Harris filter more robust, one does usually have to apply a
 
 Mathematically, the harris kernel looks like the following: 
 
-The Eigenvalues of the filtered images tell us whether we are dealing with a corner, an edge or a non-existing feature. If the two largest eigenvalues both are sufficiently large we have detected a corner.  
+The Eigenvalues of the filtered images tell us whether we are dealing with a corner, an edge or a non-existing feature. If the two largest eigenvalues both are sufficiently large we have detected a corner.
+
+\subsection{Shape Classification}
+The classification of a shape is actually the simplest processing step. We simply the number of detected corners resulting from the previous step. There is a one to one correspondence between the number of detected corners and the number of corners that a triangular or squared shape exhibit. However, when given a circular shape, our Harris detector does return zero corners. Thus, if we have zero corners detected, we assume we found a circle. Lastly, there is the classification of the 5-star. Most of the times our Harris detector is robust enough and detects 5 corners. However, there are certain cases when it detects more than 5 corners. Therefore we assume we detected a 5-star shape if the corner count is at least equal 5.
+
+
+\label{sub:corner_detection}
+
 
 \begin{figure}%
 \centering
