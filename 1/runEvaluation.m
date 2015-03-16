@@ -1,8 +1,5 @@
 function runEvaluation( img, img_preprocessed, responses, failures, targets, outputs, hits, filename, suffix)
-%RUNEVALUATION Summary of this function goes here
-%   Detailed explanation goes here
-
-    %% Draw confusion matrix of classifications and other debug images.
+    % Draws confusion matrix of classifications and other debug images.
     % Fix '_' characters being used for subscripts.
     set(0,'DefaultTextInterpreter','none')
     plotconfusion(targets, outputs, [filename, suffix])
