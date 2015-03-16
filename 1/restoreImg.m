@@ -1,9 +1,9 @@
-function [ out ] = restoreImg( img, N ,useBilatFilter)
+function [ out ] = restoreImg( img, N, useBilatFilter)
 %RESTOREIMG Summary of this function goes here
 %   Detailed explanation goes here
 
     % Apply thresholding to reconstruct edges.
-   if useBilatFilter == 1
+   if useBilatFilter == true
     out = (double(im2bw(bfilt(img, 2, 2), 0.8)));
    else   
     g = fspecial('gaussian', max(1,fix(6*N)), N);
