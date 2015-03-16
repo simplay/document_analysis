@@ -6,18 +6,27 @@ function type = detectNoiseType(img)
 %       1: gaussian noise
 %       2: salt and peper noise
 %       3: no noise detected
-    
+%       4: fringes in images detected
+%
     [counts,binLocations] = imhist(img);
     % two types of buckets mean we have only values 0, 1
     % this means we either do have salt and peper noise or no noise.
     if length(binLocations(counts > 0)) == 2,
         type = 2;
+        keyboard
         % heuristics: if there are at most 1.2 times the larger dimension
         % of an image wrong then we assume we have no noise given. 
-        if abs(abs(sum(sum(medfilt2(img, [5 5])-img)))) < max(size(img))*1.1,
-            disp('there is no significant noise in your image');
-            type = 3;
+        if abs(sum(sum(medfilt2(img, [5 5])-img))) < max(size(img))*1.1,
+            
+            if  sum(sum(abs(restoreImg( img, 0.5 ,0)-img))) > 100,
+                type = 4;
+            else
+                % disp('there is no significant noise in your image');
+                type = 3;
+            end   
         end
+        
+        
     % this corresponds to gaussian noise
     else
         type = 1;

@@ -1,19 +1,14 @@
-function [ img_preprocessed, gt, img ] = readImageAndGT(filename, suffix)
+function [ img_preprocessed, gt, img ] = readImageAndGT(filename, suffix, useGaussianNoise)
 %READIMAGEANDGT Returns a preprocessed image and the ground truth
     useBilatFilter = 1;
     filepathname = ['Input/', filename];
     filepathname = strcat(filepathname, suffix);
+    
+    img = readImgFileByName(filepathname);
 
-    img = imread(strcat(filepathname, '.png'));
-    % Invert image, we want background to be black.
-    img = ~img;
-    img = im2double(img);
-
-
-    %img = imnoise(img,'gaussian', 0, .1);
+    if (useGaussianNoise == 1) img = imnoise(img,'gaussian', 0, .1); end
 
     PREPROCESS = detectNoiseType(img);
-
     % Image img is (M x N)
 
     gt = textread(['Input/', filename, '.txt'], '%s');

@@ -7,7 +7,7 @@ close all;
 
 filename = 'Shapes2';
 suffix = 'N2A';
-[img_preprocessed, gt, img] = readImageAndGT(filename, suffix);
+[img_preprocessed, gt, img] = readImageAndGT(filename, suffix, 0);
 
 %% Run analysis
 [M,N] = size(img); 

@@ -9,7 +9,7 @@ function [ out ] = restoreImg( img, N ,useBilatFilter)
     g = fspecial('gaussian', max(1,fix(6*N)), N);
     % Smoothed squared image derivatives
     blurredImg = conv2(img, g, 'same');
-    double(im2bw(blurredImg, 0.8));
+    out = double(im2bw(blurredImg, 0.8));
    end
     
 end
