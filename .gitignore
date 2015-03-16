@@ -9,6 +9,9 @@
 *.dvi
 *.pdf
 
+## generated txt files
+**/*.txt
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
