@@ -332,13 +332,18 @@ Shape recognition has been an interest in computer science since long ago. Espec
 field of text recognition there is the task to classify scanned characters to construct 
 a digital representation of a text.
 
+\begin{figure}[H]%
+\centering
+\includegraphics[width=0.1\textwidth]{square}
+\caption{Nasty double peak and tiny thingy}
+\label{fig:tranformed_elementary_shapes}
+\end{figure}% subsection corner_detection (end)
+
 \section{Algorithm}
 The goal of our algorithm is to detect the type of shape contained in a provided binary valued image. 
 Such a given image may suffer from either different types of noise or its shapes may exhibit fringes. \\
 
-% TODO: ADD FIGURE Depicting IMAGE OF SHAPE TYPES and their possible degenerations degeneration
-
-In this work we only are interested in detecting triangle-, square-, regular 5-star- or circle-shapes. However, each such shape can be arbitrary oriented and scaled. \\
+In this work we only are interested in detecting triangle-, square-, regular 5-star- or circle-shapes. However, each such shape can be arbitrary oriented and scaled. Some example input images are shown in figure $\ref{fig:tranformed_elementary_shapes}$. \\
 
 The key idea of our approach is to detect all corners of a shape-image and then classify a shape according to the detected numbers of corners. For this purpose we decided to implement a Harris corner detector. Such a detector works well for clean images (FOOTNOTE: i.e. images that do not suffer from noise or exhibit shapes having fringes). However, since given images may suffer from various degenerations, a preprocessing of the input is required before applying the classification. \\
 
@@ -366,12 +371,7 @@ Throughout this report we call this type of distortion \emph{fringes}.
 Here, we extract the difference between a clean version of the image and the fringe version by computing some border along the fringe image. 
 If the difference is too big, we say there are fringes present. \\
 	
-Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying a thresholding. Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. We combine this mask with the input image by a component-wise operation. The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. We count all pixels equal one and decide whether this corresponds to a fringe count.
-	
-	
-	% TODO (ADD FOOTNOTE: in our convention one means that the pixel belongs to the shape and zero that the pixel belongs to the background. 
-
-If none of the previously described checks yielded a positive result, we assume that our image does not suffer from any kind of degeneration.
+Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying a thresholding. Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. We combine this mask with the input image by a component-wise operation. The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. We count all pixels equal one and decide whether this corresponds to a fringe count \footnote{Our convention: pixel value of 1 means that it belongs to the shape and 0 that the pixel belongs to the background}. If none of the previously described checks yielded a positive result, we assume that our image does not suffer from any kind of degeneration.
   
 \subsection{Preprocessing}
 From the degeneration detection step we know what kind of issues we have to deal with. The simplest case occurs if no noise has been detected. Then our algorithm can skip this step and thus can directly start to detect corners in the image. \\
@@ -386,13 +386,8 @@ In case salt-and-pepper noise was detected, we have to apply a so called median 
 For Gaussian noise assume we have given a degradation model where noise behaves additively and is normal distributed. Using such a noise-model we are allowed to apply so called Wiener-Filter (a non-linear probabilistic noise reduction). 
 
 \subsection{Corner Detection}
-
-\subsection{Shape Classification}
-The classification of a shape is actually the simplest. We simply the number of detected corners resulting from the previous step. There is a one to one correspondence between the number of detected corners and the number of corners that a triangular or squared shape exhibit. However, when given a circular shape, our Harris detector does return zero corners. Thus, if we have zero corners detected, we assume we found a circle. Lastly, there is the classification of the 5-star. Most of the times our Harris detector is robust enough and detects 5 corners. However, there are certain cases when it detects more than 5 corners. Therefore we assume we detected a 5-star shape if the corner count is at least equal 5.
-
-
 \label{sub:corner_detection}
-Given a clean image of a shape, either initially given or resulting from a previous pre-processing step, we want to find its corners. Our constraint that each image only contains one shape allows us to directly relate the number of detected corners with the type of shape we are dealing with. \\
+Given a pre-processed clean image of a shape we want to find its corners. Our constraint that each image only contains one shape allows us to directly relate the number of detected corners with the type of shape we are dealing with. \\
 
 For detecting corners we rely on the so called Harris corner detector. We can think of it as a special kind of kernel applied to the image. the result is a binary image that only exhibits some small pixel blobs, usually having a radius at most of 3 pixels. These blobs are supposed to form the corners of the image. \\ 
 
@@ -406,7 +401,11 @@ In order to make the Harris filter more robust, one does usually have to apply a
 
 Mathematically, the harris kernel looks like the following: 
 
-The Eigenvalues of the filtered images tell us whether we are dealing with a corner, an edge or a non-existing feature. If the two largest eigenvalues both are sufficiently large we have detected a corner.  
+The Eigenvalues of the filtered images tell us whether we are dealing with a corner, an edge or a non-existing feature. If the two largest eigenvalues both are sufficiently large we have detected a corner.
+
+\subsection{Shape Classification}
+The classification of a shape is actually the simplest processing step. We simply the number of detected corners resulting from the previous step. There is a one to one correspondence between the number of detected corners and the number of corners that a triangular or squared shape exhibit. However, when given a circular shape, our Harris detector does return zero corners. Thus, if we have zero corners detected, we assume we found a circle. Lastly, there is the classification of the 5-star. Most of the times our Harris detector is robust enough and detects 5 corners. However, there are certain cases when it detects more than 5 corners. Therefore we assume we detected a 5-star shape if the corner count is at least equal 5.
+
 
 \begin{figure}%
 \centering
