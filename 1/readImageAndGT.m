@@ -19,11 +19,11 @@ function [ img_preprocessed, gt, img ] = readImageAndGT(filename, suffix, useGau
         img_preprocessed = wiener2(img,[5 5]);
     % Median filter, effective against salt and pepper noise.
     elseif (PREPROCESS == 4)
-        img_preprocessed = restoreImg(img, 2.3, true);
+        img_preprocessed = restoreImg(img, 2.3, false);
     elseif (PREPROCESS == 2)
         img_preprocessed = medfilt2(img, [5 5]);
         img_preprocessed = restoreImg(img_preprocessed, 2.3, true);
-    else
+    elseif (PREPROCESS == 3)
         img_preprocessed = img;
     end
 

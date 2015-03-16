@@ -52,7 +52,6 @@ function type = detectNoiseType(img)
             if  fringeRanking > 1000 || fringeRanking < 200,
                 type = 4;
             else
-                          % disp('there is no significant noise in your image');
                 type = 3;
             end
           
