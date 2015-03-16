@@ -458,7 +458,7 @@ within their local neighborhoods.
 \subfigure[Response]{\includegraphics[width=0.15\textwidth]{square_response}}\\
 \subfigure[$G * I_y^2$]{\includegraphics[width=0.15\textwidth]{square_sx2_smoothed}}
 \subfigure[$G * I_x^2$]{\includegraphics[width=0.15\textwidth]{square_sy2_smoothed}}
-\subfigure[$G * I_xy$]{\includegraphics[width=0.15\textwidth]{square_sxy_smoothed}}
+\subfigure[$G * I_x I_y$]{\includegraphics[width=0.15\textwidth]{square_sxy_smoothed}}
 \caption{The resulting response of the Harris corner detector with the componentes
 used to compute it visualized.}
 \end{figure}
@@ -493,34 +493,63 @@ Finally, we compute the Eigenvalues of the filtered images. The largest two tell
 \subsection{Shape Classification}
 The classification of a shape is actually the simplest processing step. 
 We count the number of detected corners from the previous step. 
+Using a simple heuristic we reject blobs that only have very little response from the Harris 
+detector (in value as well as in blob size, more closely explained in Figure \ref{fig:blob_rejection}).
 There is a one to one correspondence between the number of detected corners and the shape classes
 we are dealing with (See again \ref{fig:tranformed_elementary_shapes}.
 However, when given a circular shape, our Harris detector does not always return zero corners. 
 Thus, if we have less than 3 corners detected, we assume we found a circle. 
-Similarly, for the star, we classify a shape as a star if 5 or more corners are detected.
+Similarly, we classify a shape as a star if 5 or more corners are detected.
 
 \begin{figure}%
 \centering
-\subfigure[Triangle with fringes.]{\includegraphics[width=0.1\textwidth]{triangle_noisy} \label{fig:triangle_fringes}}
-\subfigure[Preprocessed]{\includegraphics[width=0.1\textwidth]{triangle_noisy_preprocessed}} \\
-\subfigure[Response]{\includegraphics[width=0.1\textwidth]{triangle_noisy_response_with_rect}}
-\subfigure[Detail of response]{\includegraphics[width=0.1\textwidth]{triangle_noisy_detail_response}}
-\caption{Nasty double peak and tiny thingy}
-
-\end{figure}% subsection corner_detection (end)
+\subfigure[Original]{\includegraphics[width=0.2\textwidth]{square_noisy} \label{fig:triangle_fringes}}
+\subfigure[Preprocessed]{\includegraphics[width=0.2\textwidth]{square_noisy_preprocessed}} \\
+\subfigure[Response]{\includegraphics[width=0.2\textwidth]{square_noisy_response_with_rect}}
+\subfigure[Detail of response]{\includegraphics[width=0.2\textwidth]{square_noisy_detail_response}}
+\caption{For this square, we have a very low response for one of the corners. 
+An oversimplifed thresholding results in wrongfully rejecting too many corners. 
+For this reason, we mainly depend on the blob size for
+rejection of weak corner responses.}
+\label{fig:blob_rejection}
+\end{figure}
 
 \section{Results}
+\label{sec:results}
 
-For images without noise we achieve a recognition rate of 100\%. 
+Throughout all degeneration types we achieved good results as can be seen in the confusion matrices
+for the given test files (See Figure \ref{fig:confusion_matrices}). 
+While images without degenerations were classified perfectly without exception, 
+there were some squares confused with stars in heavily degenerated data sets. 
+We chose detection thresholds depending on the preprocessing applied in step 3.
+Details can be seen in the code delivered with the report.
+ 
+\begin{figure}[ht!]%
+\centering
+\subfigure[No noise]{
+\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes1}
+}
+\subfigure[Salt and pepper noise]{
+\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes2N2B}
+}
+\subfigure[Fringes]{
+\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes_Noise_Heavy_Validation}
+}
+\subfigure[Gaussian noise]{
+\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes0_gaussian_noise}
+}
+\caption{blah}
+\label{fig:confusion_matrices}
+\end{figure}
 
 \section{Conclusion}
-In this work we described an algorithm capable to classify the type of a shape in a given image. For this purpose we are relying on a Harris corner detector. Thanks to an advanced preprocessing step, our classifier still works sufficiently well even if a input images suffers from issues such as noise or fringes. In conclusion, we have seen that our classifier has a detection rate of about 95 percentage. In addition we extended that it can handle images that suffer from Gaussian noise. The detection rate was similar well as for other data sets.
+In this work we described an algorithm capable to classify the type of a shape in a given image. For this purpose we are relying on a Harris corner detector. 
+Thanks to an advanced preprocessing step, our classifier still works sufficiently well even if a input images suffers from issues such as noise or fringes. In conclusion, we have seen that our classifier has a detection rate of about 95 percentage. In addition we extended that it can handle images that suffer from Gaussian noise. The detection rate was similar well as for other data sets.
 
 Currently, our classifier is limit to binary valued images. Furthermore it fails detecting corners of extremely smoothed shapes such as circles \footnote{In our corner to shape classification we assume that circles exhibit fewer than three corners} due to our corner detector algorithm.
 
 For future work we could try to implement a probabilistic detection model that is based on machine learning. Furthermore we could try to classify arbitrary shapes such as letters for example. Another interesting idea would be to handle different types of noise distributions or combinations of image issues. Lastly, could enhance the Gaussian noise correction by assuming a different, non-linear noise degradation model. 
 
-\label{sec:results}
 
 % section results (end)
 % An example of a floating figure using the graphicx package.
@@ -614,22 +643,6 @@ For future work we could try to implement a probabilistic detection model that i
 % The "triggered" command can be changed if desired:
 %\IEEEtriggercmd{\enlargethispage{-5in}}
 
-\appendix[Confusion matrices for various noise conditions]
-\begin{figure}%
-\centering
-\subfigure[No noise]{
-\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes1}
-}~
-\subfigure[Salt and pepper noise]{
-\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes2N2B}
-}
-\subfigure[Fringes]{
-\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes_Noise_Heavy_Validation}
-}~
-\subfigure[Gaussian noise]{
-\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes0_gaussian_noise}
-}
-\end{figure}
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,report}
 \end{document}

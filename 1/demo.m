@@ -7,7 +7,7 @@ close all;
 verbose = false;
 
 
-files = {{'Shapes0', ''}, {'Shapes1', '', 'N1'}, ...
+files = {{'Shapes0', '', '_gaussian_noise'}, {'Shapes1', '', 'N1'}, ...
     {'Shapes2', '', 'N2A', 'N2B'}, {'Shapes_Border_Easy_Validation', '' }, ...
     {'Shapes_Border_Medium_Validation', '' }, ...
     {'Shapes_Border_Heavy_Validation', '' }, ...
@@ -24,8 +24,9 @@ for filenum = 1:numel(files)
         suffix = char(cell{i});
         fprintf(['Doing ', filename, suffix, '\n']);
         [ img, img_preprocessed, responses, failures, targets, outputs, hits ] = classifyShapes(filename, suffix, verbose);
-        if verbose
+        if true
             runEvaluation(img, img_preprocessed, responses, failures, targets, outputs, hits , filename, suffix);
         end
+        close all
     end
 end
