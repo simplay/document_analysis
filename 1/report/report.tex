@@ -446,21 +446,21 @@ The classification of a shape is actually the simplest. We simply the number of 
 
 
 \label{sub:corner_detection}
-Given a clean image - either initially given or resulting from a previous pre-processing step - we want to find corners in this image. Since each image only contains one shape, we can directly relate the number of detected corners with the type of shape we are dealing with. For the corner detection we rely on the so called Harris corner detector. We canthink of of it as a special kind of kernel applied to the image. the result is a binary image that only exhibits some small pixel blobs, usually having a radius at most of 3 pixels. These blobs are supposed to denote the corners in the image. \\ 
+Given a clean image of a shape, either initially given or resulting from a previous pre-processing step, we want to find its corners. Our constraint that each image only contains one shape allows us to directly relate the number of detected corners with the type of shape we are dealing with. \\
 
-A corner can be interpreted as a point in the image that has two dominant and different edge directions in its local neighbourhood. The goal of the harris corner detector is to find those points. \\
+For detecting corners we rely on the so called Harris corner detector. We can think of it as a special kind of kernel applied to the image. the result is a binary image that only exhibits some small pixel blobs, usually having a radius at most of 3 pixels. These blobs are supposed to form the corners of the image. \\ 
 
-Edges in an image are points that depict some form of rapid change of pixel intensity. In other words an edge is a series of locale maximal values. As we know from calculus, a maxima is either the smallest or the largest derivate within a given domain (here the locale neighbourhood in the image). since either a minimum or a maximum depict a valid potential edge, we simply can compute the image gradient and take its absolute value. The gradient of a 2d image is a vector field containing two components, i.e. each pixel in the image is mapped to a vector. The first component is the derivative along the x-direction, the 2nd is the derivate along the y-direction. We interpret the absolute value as the 2-norm in the image. \\
+In general, a corner can be interpreted as a point in the image that has two dominant and different edge directions in its local neighbourhood. The goal of the Harris corner detector is to find those points. \\
+
+Edges in an image are points that depict some form of rapid change of pixel intensity. In other words an edge is a series of locale maximal values. A maxima corresponds to either the smallest or the largest derivate within a given domain. Since either a minimum or a maximum depict a valid potential edge, we simply can compute the image gradient and take its absolute value. The gradient of a 2d image is a vector field containing two components, i.e. each pixel in the image is mapped to a vector. The first component is the derivative along the x-direction, the 2nd is the derivate along the y-direction. We interpret the absolute value as the 2-norm in the image. \\
+
 In oder to only detect strong maxima, a Harris filter also makes use of the product of the two single derivate directions. This can be interpreted as some kind of weighting that ensures that we only consider strong edge-intensities. \\
+
 In order to make the Harris filter more robust, one does usually have to apply a pre-smoothing onto the image. This also ensures to smooth-out small peaks in the image that would be vanish due to the taking derivative step. \\
-Mathematically, the harris kernel looks like this
 
-the eigenvalues of the filtered images tell us whether we are dealing with a corner, and edge or a non-existing feature.   
+Mathematically, the harris kernel looks like the following: 
 
-
-Therefore, our strategy to find these maxima is to apply a derivative filter onto the image and then simply search for the maximal value within a small, over the image-moving window. Since we are dealing with a two dimensional image, we have to compute both derivatives, once 
-
-
+The Eigenvalues of the filtered images tell us whether we are dealing with a corner, an edge or a non-existing feature. If the two largest eigenvalues both are sufficiently large we have detected a corner.  
 
 \begin{figure}%
 \centering
