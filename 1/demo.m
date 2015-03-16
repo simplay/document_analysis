@@ -6,8 +6,13 @@ clear all;
 close all;
 
 filename = 'Shapes2';
-suffix = 'N2A';
-[img_preprocessed, gt, img] = readImageAndGT(filename, suffix, 0);
+suffix = 'N2B';
+
+
+filename = 'Shapes0';
+suffix = '_gaussian_noise';
+
+[img_preprocessed, gt, img, PREPROCESS] = readImageAndGT(filename, suffix, 0);
 
 %% Run analysis
 [M,N] = size(img); 
@@ -36,7 +41,10 @@ for m=1:100:M,
         subimage = reshape(img_preprocessed(current_range), 100, 100);
 
         % retrieve corners in subimages using a harris-corner-detector.
-        threshold = 0.21;
+        %threshold = 0.5; % okay for no noise
+        
+        [threshold] = getCornerParameters(PREPROCESS);
+        
         radius = 3;
         minBlobSizeFactor = 0.3;
         [~, c, response] = corners(subimage, 1.0, threshold, radius, ...

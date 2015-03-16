@@ -1,4 +1,4 @@
-function [ img_preprocessed, gt, img ] = readImageAndGT(filename, suffix, useGaussianNoise)
+function [ img_preprocessed, gt, img, PREPROCESS ] = readImageAndGT(filename, suffix, useGaussianNoise)
 %READIMAGEANDGT Returns a preprocessed image and the ground truth
     filepathname = ['Input/', filename];
     filepathname = strcat(filepathname, suffix);

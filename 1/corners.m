@@ -68,7 +68,8 @@ function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radiu
     d = strel('disk', 1);
     response2 = imdilate(response, d);
     [~, ~, size_components] = connectedComponents(im2bw(response2, lowerBound));
-    nr_big_components = sum(size_components > mean(size_components) * minBlobSizeFactor);
+    minBlobSize = max(mean(size_components) * minBlobSizeFactor, 5);
+    nr_big_components = numel(size_components > minBlobSize);
     
     % Make result compatible with old output.
     columnIdxs = zeros(1, nr_big_components);
