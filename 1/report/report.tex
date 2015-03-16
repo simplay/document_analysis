@@ -406,11 +406,11 @@ In the following a more detailed explanation how the separate algorithmic steps 
 
 \subsection{Detect Degeneration Type}
 Given input images may suffer from either noise or the edges of the shapes could be fringed.
-Hence, we first want to detect the type of image degeneration and then apply a customized preprocessing that directly addresses present issue. Our algorithm is able to detect whether an image exhibits gaussian noise, Salt-and Pepper noise, fringes shape edges or has no (significant) degeneration. \\
+Hence, we first want to detect the type of image degeneration and then apply a customized preprocessing that directly addresses present issue. Our algorithm is able to detect whether an image exhibits Gaussian noise, salt-and-pepper noise, fringes shape edges or has no (significant) degeneration. \\
 
-Since our image is binary valued we can detect Gaussian noise by computing the histogram of the image. If it has more than two bins (zero/one-valued bins) then we know there are other responses present in the image which is a characteristic property of gaussian noise. \\
+Since our image is binary valued we can detect Gaussian noise by computing the histogram of the image. If it has more than two bins (zero/one-valued bins) then we know there are other responses present in the image which is a characteristic property of Gaussian noise. \\
 
- The Salt and Pepper noise can be corrected by applying a median filter onto an image. Therefore we simply apply a certain median filter onto the image and compute the difference between the input image and its median filtered version. In case the difference is too large we assume that there is Salt and Pepper noise present. \\
+ The salt-and-pepper noise can be corrected by applying a median filter onto an image. Therefore we simply apply a certain median filter onto the image and compute the difference between the input image and its median filtered version. In case the difference is too large we assume that there is salt-and-pepper noise present. \\
 
 Finally for deciding whether an image suffers from fringes. Comparing a clean image with its fringe version, we notice that fringes are pixels along the edges that are wrong valued (holes and dents along shape edges). This we to extract the difference between a clean version of the image and the finge version by computing some border along the finge image. If the difference is too big, we say there are fringes present. \\
 	
@@ -428,14 +428,14 @@ When fringes were detected this means that our image has degenerated edges. Such
 % TODO show shape with different fringe levels and show what holes or dents actually are.
 This is why we have to apply an edge-restoration. The idea is to smooth the edges out and then compute a new image by applying a thresholding. If a smoothed pixel is below some given threshold value then we say, that this pixel does not belong to the shape's edge and contrary otherwise. \\
 
-In case Salt-and Pepper noise was detected, we have to apply a so called median filter. Such a filter performs a Salt and Pepper noise reduction by removing outlier peak responses in the input image. Technically, this is achieved by convolving the input image with local neighbourhood-window that got its center value replaced with its median value. However, the filtered image suffers now from some kind of soft-fringes. this is why we also have to apply the edge restoration step described above before. \\
+In case salt-and-pepper noise was detected, we have to apply a so called median filter. Such a filter performs a salt-and-pepper noise reduction by removing outlier peak responses in the input image. Technically, this is achieved by convolving the input image with local neighbourhood-window that got its center value replaced with its median value. However, the filtered image suffers now from some kind of soft-fringes. this is why we also have to apply the edge restoration step described above before. \\
 
 For Gaussian noise assume we have given a degradation model where noise behaves additively and is normal distributed. Using such a noise-model we are allowed to apply so called Wiener-Filter (a non-linear probabilistic noise reduction). 
 
 \subsection{Corner Detection}
 
 \subsection{Shape Classification}
-The classification of a shape is actually the simplest. We simply the number of detected corners resulting from the previous step. There is a one to one correspondence between the number of detected corners and the number of corners that a triangular or squared shape exhibit. However, when given a circular shape, our Harris detector does return zero corners. Thus, if we have zero corners detected, we assume we found a circle. Lastly, there is the classification of the 5-star. Most of the times our harris detector is robust enough and detects 5 corners. However, there are certain cases when it detects more than 5 corners. Therefore we assume we detected a 5-star shape if the corner count is at least equal 5.
+The classification of a shape is actually the simplest. We simply the number of detected corners resulting from the previous step. There is a one to one correspondence between the number of detected corners and the number of corners that a triangular or squared shape exhibit. However, when given a circular shape, our Harris detector does return zero corners. Thus, if we have zero corners detected, we assume we found a circle. Lastly, there is the classification of the 5-star. Most of the times our Harris detector is robust enough and detects 5 corners. However, there are certain cases when it detects more than 5 corners. Therefore we assume we detected a 5-star shape if the corner count is at least equal 5.
 
 
 \label{sub:corner_detection}
@@ -465,7 +465,7 @@ The classification of a shape is actually the simplest. We simply the number of 
 
 \section{Conclusion}
 % TODO write mini summary
-% TODO mention that our detector is also able to detect gaussian noise
+% TODO mention that our detector is also able to detect Gaussian noise
 % mention draw-backs and adv. 
 % mention other ideas and directions
 
