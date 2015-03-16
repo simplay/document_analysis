@@ -322,7 +322,7 @@
 To differentiate between simple geometric shapes that can be distinguished by the number
 of corners we deploy a Harris corner detector\cite{Harris88acombined} and count
 the number of responses. Further, we 
-investigated on the impact of various types of noise on the classification and ways
+investigated on the impact of various types of degenerations on the classification and ways
 to preprocess the distorted images to improve classification results.
 \end{abstract}
 
@@ -347,27 +347,29 @@ background and white being shape.
 \end{figure}
 
 \noindent
-First we only considered clean images, but to later on improved our algorithm to also be
-able to handle different kind of noise. Specifically the effects of 
-salt-and-pepper noise, fringe noise and
-Gaussian noise were studied in this report. A visualisation of these noise types can 
+First we only considered clean images, in then extended our algorithm to also be
+able to handle different kinds of degeneration. 
+Specifically the effects and correction of salt-and-pepper noise, fringes and
+Gaussian noise were studied in this report. 
+A visualization of these degeneration types can 
 be seen in Figure \ref{fig:types_noise}.
 \begin{figure}[ht!]%
 \centering
 \subfigure[No noise]{\includegraphics[width=0.1\textwidth]{noise_types_clean}
 \label{fig:types_noise:no_noise}}
 \subfigure[Salt-and-pepper]{\includegraphics[width=0.1\textwidth]{noise_types_snp}}
-\subfigure[Fringe]{\includegraphics[width=0.1\textwidth]{noise_types_fringe}}
+\subfigure[Fringes]{\includegraphics[width=0.1\textwidth]{noise_types_fringe}
+\label{fig:types_noise:fringe_noise}}
 \subfigure[Gaussian]{\includegraphics[width=0.1\textwidth]{noise_types_gaussian}}
-\caption{Types of noise we tested our algorithm for.}
+\caption{Types of degeneration we tested our algorithm for.}
 \label{fig:types_noise}
 \end{figure}
 
 \section{Algorithm}
-The key idea of our approach is to detect all corners in a given image and then assign a class according number of corners detected. 
+The key idea of our approach is to detect all corners in a given image and then assign a class according to the number of corners detected. 
 For this purpose we decided to implement a Harris corner detector\cite{Harris88acombined}. 
-Such a detector works well for clean images without any adaptions, 
-but since given images may suffer from various degenerations as mentioned before, 
+Such a detector works well for clean images without any adaptions.
+But since given images may suffer from various degenerations as mentioned before, 
 a preprocessing of the input is required before applying the classification. 
 
 In summary our algorithm does the following for each given input image:
@@ -375,47 +377,80 @@ In summary our algorithm does the following for each given input image:
 		\item Detect type of degeneration present in the input image.
 		\item Apply corresponding preprocessing step.
 		\item Detect Corners.
-		\item Classify.
+		\item Assign class to shape.
 	\end{itemize}
 	
-In the following we explain in detail how every stage of the algorithm works.
+In the following we explain in detail how every stage of our algorithm works.
 
 \subsection{Detect Degeneration Type}
-Given input images may suffer from either noise or the edges of the shapes could be fringed.
-Hence, we first want to detect the type of image degeneration and then apply a customized preprocessing that directly addresses present issue. Our algorithm is able to detect whether an image exhibits Gaussian noise, salt-and-pepper noise, fringes shape edges or has no (significant) degeneration. 
+We first want to detect the type of image degeneration and then apply a customized preprocessing that directly addresses a present issue. 
+Our algorithm is able to detect whether an image exhibits Gaussian noise, 
+salt-and-pepper noise, fringed shape edges or has no (significant) degeneration
+(See Figure \ref{fig:types_noise} for reference). 
 
-Since our image is binary valued we can detect Gaussian noise by computing the histogram of the image. If it has more than two bins (zero/one-valued bins) then we know there are other responses present in the image which is a characteristic property of Gaussian noise. 
+Since our image is binary valued we can detect Gaussian noise by computing the histogram of the image. 
+If it has more than two non-zero bins then we know there are other grayscale values present in the image, which is a characteristic property of Gaussian noise. 
 
 The salt-and-pepper noise can be detected (and also corrected) by applying a median filter onto an image. 
 Therefore we simply apply a median filter with window size of 5x5 pixels onto the image and compute the difference between the input image and its median filtered version. 
 In case the difference is too large we assume that there is salt-and-pepper noise present. 
 
-Finally, we need to detect jagged edges on the input (dents and bulges along edges, see Figure \ref{fig:triangle_fringes} for an example). 
+Finally, we need to detect jagged edges on the input (dents and bulges along edges, see Figure \ref{fig:types_noise:fringe_noise} for an example). 
 Throughout this report we call this type of distortion \emph{fringes}. 
-Here, we extract the difference between a clean version of the image and the fringe version by computing some border along the fringe image. 
-If the difference is too big, we say there are fringes present. 
+Here, we extract the difference between a clean version\footnote{Attained through applying our fringe-removal algorithm.} of the image and the fringe version. 
+If the difference is too big, we suppose there are fringes present. 
 	
-Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying a thresholding. Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. We combine this mask with the input image by a component-wise operation. The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. We count all pixels equal one and decide whether this corresponds to a fringe count \footnote{Our convention: pixel value of 1 means that it belongs to the shape and 0 that the pixel belongs to the background}. If none of the previously described checks yielded a positive result, we assume that our image does not suffer from any kind of degeneration.
+Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying thresholding. 
+Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. 
+We combine this mask with the input image by a pixel-wise operation. 
+The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. 
+We count all pixels equal one and decide whether this corresponds to a fringe count \footnote{As a reminder: pixel value of 1 means that it belongs to the shape, 0 that the pixel belongs to the background}.
+ 
+If none of the previously described checks yielded a positive result, 
+we assume that the image does not suffer from any kind of degeneration.
   
 \subsection{Preprocessing}
-From the degeneration detection step we know what kind of issues we have to deal with. The simplest case occurs if no noise has been detected. Then our algorithm can skip this step and thus can directly start to detect corners in the image. 
+From the degeneration detection step we know what kind of issues we have to deal with. 
+The simplest case occurs if no noise has been detected. 
+Then our algorithm can skip this stage and thus can directly start to detect corners in the image. 
 
 When fringes have been detected we need to restore the edges.
-The idea is to smooth the edges out and then compute a new binary image simple thresholding. 
-For smoothing, we use a bilinear filter\cite{TomasiBilateralFiltering}, since we want mainly smoothing along edges, but not blur the edge itself. A more detailed motivation behind this
+The idea is to smooth the edges out and then compute a new binary image by applying thresholding. 
+For smoothing, we use a bilateral filter\cite{TomasiBilateralFiltering}, since we want mainly smoothing along edges, 
+but not blur the edge itself. 
+A more detailed motivation behind this
 choice can be seen in Figure \ref{fig:bilateral_vs_gaussian_smoothed}. 
+\begin{figure}[ht!]%
+\centering
+\subfigure[Original]{\includegraphics[width=0.15\textwidth]{smoothing_comparison_original}}
+\subfigure[Gaussian]{\includegraphics[width=0.15\textwidth]{smoothing_comparison_gauss}}
+\subfigure[Bilateral]{\includegraphics[width=0.15\textwidth]{smoothing_comparison_bilat}}
+\caption{Edge restoration using different kinds of kernels. We achieved best results
+using a bilateral filter. For this shape, the edge at the bottom that was distorted by 
+a dent in the original was much better reconstructed by the bilateral approach.}
+\label{fig:bilateral_vs_gaussian_smoothed}
+\end{figure}
 
-In case salt-and-pepper noise was detected, we have to apply a so called median filter. Such a filter performs a salt-and-pepper noise reduction by removing outlier peak responses in the input image. Technically, this is achieved by convolving the input image with local neighbourhood-window that got its center value replaced with its median value. However, the filtered image suffers now from some kind of soft-fringes. this is why we also have to apply the edge restoration step described above before. 
+In case salt-and-pepper noise was detected, we have to apply a so called median filter. 
+Such a filter performs a salt-and-pepper noise reduction by removing outlier peak responses in the input image. 
+In detail, this is achieved by convolving the input image with a local neighborhood-window filter that sets its center value to the median of the pixels within the window. 
+However, the filtered image suffers now from some kind of soft-fringes. This is why we also need to apply the edge restoration step described above. 
 
-For Gaussian noise assume we have given a degradation model where noise behaves additively and is normal distributed. Using such a noise-model we are allowed to apply so called Wiener-Filter (a non-linear probabilistic noise reduction). 
+For Gaussian noise we assume a degradation model where noise behaves additively and follows  a normal distribution. 
+Using such a noise model allows us to apply a so called Wiener-Filter\footnote{a non-linear probabilistic noise reduction}\cite{Wiener:1964:EIS:1097023} for restoration. 
 
 \subsection{Corner Detection}
 \label{sub:corner_detection}
-Given a pre-processed clean image of a shape we want to find its corners. Our constraint that each image only contains one shape allows us to directly relate the number of detected corners with the type of shape we are dealing with. 
+Given a preprocessed image of a shape we want to find its corners. 
+Our constraint, that each image only contains one shape, 
+allows us to directly relate the number of detected corners with the type of shape we are dealing with. 
 
-For detecting corners we rely on the so called Harris corner detector. We can think of it as a special kind of kernel applied to the image. the result is a binary image that only exhibits some small pixel blobs, usually having a radius at most of 3 pixels. These blobs are supposed to form the corners of the image. \
-
-In general, a corner can be interpreted as a point in the image that has two dominant and different edge directions in its local neighbourhood. The goal of the Harris corner detector is to find those points. 
+For detecting corners we rely on the so called Harris\cite{Harris88acombined} corner detector. 
+We can think of it as a special kind of kernel applied to the image. 
+The result is a binary image that only exhibits some small pixel blobs in locations with high response.
+The design of the Harris detector leads to corners having high response while other regions mostly
+are ignored. Corners can be interpreted as points having two dominant and different edge directions
+within their local neighborhoods. 
 
 \begin{figure}[ht!]%
 \centering
@@ -429,7 +464,7 @@ used to compute it visualized.}
 \end{figure}
 
 Edges in an image are points that depict some form of rapid change of pixel intensity.
- In other words an edge is a series of locale maximal values. 
+ In other words, an edge is a series of locale maximal values. 
  A maxima corresponds to either the smallest or the largest derivative within a given domain. 
  Since either a minimum or a maximum depict a valid potential edge, we simply can compute the image gradient and take its absolute value. 
  The gradient of a 2D image is a vector field containing two components, i.e. each pixel in the image is mapped to a vector. 
@@ -456,8 +491,13 @@ Where $I$ denotes the given input image and $I_x$, $I_y$ its partial derivatives
 Finally, we compute the Eigenvalues of the filtered images. The largest two tell us whether we are dealing with a corner, an edge or a non-existing feature. If the two largest eigenvalues both are sufficiently large we have detected a corner.
 
 \subsection{Shape Classification}
-The classification of a shape is actually the simplest processing step. We simply the number of detected corners resulting from the previous step. There is a one to one correspondence between the number of detected corners and the number of corners that a triangular or squared shape exhibit. However, when given a circular shape, our Harris detector does return zero corners. Thus, if we have zero corners detected, we assume we found a circle. Lastly, there is the classification of the 5-star. Most of the times our Harris detector is robust enough and detects 5 corners. However, there are certain cases when it detects more than 5 corners. Therefore we assume we detected a 5-star shape if the corner count is at least equal 5.
-
+The classification of a shape is actually the simplest processing step. 
+We count the number of detected corners from the previous step. 
+There is a one to one correspondence between the number of detected corners and the shape classes
+we are dealing with (See again \ref{fig:tranformed_elementary_shapes}.
+However, when given a circular shape, our Harris detector does not always return zero corners. 
+Thus, if we have less than 3 corners detected, we assume we found a circle. 
+Similarly, for the star, we classify a shape as a star if 5 or more corners are detected.
 
 \begin{figure}%
 \centering

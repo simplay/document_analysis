@@ -98,6 +98,7 @@ g = fspecial('gaussian', max(1,fix(6*spatial_sigma)), spatial_sigma);
 img_gaussian_smoothed = im2bw(imfilter(img, g), 0.8);
 prefix = 'smoothing_comparison';
 
+imwrite(img, [prefix, '_original.png']);
 imwrite(img_bilat_smoothed, [prefix, '_bilat.png']);
 imwrite(img_gaussian_smoothed, [prefix, '_gauss.png']);
 
