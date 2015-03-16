@@ -1,4 +1,4 @@
-function [ img, img_preprocessed, responses, failures, targets, outputs, hits ] = classifyShapes( filename, suffix)
+function [ img, img_preprocessed, responses, failures, targets, outputs, hits ] = classifyShapes(filename, suffix, verbose)
 %CLASSIFYSHAPES Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -54,8 +54,10 @@ function [ img, img_preprocessed, responses, failures, targets, outputs, hits ] 
                 equalityCount = equalityCount + 1;
                 hits(current_range) = subimage;
             else
-                disp([num2str(idx), '. ', shape_classification, ' <=> ', ...
-                    current_reference_solution, ' ' , num2str(length(c))])
+                if verbose
+                    disp([num2str(idx), '. ', shape_classification, ' <=> ', ...
+                        current_reference_solution, ' ' , num2str(length(c))])
+                end
                 failures(current_range) = subimage;
             end
             responses(current_range) = response;

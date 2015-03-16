@@ -1,7 +1,7 @@
 clc
 clear all;
 close all;
-OUTPUT = 1;
+OUTPUT = 0;
 %% Select position of subimage and prefix (for dumping)
 if OUTPUT ==0
     img_prefix = 'square';
@@ -105,3 +105,15 @@ diff = im2double(img_bilat_smoothed);
 diff(:,:,2) = im2double(img_gaussian_smoothed);
 diff(:,:,3) = 0;
 imshow(diff);
+
+%% Dump all primitive shapes
+
+filename = 'Input/Shapes0';
+img_full = readImgFileByName(filename);
+
+for i = 1:80 
+    [x, y] = ind2sub([8, 10], i);
+    x = (x-1) * 100 + 1;
+    y = (y-1) * 100 + 1;
+    imwrite(img_full(x:x+99, y:y+99), [num2str(i), '.png']);
+end
