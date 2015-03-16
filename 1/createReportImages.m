@@ -10,14 +10,14 @@ if OUTPUT ==0
     n = 5 * 100 + 1; % on x axis
     m = 1 * 100 + 1; % on y axis
 elseif OUTPUT == 1
-    img_prefix = 'triangle_noisy';
-    filename = 'Shapes2';
-    suffix = 'N2B';
-    n = 9 * 100 + 1; % on x axis
-    m = 1 * 100 + 1; % on y axis
+    img_prefix = 'square_noisy';
+    filename = 'Shapes_Noise_Heavy_Validation';
+    suffix = '';
+    n = 6 * 100 + 1; % on x axis
+    m = 4 * 100 + 1; % on y axis
 end
 
-[img_preprocessed, gt, img_full] = readImageAndGT(filename, suffix);
+[img_preprocessed, gt, img_full] = readImageAndGT(filename, suffix, false);
 threshold = 0.21;
 sigma = 3;
 
@@ -60,15 +60,23 @@ imwrite(response, [img_prefix, '_response.png'])
 
 if OUTPUT == 1
     imshow(response)
-    rectangle('Position',[17 42 20 20], 'LineWidth',2, 'EdgeColor','r');
+    window_size = 20;
+    pos = [47 62 window_size window_size];
+    rectangle('Position', pos , 'LineWidth',2, 'EdgeColor','r');
     f=getframe(gca);
     response_with_rect = frame2im(f);
     % Need to crop a tiny bit
     imwrite(response_with_rect(2:101, 2:101, :), [img_prefix, '_response_with_rect.png'])
+    
     % dump detail
-    detail_response = response(42:62, 17:37);
+    detail_response = response(pos(2):(pos(2) + window_size - 1), pos(1):(pos(1)+window_size - 1));
     % resize to 100 x 100
     detail_response_big = imresize(detail_response, 5, 'nearest');
-    imwrite(detail_response_big, [img_prefix, '_detail_response.png'])
+    imshow(detail_response_big)
+    rectangle('Position', [2 2 98 98] , 'LineWidth',2, 'EdgeColor','r');
+    f=getframe(gca);
+    detail_with_rect = frame2im(f);
+    % Need to crop a tiny bit
+    imwrite(detail_with_rect(2:101, 2:101, :), [img_prefix, '_detail_response.png'])
 end
 close all
