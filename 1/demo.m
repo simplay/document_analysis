@@ -41,8 +41,6 @@ for m=1:100:M,
         subimage = reshape(img_preprocessed(current_range), 100, 100);
 
         % retrieve corners in subimages using a harris-corner-detector.
-        %threshold = 0.5; % okay for no noise
-        
         [threshold] = getCornerParameters(PREPROCESS);
         
         radius = 3;
