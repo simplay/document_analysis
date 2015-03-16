@@ -78,6 +78,8 @@ confusion_labels = {'circle' 'triangle' 'square' 'star', 'Overall'};
 set(gca,'xticklabel', confusion_labels)
 set(gca,'yticklabel', confusion_labels)
 failure_image = responses;
+% Dump confusion matrix to file
+%export_fig(['confusion_matrix_', filename, suffix, '.png'], '-transparent');
 failure_image(:,:,2) = hits;
 failure_image(:,:,3) = failures;
 figure; imshow(failure_image);
