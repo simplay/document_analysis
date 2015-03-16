@@ -15,7 +15,9 @@ testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes2')), 3);
 %% fringe data sets
 testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes_Border_Heavy_Validation')),4);
 testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes_Border_Medium_Validation')),4);
+testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes_Border_Easy_Validation')),4);
 testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes2N2B')),4);
+testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes1N1')),4);
 
 %% Salt % Pepper data sets
 testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes_Noise_Easy_Validation')),2);
