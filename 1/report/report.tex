@@ -354,7 +354,8 @@ Gaussian noise were studied in this report. A visualisation of these noise types
 be seen in Figure \ref{fig:types_noise}.
 \begin{figure}[ht!]%
 \centering
-\subfigure[No noise]{\includegraphics[width=0.1\textwidth]{noise_types_clean}}
+\subfigure[No noise]{\includegraphics[width=0.1\textwidth]{noise_types_clean}
+\label{fig:types_noise:no_noise}}
 \subfigure[Salt-and-pepper]{\includegraphics[width=0.1\textwidth]{noise_types_snp}}
 \subfigure[Fringe]{\includegraphics[width=0.1\textwidth]{noise_types_fringe}}
 \subfigure[Gaussian]{\includegraphics[width=0.1\textwidth]{noise_types_gaussian}}
@@ -363,16 +364,21 @@ be seen in Figure \ref{fig:types_noise}.
 \end{figure}
 
 \section{Algorithm}
-The key idea of our approach is to detect all corners of a shape-image and then classify a shape according to the detected numbers of corners. For this purpose we decided to implement a Harris corner detector. Such a detector works well for clean images \footnote{i.e. images that do not suffer from noise or exhibit shapes having fringes}. However, since given images may suffer from various degenerations, a preprocessing of the input is required before applying the classification. 
+The key idea of our approach is to detect all corners in a given image and then assign a class according number of corners detected. 
+For this purpose we decided to implement a Harris corner detector\cite{Harris88acombined}. 
+Such a detector works well for clean images without any adaptions, 
+but since given images may suffer from various degenerations as mentioned before, 
+a preprocessing of the input is required before applying the classification. 
 
 In summary our algorithm does the following for each given input image:
 	\begin{itemize}
-		\item Detect type of degeneration present in input image
-		\item Apply corresponding preprocessing step
-		\item Detect Corners and Classify
-	\end{itemize}  
+		\item Detect type of degeneration present in the input image.
+		\item Apply corresponding preprocessing step.
+		\item Detect Corners.
+		\item Classify.
+	\end{itemize}
 	
-In the following a more detailed explanation how the separate algorithmic steps work.
+In the following we explain in detail how every stage of the algorithm works.
 
 \subsection{Detect Degeneration Type}
 Given input images may suffer from either noise or the edges of the shapes could be fringed.
