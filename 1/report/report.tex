@@ -536,23 +536,18 @@ For images without noise we achieve a recognition rate of 100\%.
 \appendix[Confusion matrices for various noise conditions]
 \begin{figure}%
 \centering
-\includegraphics[width=0.3\textwidth]{confusion_matrix_Shapes1}
-\caption{No noise}
-\end{figure}
-\begin{figure}%
-\centering
-\includegraphics[width=0.3\textwidth]{confusion_matrix_Shapes2N2B}
-\caption{Salt and pepper noise}
-\end{figure}
-\begin{figure}%
-\centering
-\includegraphics[width=0.3\textwidth]{confusion_matrix_Shapes_Noise_Heavy_Validation}
-\caption{Fringes}
-\end{figure}
-\begin{figure}%
-\centering
-\includegraphics[width=0.3\textwidth]{confusion_matrix_Shapes0_gaussian_noise}
-\caption{Gaussian noise}
+\subfigure[No noise]{
+\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes1}
+}~
+\subfigure[Salt and pepper noise]{
+\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes2N2B}
+}
+\subfigure[Fringes]{
+\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes_Noise_Heavy_Validation}
+}~
+\subfigure[Gaussian noise]{
+\includegraphics[width=0.2\textwidth]{confusion_matrix_Shapes0_gaussian_noise}
+}
 \end{figure}
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,report}
