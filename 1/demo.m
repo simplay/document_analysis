@@ -4,12 +4,28 @@
 clc
 clear all;
 close all;
-
-filename = 'Shapes2';
-suffix = 'N2B';
+verbose = false;
 
 
-filename = 'Shapes0';
-suffix = '';
-[ img, img_preprocessed, responses, failures, targets, outputs, hits ] = classifyShapes( filename, suffix);
-runEvaluation(img, img_preprocessed, responses, failures, targets, outputs, hits , filename, suffix);
+files = {{'Shapes0', ''}, {'Shapes1', '', 'N1'}, ...
+    {'Shapes2', '', 'N2A', 'N2B'}, {'Shapes_Border_Easy_Validation', '' }, ...
+    {'Shapes_Border_Medium_Validation', '' }, ...
+    {'Shapes_Border_Heavy_Validation', '' }, ...
+    {'Shapes_Noise_Easy_Validation', '' }, ...
+    {'Shapes_Noise_Medium_Validation', '' }, ...
+    {'Shapes_Noise_Heavy_Validation', '' }, ...
+    {'Shapes_Clean_Validation', '' }};
+
+
+for filenum = 1:numel(files)
+    cell = files{filenum};
+    filename = char(cell{1});
+    for i = 2:length(cell)
+        suffix = char(cell{i});
+        fprintf(['Doing ', filename, suffix, '\n']);
+        [ img, img_preprocessed, responses, failures, targets, outputs, hits ] = classifyShapes(filename, suffix, verbose);
+        if verbose
+            runEvaluation(img, img_preprocessed, responses, failures, targets, outputs, hits , filename, suffix);
+        end
+    end
+end
