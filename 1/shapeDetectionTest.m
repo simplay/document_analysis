@@ -25,3 +25,6 @@ testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes0_noisy')),2);
 
 %% hard: Salt & Pepper noise with small fringes.
 testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes2N2A')),2);
+
+%% Gaussian noise detection.
+testShouldBe(detectNoiseType(readImgFileByName('Input/Shapes0_gaussian_noise')),1);

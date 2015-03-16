@@ -48,7 +48,7 @@ function type = detectNoiseType(img)
             % though. The case fringeRanking < 200 is for ultra soft
             % fringes. Clean images have a fringeRanking > 200 (around 300)
             % all constants have been determined by try and error.
-            fringeRanking = sum(sum(abs(img-restoreImg( img, 0.5 ,0)&img)));
+            fringeRanking = sum(sum(abs(img-restoreImg( img, 0.5 , false)&img)));
             if  fringeRanking > 1000 || fringeRanking < 200,
                 type = 4;
             else

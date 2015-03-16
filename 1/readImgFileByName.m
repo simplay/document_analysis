@@ -6,7 +6,7 @@ function [ img ] = readImgFileByName( filePathName )
 
     img = imread(strcat(filePathName, '.png'));
     % Invert image, we want background to be black.
-    img = ~img;
     img = im2double(img);
+    img = 1 - img;
 end
 
