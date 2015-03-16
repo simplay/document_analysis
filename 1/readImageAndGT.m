@@ -1,6 +1,5 @@
 function [ img_preprocessed, gt, img ] = readImageAndGT(filename, suffix, useGaussianNoise)
 %READIMAGEANDGT Returns a preprocessed image and the ground truth
-    useBilatFilter = 1;
     filepathname = ['Input/', filename];
     filepathname = strcat(filepathname, suffix);
     
@@ -20,11 +19,11 @@ function [ img_preprocessed, gt, img ] = readImageAndGT(filename, suffix, useGau
         img_preprocessed = wiener2(img,[5 5]);
     % Median filter, effective against salt and pepper noise.
     elseif (PREPROCESS == 4)
-        img_preprocessed = restoreImg(img, 2.3, 0);
+        img_preprocessed = restoreImg(img, 2.3, false);
     elseif (PREPROCESS == 2)
         img_preprocessed = medfilt2(img, [5 5]);
-        img_preprocessed = restoreImg(img_preprocessed, 2.3, useBilatFilter);
-    else
+        img_preprocessed = restoreImg(img_preprocessed, 2.3, true);
+    elseif (PREPROCESS == 3)
         img_preprocessed = img;
     end
 

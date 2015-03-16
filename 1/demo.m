@@ -71,6 +71,8 @@ fclose(f);
 disp(['equality count: ',num2str(equalityCount)]);
 
 %% Draw confusion matrix of classifications and other debug images.
+% Fix '_' characters being used for subscripts.
+set(0,'DefaultTextInterpreter','none')
 plotconfusion(targets, outputs, [filename, suffix])
 confusion_labels = {'circle' 'triangle' 'square' 'star', 'Overall'};
 set(gca,'xticklabel', confusion_labels)
