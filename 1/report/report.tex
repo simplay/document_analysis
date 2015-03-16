@@ -415,8 +415,8 @@ The salt-and-pepper noise can be detected (and also corrected) by applying a med
 Therefore we simply apply a median filter with window size of 5x5 pixels onto the image and compute the difference between the input image and its median filtered version. 
 In case the difference is too large we assume that there is salt-and-pepper noise present. \\
 
-Finally we need to detect jagged edges on the input (holes and dents along shape edges, see Figure \ref{fig:triangle_fringes} for an example). 
-Throughout the report we call this type of distortion \emph{fringes}. 
+Finally, we need to detect jagged edges on the input (dents and bulges along edges, see Figure \ref{fig:triangle_fringes} for an example). 
+Throughout this report we call this type of distortion \emph{fringes}. 
 Here, we extract the difference between a clean version of the image and the fringe version by computing some border along the fringe image. 
 If the difference is too big, we say there are fringes present. \\
 	
@@ -425,14 +425,15 @@ Technically, we apply a blur-kernel onto the image. Then, we compute a mask by a
 	
 	% TODO (ADD FOOTNOTE: in our convention one means that the pixel belongs to the shape and zero that the pixel belongs to the background. 
 
-Lastly, If no of the previous checks have yielded any result, we assume that our image does not suffer from any kind of degeneration.   
+If none of the previously described checks yielded a positive result, we assume that our image does not suffer from any kind of degeneration.
   
 \subsection{Preprocessing}
-From the degeneration detection step we know what kind of issues we have to deal with. The simplest case occurs if no issue was detected. then our algorithm can skip this step and thus can directly start to detect corners in the image. \\
+From the degeneration detection step we know what kind of issues we have to deal with. The simplest case occurs if no noise has been detected. Then our algorithm can skip this step and thus can directly start to detect corners in the image. \\
 
-When fringes were detected this means that our image has degenerated edges. Such edges either exhibit holes or dents. 
-% TODO show shape with different fringe levels and show what holes or dents actually are.
-This is why we have to apply an edge-restoration. The idea is to smooth the edges out and then compute a new image by applying a thresholding. If a smoothed pixel is below some given threshold value then we say, that this pixel does not belong to the shape's edge and contrary otherwise. \\
+When fringes have been detected we need to restore the edges.
+The idea is to smooth the edges out and then compute a new binary image simple thresholding. 
+For smoothing, we use a bilinear filter\cite{TomasiBilateralFiltering}, since we want mainly smoothing along edges, but not blur the edge itself. A more detailed motivation behind this
+choice can be seen in Figure \ref{fig:bilateral_vs_gaussian_smoothed}. \\
 
 In case salt-and-pepper noise was detected, we have to apply a so called median filter. Such a filter performs a salt-and-pepper noise reduction by removing outlier peak responses in the input image. Technically, this is achieved by convolving the input image with local neighbourhood-window that got its center value replaced with its median value. However, the filtered image suffers now from some kind of soft-fringes. this is why we also have to apply the edge restoration step described above before. \\
 
