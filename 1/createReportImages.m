@@ -117,3 +117,25 @@ for i = 1:80
     y = (y-1) * 100 + 1;
     imwrite(img_full(x:x+99, y:y+99), [num2str(i), '.png']);
 end
+
+%% Dump shape under different noise conditions
+
+filename = 'Input/Shapes1';
+img_full = readImgFileByName(filename);
+
+m = 3*100 + 1;
+n = 3*100 + 1;
+img_clean = img_full(m:m+99, n:n+99);
+imwrite(img_clean, 'noise_types_clean.png');
+
+img_salt_n_pepper = imnoise(img_clean, 'salt & pepper', 0.1);
+imwrite(img_salt_n_pepper, 'noise_types_snp.png');
+
+img_gaussian = imnoise(im2double(img_clean),'gaussian', 0, .1);
+imwrite(img_gaussian, 'noise_types_gaussian.png');
+
+filename = 'Input/Shapes1N1';
+img_full = readImgFileByName(filename);
+img_fringe = img_full(m:m+99, n:n+99);
+imwrite(img_fringe, 'noise_types_fringe.png');
+

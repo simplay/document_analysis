@@ -319,35 +319,50 @@
 
 
 \begin{abstract}
-%\boldmath
-We are using a Harris corner detector\cite{Harris88acombined} 
-to classify simple geometric shapes. Further, we 
+To differentiate between simple geometric shapes that can be distinguished by the number
+of corners we deploy a Harris corner detector\cite{Harris88acombined} and count
+the number of responses. Further, we 
 investigated on the impact of various types of noise on the classification and ways
 to preprocess the distorted images to improve classification results.
 \end{abstract}
 
 \section{Introduction}
-% no \IEEEPARstart
 Shape recognition has been an interest in computer science since long ago. Especially in the
-field of text recognition there is the task to classify scanned characters to construct 
-a digital representation of a text.
+field of text recognition there is the well studied task of classifying scanned characters 
+to construct a digital representation of a text. 
+For this course however we start with a more simplistic task. Instead of having to
+distinguish between a manifold of character classes, we limit ourself to 
+4 simple geometric shapes (see Figure \ref{fig:tranformed_elementary_shapes}) given in monochrome and with arbitrary scale and orientation. While the original files had the 
+background in in white and the shapes in black we stuck to the color encoding of black being
+background and white being shape.
 
 \begin{figure}[ht!]%
 \centering
-\subfigure[Circle]{\includegraphics[width=0.1\textwidth]{circle} \label{fig:triangle_fringes}}
+\subfigure[Circle]{\includegraphics[width=0.1\textwidth]{circle}}
 \subfigure[Triangle]{\includegraphics[width=0.1\textwidth]{triangle}}
 \subfigure[Square]{\includegraphics[width=0.1\textwidth]{small_square}}
 \subfigure[Star]{\includegraphics[width=0.1\textwidth]{star}}
-\caption{Shapes that can be detected through our algorithm. The scaling and orientation can be arbitrary.}
+\caption{Shapes that can be detected through our algorithm. The scaling and orientation may be arbitrary.}
 \label{fig:tranformed_elementary_shapes}
 \end{figure}
 
+\noindent
+First we only considered clean images, but to later on improved our algorithm to also be
+able to handle different kind of noise. Specifically the effects of 
+salt-and-pepper noise, fringe noise and
+Gaussian noise were studied in this report. A visualisation of these noise types can 
+be seen in Figure \ref{fig:types_noise}.
+\begin{figure}[ht!]%
+\centering
+\subfigure[No noise]{\includegraphics[width=0.1\textwidth]{noise_types_clean}}
+\subfigure[Salt-and-pepper]{\includegraphics[width=0.1\textwidth]{noise_types_snp}}
+\subfigure[Fringe]{\includegraphics[width=0.1\textwidth]{noise_types_fringe}}
+\subfigure[Gaussian]{\includegraphics[width=0.1\textwidth]{noise_types_gaussian}}
+\caption{Types of noise we tested our algorithm for.}
+\label{fig:types_noise}
+\end{figure}
+
 \section{Algorithm}
-The goal of our algorithm is to detect the type of shape contained in a provided binary valued image. 
-Such a given image may suffer from either different types of noise or its shapes may exhibit fringes. 
-
-In this work we only are interested in detecting triangle-, square-, regular 5-star- or circle-shapes. However, each such shape can be arbitrary oriented and scaled. Some example input images are shown in Figure $\ref{fig:tranformed_elementary_shapes}$. 
-
 The key idea of our approach is to detect all corners of a shape-image and then classify a shape according to the detected numbers of corners. For this purpose we decided to implement a Harris corner detector. Such a detector works well for clean images \footnote{i.e. images that do not suffer from noise or exhibit shapes having fringes}. However, since given images may suffer from various degenerations, a preprocessing of the input is required before applying the classification. 
 
 In summary our algorithm does the following for each given input image:
