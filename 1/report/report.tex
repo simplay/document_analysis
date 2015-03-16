@@ -215,7 +215,7 @@
 
 % *** ALIGNMENT PACKAGES ***
 %
-%\usepackage{array}
+\usepackage{array}
 % Frank Mittelbach's and David Carlisle's array.sty patches and improves
 % the standard LaTeX2e array and tabular environments to provide better
 % appearance and additional user controls. As the default LaTeX2e table
@@ -377,7 +377,7 @@
 We are using a Harris corner detector\cite{Harris88acombined} 
 to classify simple geometric shapes. Further, we 
 investigated on the impact of various types of noise on the classification and ways
-to preprocess the distorted image to improve results.
+to preprocess the distorted images to improve classification results.
 \end{abstract}
 
 \section{Introduction}
@@ -387,7 +387,8 @@ field of text recognition there is the task to classify scanned characters to co
 a digital representation of a text.
 
 \section{Algorithm}
-The goal of our algorithm is to detect the type of shape contained in a provided binary valued image. Such a given image may suffer from either different types of noise or its shapes may exhibit fringes. \\
+The goal of our algorithm is to detect the type of shape contained in a provided binary valued image. 
+Such a given image may suffer from either different types of noise or its shapes may exhibit fringes. \\
 
 % TODO: ADD FIGURE Depicting IMAGE OF SHAPE TYPES and their possible degenerations degeneration
 
@@ -410,11 +411,16 @@ Hence, we first want to detect the type of image degeneration and then apply a c
 
 Since our image is binary valued we can detect Gaussian noise by computing the histogram of the image. If it has more than two bins (zero/one-valued bins) then we know there are other responses present in the image which is a characteristic property of Gaussian noise. \\
 
- The salt-and-pepper noise can be corrected by applying a median filter onto an image. Therefore we simply apply a certain median filter onto the image and compute the difference between the input image and its median filtered version. In case the difference is too large we assume that there is salt-and-pepper noise present. \\
+The salt-and-pepper noise can be detected (and also corrected) by applying a median filter onto an image. 
+Therefore we simply apply a median filter with window size of 5x5 pixels onto the image and compute the difference between the input image and its median filtered version. 
+In case the difference is too large we assume that there is salt-and-pepper noise present. \\
 
-Finally for deciding whether an image suffers from fringes. Comparing a clean image with its fringe version, we notice that fringes are pixels along the edges that are wrong valued (holes and dents along shape edges). This we to extract the difference between a clean version of the image and the finge version by computing some border along the finge image. If the difference is too big, we say there are fringes present. \\
+Finally we need to detect jagged edges on the input (holes and dents along shape edges, see Figure \ref{fig:triangle_fringes} for an example). 
+Throughout the report we call this type of distortion \emph{fringes}. 
+Here, we extract the difference between a clean version of the image and the fringe version by computing some border along the fringe image. 
+If the difference is too big, we say there are fringes present. \\
 	
-	Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying a thresholding. Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. We combine this mask with the input image by a component-wise operation. The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. We count all pixels equal one and decide whether this corresponds to a fringe count.
+Technically, we apply a blur-kernel onto the image. Then, we compute a mask by applying a thresholding. Each blurred pixel value that is too small is set to zero and otherwise its value is assigned to one. We combine this mask with the input image by a component-wise operation. The result is a binary image with pixels equal one if the other images were one too at that pixel location and otherwise is zero. We count all pixels equal one and decide whether this corresponds to a fringe count.
 	
 	
 	% TODO (ADD FOOTNOTE: in our convention one means that the pixel belongs to the shape and zero that the pixel belongs to the background. 
@@ -453,7 +459,7 @@ The classification of a shape is actually the simplest. We simply the number of 
 
 \begin{figure}%
 \centering
-\subfigure[Noisy shape]{\includegraphics[width=0.1\textwidth]{triangle_noisy}}
+\subfigure[Triangle with fringes.]{\includegraphics[width=0.1\textwidth]{triangle_noisy} \label{fig:triangle_fringes}}
 \subfigure[Preprocessed]{\includegraphics[width=0.1\textwidth]{triangle_noisy_preprocessed}} \\
 \subfigure[Response]{\includegraphics[width=0.1\textwidth]{triangle_noisy_response_with_rect}}
 \subfigure[Detail of response]{\includegraphics[width=0.1\textwidth]{triangle_noisy_detail_response}}
@@ -462,6 +468,8 @@ The classification of a shape is actually the simplest. We simply the number of 
 \end{figure}% subsection corner_detection (end)
 
 \section{Results}
+
+For images without noise we achieve a recognition rate of 100\%. 
 
 \section{Conclusion}
 % TODO write mini summary
