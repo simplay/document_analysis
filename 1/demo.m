@@ -23,7 +23,7 @@ for filenum = 1:numel(files)
         suffix = char(cell{i});
         fprintf(['Doing ', filename, suffix, '\n']);
         [ img, img_preprocessed, responses, failures, targets, outputs, hits ] = classifyShapes(filename, suffix, verbose);
-        if true
+        if verbose
             runEvaluation(img, img_preprocessed, responses, failures, targets, outputs, hits , filename, suffix);
         end
         close all
