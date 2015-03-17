@@ -1,5 +1,7 @@
 # document_analysis
 
+This project is licensed under the MIT License.
+
 ## Exercise 1
 Classification of 80 elementary shapes.
 Quality of our classifier applied on the provided data sets:
