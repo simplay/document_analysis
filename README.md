@@ -1,6 +1,6 @@
 # document_analysis
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](https://github.com/simplay/document_analysis/blob/master/LICENSE).
 
 ## Exercise 1
 Classification of 80 elementary shapes.
