@@ -271,7 +271,7 @@
 
 % *** PDF, URL AND HYPERLINK PACKAGES ***
 %
-%\usepackage{url}
+\usepackage{url}
 % url.sty was written by Donald Arseneau. It provides better support for
 % handling and breaking URLs. url.sty is already installed on most LaTeX
 % systems. The latest version can be obtained at:
@@ -300,7 +300,6 @@
 % can use linebreaks \\ within to get better formatting as desired
 \title{Shape recognition under various noise conditions using smoothed Harris corner detector}
 
-
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
@@ -313,17 +312,17 @@
 09-277-013}
 }
 
-
 % make the title area
 \maketitle
-
 
 \begin{abstract}
 To differentiate between simple geometric shapes that can be distinguished by the number
 of corners we deploy a Harris corner detector\cite{Harris88acombined} and count
 the number of responses. Further, we 
 investigated on the impact of various types of degenerations on the classification and ways
-to preprocess the distorted images to improve classification results.
+to preprocess the distorted images to improve classification results. 
+Source for the project can be found on \url{https://github.com/simplay/document_analysis}.
+
 \end{abstract}
 
 \section{Introduction}
@@ -420,9 +419,9 @@ A more detailed motivation behind this
 choice can be seen in Figure \ref{fig:bilateral_vs_gaussian_smoothed}. 
 \begin{figure}[ht!]%
 \centering
-\subfigure[Original]{\includegraphics[width=0.15\textwidth]{smoothing_comparison_original}}
-\subfigure[Gaussian]{\includegraphics[width=0.15\textwidth]{smoothing_comparison_gauss}}
-\subfigure[Bilateral]{\includegraphics[width=0.15\textwidth]{smoothing_comparison_bilat}}
+\subfigure[Original]{\includegraphics[width=0.14\textwidth]{smoothing_comparison_original}}
+\subfigure[Gaussian]{\includegraphics[width=0.14\textwidth]{smoothing_comparison_gauss}}
+\subfigure[Bilateral]{\includegraphics[width=0.14\textwidth]{smoothing_comparison_bilat}}
 \caption{Edge restoration using different kinds of kernels. We achieved best results
 using a bilateral filter. For this shape, the edge at the bottom that was distorted by 
 a dent in the original was much better reconstructed by the bilateral approach.}
@@ -451,11 +450,11 @@ are mostly ignored.
 
 \begin{figure}[ht!]%
 \centering
-\subfigure[Original Shape]{\includegraphics[width=0.15\textwidth]{square}}
-\subfigure[Response]{\includegraphics[width=0.15\textwidth]{square_response}\label{fig:harris:response}}\\
-\subfigure[$G * I_y^2$]{\includegraphics[width=0.15\textwidth]{square_sx2_smoothed}}
-\subfigure[$G * I_x^2$]{\includegraphics[width=0.15\textwidth]{square_sy2_smoothed}}
-\subfigure[$G * I_x I_y$]{\includegraphics[width=0.15\textwidth]{square_sxy_smoothed}}
+\subfigure[Original Shape]{\includegraphics[width=0.14\textwidth]{square}}
+\subfigure[Response]{\includegraphics[width=0.14\textwidth]{square_response}\label{fig:harris:response}}\\
+\subfigure[$G * I_y^2$]{\includegraphics[width=0.14\textwidth]{square_sx2_smoothed}}
+\subfigure[$G * I_x^2$]{\includegraphics[width=0.14\textwidth]{square_sy2_smoothed}}
+\subfigure[$G * I_x I_y$]{\includegraphics[width=0.14\textwidth]{square_sxy_smoothed}}
 \caption{The resulting response of the Harris corner detector with the componentes
 used to compute it visualized.}
 \label{fig:harris}
