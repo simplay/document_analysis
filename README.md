@@ -6,7 +6,7 @@ This project is licensed under the [MIT License](https://github.com/simplay/docu
 Classification of 80 elementary shapes.
 Quality of our classifier applied on the provided data sets:
 
-| Tables        | Equality Count           | 
+| Data Set        | Equality Count           | 
 | ------------- |:-------------:| 
 | Shapes0      | 80 | 
 | Shapes1 | 80      | 
