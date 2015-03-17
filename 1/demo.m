@@ -16,6 +16,8 @@ files = {{'Shapes0', '', '_gaussian_noise'}, {'Shapes1', '', 'N1'}, ...
     {'Shapes_Noise_Heavy_Validation', '' }, ...
     {'Shapes_Clean_Validation', '' }};
 
+files = {{'Shapes1','N1'}};
+
 
 for filenum = 1:numel(files)
     cell = files{filenum};

@@ -1,4 +1,4 @@
-function [ threshold ] = getCornerParameters( preprocessingFlag )
+function [ threshold ] = getCornerParameters( preprocessingFlag, fringeRanking)
 %GETCORNERPARAMETERS get threshold boundary for given issue case
 %   values have been experimentally determined.
 %   @param preprocessingFlag 
@@ -12,6 +12,9 @@ function [ threshold ] = getCornerParameters( preprocessingFlag )
         threshold = 0.5;
     elseif preprocessingFlag == 4
         threshold = 0.19;
+        if (fringeRanking > 450 && fringeRanking < 600)
+            threshold = 0.22;
+        end     
     elseif preprocessingFlag == 2;
         threshold = 0.21;
     else

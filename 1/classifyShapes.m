@@ -2,7 +2,7 @@ function [ img, img_preprocessed, responses, failures, targets, outputs, hits ] 
 %CLASSIFYSHAPES Summary of this function goes here
 %   Detailed explanation goes here
 
-    [img_preprocessed, gt, img, PREPROCESS] = readImageAndGT(filename, suffix, 0);
+    [img_preprocessed, gt, img, PREPROCESS, fringeRanking] = readImageAndGT(filename, suffix, 0);
 
     %% Run analysis
     [M,N] = size(img); 
@@ -31,8 +31,8 @@ function [ img, img_preprocessed, responses, failures, targets, outputs, hits ] 
             subimage = reshape(img_preprocessed(current_range), 100, 100);
 
             % retrieve corners in subimages using a harris-corner-detector.
-            [threshold] = getCornerParameters(PREPROCESS);
-
+            [threshold] = getCornerParameters(PREPROCESS, fringeRanking);
+            
             radius = 3;
             minBlobSizeFactor = 0.3;
 

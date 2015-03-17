@@ -1,4 +1,4 @@
-function [ img_preprocessed, gt, img, PREPROCESS ] = readImageAndGT(filename, suffix, useGaussianNoise)
+function [ img_preprocessed, gt, img, PREPROCESS, fringeRanking ] = readImageAndGT(filename, suffix, useGaussianNoise)
 %READIMAGEANDGT Returns a preprocessed image and the ground truth
     filepathname = ['Input/', filename];
     filepathname = strcat(filepathname, suffix);
@@ -7,7 +7,7 @@ function [ img_preprocessed, gt, img, PREPROCESS ] = readImageAndGT(filename, su
 
     if (useGaussianNoise == 1) img = imnoise(img,'gaussian', 0, .1); end
 
-    PREPROCESS = detectNoiseType(img);
+    [PREPROCESS, fringeRanking] = detectNoiseType(img);
     % Image img is (M x N)
 
     gt = textread(['Input/', filename, '.txt'], '%s');

@@ -1,4 +1,4 @@
-function type = detectNoiseType(img)
+function [type, fringeRanking] = detectNoiseType(img)
 %DETECTNOISETYPE detect type of noise: underlying main assumption: our image is binary
 %   valued. In order to apply an appropriate pre-processing we first have
 %   to detect the corresponding type of issue. this detection is done by
@@ -30,6 +30,7 @@ function type = detectNoiseType(img)
 %       3 if no noise detected
 %       4 if Fringes in images detected
 %
+fringeRanking = 0;
     [counts,binLocations] = imhist(img);
     % two types of buckets mean we have only values 0, 1
     % this means we either do have salt and peper noise or no noise.
