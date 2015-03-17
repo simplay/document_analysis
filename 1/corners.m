@@ -47,20 +47,9 @@ function [rowIdxs, columnIdxs, response] = corners(img, sigma, lowerBound, radiu
     k=0.06;
     
     % response of detector: det(H) - k(trace(H)^2)
-    response = (Sx2.*Sy2 - Sxy.^2) - k*(Sx2 + Sy2).^2; 
-
-    % neithborhood window size - common assumption twice radius recentered (+1).
-	windowLength = (2*radius+1);
-	
-    % visit a windowLength^2 in R and find max in this neighborhood. 
-    % replace set at each pixel location the found max. neighborhood value.
-    % i.e. the nonmax supression
-    localMaxima = ordfilt2(response, windowLength^2, ones(windowLength));
+    response = (Sx2.*Sy2 - Sxy.^2) - k*(Sx2 + Sy2).^2;
     
-    % consider only max. values that are bigger than a given minimal
-    % threshold boundary. I.e. count only real maxima. Find indices of
-    % significant local maxima.
-	[rowIdxs, columnIdxs] = find((response==localMaxima)&(response>lowerBound));
+    rowIdxs = [];
     
     % Alternative way for finding regional max that is more resistant
     % against 'double-peaks' by rejecting maximas that are only extending
