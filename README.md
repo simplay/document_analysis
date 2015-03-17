@@ -1,4 +1,4 @@
-# document_analysis
+# Document Analysis
 
 This project is licensed under the [MIT License](https://github.com/simplay/document_analysis/blob/master/LICENSE).
 
