@@ -445,38 +445,41 @@ allows us to directly relate the number of detected corners with the type of sha
 
 For detecting corners we rely on the so called Harris\cite{Harris88acombined} corner detector. 
 We can think of it as a special kind of kernel applied to the image. 
-The result is a binary image that only exhibits some small pixel blobs in locations with high response.
-The design of the Harris detector leads to corners having high response while other regions mostly
-are ignored. Corners can be interpreted as points having two dominant and different edge directions
-within their local neighborhoods. 
+The result is a binary image that only exhibits small pixel blobs in locations with high response (See Figure \ref{fig:harris:response}).
+The design of the Harris detector leads to corners having high response while other regions 
+are mostly ignored. 
 
 \begin{figure}[ht!]%
 \centering
 \subfigure[Original Shape]{\includegraphics[width=0.15\textwidth]{square}}
-\subfigure[Response]{\includegraphics[width=0.15\textwidth]{square_response}}\\
+\subfigure[Response]{\includegraphics[width=0.15\textwidth]{square_response}\label{fig:harris:response}}\\
 \subfigure[$G * I_y^2$]{\includegraphics[width=0.15\textwidth]{square_sx2_smoothed}}
 \subfigure[$G * I_x^2$]{\includegraphics[width=0.15\textwidth]{square_sy2_smoothed}}
 \subfigure[$G * I_x I_y$]{\includegraphics[width=0.15\textwidth]{square_sxy_smoothed}}
 \caption{The resulting response of the Harris corner detector with the componentes
 used to compute it visualized.}
+\label{fig:harris}
 \end{figure}
 
+When examining the characteristic of corners, 
+one can make the observation that they can be interpreted as points having two dominant and different edge directions
+within their local neighborhoods. 
 Edges in an image are points that depict some form of rapid change of pixel intensity.
  In other words, an edge is a series of locale maximal values. 
  A maxima corresponds to either the smallest or the largest derivative within a given domain. 
- Since either a minimum or a maximum depict a valid potential edge, we simply can compute the image gradient and take its absolute value. 
+ Since either a minimum or a maximum depict a valid potential edge, we simply can compute the image gradient and take its absolute value (or its square, see also Figure \ref{fig:harris}). 
  The gradient of a 2D image is a vector field containing two components, i.e. each pixel in the image is mapped to a vector. 
- The first component is the derivative along the x-direction, the 2nd is the derivative along the y-direction. 
- We interpret the absolute value as the 2-norm in the image. 
+ The first component is the derivative along the x-axis, the 2nd is the derivative along the y-axis. 
 
-In order to only detect strong maxima, a Harris filter also makes use of the product of the two single derivative directions. 
+In order to only detect strong maxima\footnote{i. e. points with high derivatives in multiple directions}, 
+a Harris filter also makes use of the product of the two single derivative directions. 
 This can be interpreted as some kind of weighting that ensures that we only consider strong edge-intensities. 
 
-In order to make the Harris filter more robust, one does usually have to apply a pre-smoothing onto the image. This also ensures to smooth-out small peaks in the image that would be vanish due to the taking derivative step. 
+In order to make the Harris filter more robust, one does usually have to apply a pre-smoothing onto the image. This also ensures to smooth out small peaks in the image that would be vanish due to the taking-derivative step. 
 
-Mathematically, the Harris kernel looks like the following: 
+Mathematically, the Harris kernel $H$ can be expressed as 
 \begin{equation}
-G * 
+H = G * 
 \begin{bmatrix}
  I_y^2  & I_x I_y \\
  I_x I_y & I_x^2
@@ -487,6 +490,7 @@ G *
 Where $I$ denotes the given input image and $I_x$, $I_y$ its partial derivatives, computed by a standard finite difference scheme. Furthermore, $G$ denotes a Gaussian smoothing Kernel. 
 
 Finally, we compute the Eigenvalues of the filtered images. The largest two tell us whether we are dealing with a corner, an edge or a non-existing feature. If the two largest eigenvalues both are sufficiently large we have detected a corner.
+% TODO: Express taking eigenvalues mathematically?
 
 \subsection{Shape Classification}
 The classification of a shape is actually the simplest processing step. 
@@ -497,7 +501,8 @@ There is a one to one correspondence between the number of detected corners and 
 we are dealing with (See again \ref{fig:tranformed_elementary_shapes}.
 However, when given a circular shape, our Harris detector does not always return zero corners. 
 Thus, if we have less than 3 corners detected, we assume we found a circle. 
-Similarly, we classify a shape as a star if 5 or more corners are detected.
+Similarly, we classify a shape as a star if 5 or more corners are detected. 
+Being more lenient in those cases improved our results significantly.
 
 \begin{figure}%
 \centering
@@ -516,9 +521,9 @@ rejection of weak corner responses.}
 \label{sec:results}
 
 Throughout all degeneration types we achieved good results as can be seen in the confusion matrices
-for the given test files (See Figure \ref{fig:confusion_matrices}). 
+for the given test files (Figure \ref{fig:confusion_matrices}). 
 While images without degenerations were classified perfectly without exception, 
-there were some squares confused with stars in heavily degenerated data sets. 
+there were some squares confused with stars in heavily degenerated data sets as well as some other minor misclassifications. 
 We chose detection thresholds depending on the preprocessing applied in step 3.
 Details can be seen in the code delivered with the report.
  
