@@ -4,7 +4,7 @@ function [ out ] = restoreImg( img, N, useBilatFilter)
 
     % Apply thresholding to reconstruct edges.
    if useBilatFilter == true
-    out = (double(im2bw(bfilt(img, 2, 2), 0.9)));
+    out = (double(im2bw(bfilt(img, 2, 2), 0.85)));
    else   
     g = fspecial('gaussian', max(1,fix(6*N)), N);
     % Smoothed squared image derivatives
