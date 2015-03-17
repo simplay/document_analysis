@@ -1,6 +1,20 @@
 function [ img, img_preprocessed, responses, failures, targets, outputs, hits ] = classifyShapes(filename, suffix, verbose)
-%CLASSIFYSHAPES Summary of this function goes here
-%   Detailed explanation goes here
+%CLASSIFYSHAPES our classification algorithm that detects elementary shapes
+%   detects present image issues such as noise or fringes
+%   preprocesses given images accordingly
+%   detects corners from refined images
+%   assign shape class in current subimage from detected corner count.
+% @param String filename file name path 
+% @param String suffix 
+% @param verbose Boolean :true => show console output, :false => disable
+%        equality count.
+% @return img loaded unprocessed image file from given filename and suffix
+% @return img_preprocessed preprocessed image according to detected issue.
+% @return responses resulting image when Harris Kernel was appllied to proprocessed image.
+% @return failures mask of size of given input image that contains subimages that were missclassified
+% @return targets 4x80 matrix used for confusion matrix
+% @return outputs 4x80 matrix used for confusion matrix
+% @return hits all subimages
 
     [img_preprocessed, gt, img, PREPROCESS, fringeRanking] = readImageAndGT(filename, suffix, 0);
 
