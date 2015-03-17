@@ -1,3 +1,5 @@
+% First initial experiments before implementing anything ourself. 
+% Only left for documentation.
 %% Initializing stuff.
 run('vlfeat-0.9.20/toolbox/vl_setup')
 input_name = 'Input/Shapes0.png';
