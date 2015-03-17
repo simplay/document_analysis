@@ -9,7 +9,8 @@ function [ img_preprocessed, gt, img, PREPROCESS, fringeRanking ] = readImageAnd
 
     [PREPROCESS, fringeRanking] = detectNoiseType(img);
     % Image img is (M x N)
-
+    
+    
     gt = textread(['Input/', filename, '.txt'], '%s');
     G = fspecial('gaussian');
     % correct gaussian noise using a wiener filter - relying on a common

@@ -28,7 +28,7 @@ files = {{'Shapes_Border_Medium_Test', '' }, ...
     {'Shapes_Noise_Heavy_Test', '' }, ...
     {'Shapes_Clean_Test', '' }};
 
-files = {{'Shapes_Noise_Heavy_Test', '' }};
+%files = {{'Shapes_Noise_Heavy_Test', '' }};
 verbose = true;
 %% Start with given settings
 for filenum = 1:numel(files)

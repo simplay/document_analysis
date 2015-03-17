@@ -26,6 +26,11 @@ function [ threshold,  minBlobSizeFactor] = getCornerParameters( preprocessingFl
     elseif preprocessingFlag == 2;
         %minBlobSizeFactor = 0.4;
         threshold = 0.21;
+        % we observed that filtered images with havy noise have a count
+        % about 54000 and thus medium abozt 10k and low about 4.5k.
+        if fringeRanking > 54000
+            threshold = 0.1;
+        end
     else
         threshold = 0.56;
     end

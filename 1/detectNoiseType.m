@@ -39,8 +39,10 @@ fringeRanking = 0;
         % heuristics: if there are at most 1.1 times the larger dimension
         % of an image wrong then we assume we have no noise given. Sadly, 
         % fringes also resond positively to that thest. however, 
-        % there is another heuristic in order to detect fringes.  
-        if abs(sum(sum(medfilt2(img, [5 5])-img))) < max(size(img))*1.1,
+        % there is another heuristic in order to detect fringes. 
+        
+        fringeRanking = abs(sum(sum(medfilt2(img, [5 5])-img)));
+        if fringeRanking < max(size(img))*1.1,
             % If more than 100 pixels differ (according to the diff. of a gaussian
             % smoothed thresholding reconstruction of the image, we assume
             % that there are fringes present. NB: applying a gaussian
