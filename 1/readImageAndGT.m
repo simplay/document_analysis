@@ -23,6 +23,9 @@ function [ img_preprocessed, gt, img, PREPROCESS, fringeRanking ] = readImageAnd
         img_preprocessed = restoreImg(img, 2.3, false);
     elseif (PREPROCESS == 2)
         img_preprocessed = medfilt2(img, [5 5]);
+        
+        % img_preprocessed = ownMedianFilter(img, 5);
+        
         img_preprocessed = restoreImg(img_preprocessed, 2.3, true);
     elseif (PREPROCESS == 3)
         img_preprocessed = img;
