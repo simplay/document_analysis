@@ -31,10 +31,9 @@ function [ img, img_preprocessed, responses, failures, targets, outputs, hits ] 
             subimage = reshape(img_preprocessed(current_range), 100, 100);
 
             % retrieve corners in subimages using a harris-corner-detector.
-            [threshold] = getCornerParameters(PREPROCESS, fringeRanking);
+            [threshold, minBlobSizeFactor] = getCornerParameters(PREPROCESS, fringeRanking);
             
             radius = 3;
-            minBlobSizeFactor = 0.3;
 
             [~, c, response] = corners(subimage, 1.0, threshold, radius, ...
                 minBlobSizeFactor);

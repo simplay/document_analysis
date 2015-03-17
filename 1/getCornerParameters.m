@@ -1,4 +1,4 @@
-function [ threshold ] = getCornerParameters( preprocessingFlag, fringeRanking)
+function [ threshold,  minBlobSizeFactor] = getCornerParameters( preprocessingFlag, fringeRanking)
 %GETCORNERPARAMETERS get threshold boundary for given issue case
 %   values have been experimentally determined (by try and error).
 %   @param preprocessingFlag 
@@ -8,6 +8,8 @@ function [ threshold ] = getCornerParameters( preprocessingFlag, fringeRanking)
 %       3 if no noise detected
 %       4 if Fringes in images detected
 % @return threshold lower bound for corner detection.
+
+    minBlobSizeFactor = 0.3;
     if preprocessingFlag == 3,
         threshold = 0.5;
     elseif preprocessingFlag == 4
@@ -22,6 +24,7 @@ function [ threshold ] = getCornerParameters( preprocessingFlag, fringeRanking)
             threshold = 0.22;
         end     
     elseif preprocessingFlag == 2;
+        %minBlobSizeFactor = 0.4;
         threshold = 0.21;
     else
         threshold = 0.56;
