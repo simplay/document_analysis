@@ -3,7 +3,8 @@ addpath('../GCMex');
 addpath('src');
 
 USE_PRECOMPUTED = true;
-img = imread('Input/DC3/DC3.2/0012-1.jpg');
+filepath = 'Input/DC3/DC3.2/0012-1.jpg';
+img = imread(filepath);
 [M,N, ~] = size(img);
 if USE_PRECOMPUTED
     load('DC3.2.0012-1.jpg.mat');
@@ -22,13 +23,14 @@ lines_visualized(:,:,3) = line_img;
 % imshow(lines_visualized);
 
 %% Extract connected components of smoothness image.
-bw_smooth = ~im2bw(foregroundLabels);
+fg_bw = ~im2bw(foregroundLabels);
 [labeled_font_components, num_font_components] = bwlabel(foregroundLabels);
 
 [labeled_rows, num_rows] = bwlabel(line_img);
-%% Compute convex hull manually
-hulls = false(size(labeled_rows));
-f = fopen('test.txt', 'w');
+%% Compute convex hull, dump to file.
+[~, name] = fileparts(filepath);
+hulls = zeros(size(labeled_rows));
+f = fopen(['Output/', name, '.txt'], 'w');
 written_rows = 0;
 for i = 1:num_rows
     current_row = labeled_rows == i;
@@ -43,22 +45,30 @@ for i = 1:num_rows
     if sum(current_row_font_components(:)) < 100
         continue;
     end
+    % TODO: somehow correct scaling.
     [convex_hull, x_convex, y_convex] = ...
         convex_hull_bw(current_row_font_components);
     output_vector = reshape([x_convex; y_convex], 1, []);
-    hulls = hulls | convex_hull;
+    hulls(logical(convex_hull)) = written_rows + 1;
     fprintf(f, '%d,', i, output_vector(1:end-1));
     fprintf(f, '%d', i, output_vector(end));
     fprintf(f, '\n');
     written_rows = written_rows + 1;
 end
-disp(written_rows);
+fprintf('Found %d lines\n', written_rows);
 fclose(f);
-%% vis
+%% Visualisation
 vis = double(hulls);
-vis(:,:,2) = bw_smooth;
+vis(:,:,2) = fg_bw;
 vis(:,:,3) = labeled_rows;
 imshow(vis);
-%%
+
+%% Dump images
+imwrite(label2rgb(hulls, 'jet', 'w', 'shuffle'), ...
+    ['Output/', name, '_convex_hulls.png']);
+imwrite(fg_bw, ['Output/', name, '_foreground_bw.png']);
+imwrite(labeled_rows, ['Output/', name, '_labeled_rows.png']);
+
+%% 
 hold on
 plot(x_convex, y_convex, 'g');
