@@ -64,6 +64,7 @@ vis(:,:,3) = labeled_rows;
 imshow(vis);
 
 %% Dump images
+imwrite(imresize(img, size(hulls)), ['Output/', name, '_rescaled.png'])
 imwrite(label2rgb(hulls, 'jet', 'w', 'shuffle'), ...
     ['Output/', name, '_convex_hulls.png']);
 imwrite(fg_bw, ['Output/', name, '_foreground_bw.png']);

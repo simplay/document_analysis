@@ -75,7 +75,7 @@
 \ifCLASSINFOpdf
   \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
+  \graphicspath{{../Output/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
   \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
@@ -322,9 +322,18 @@ We want to extract lines of a text document for futher analysis.
 \section{Algorithm}
 
 \section{Results}
+\begin{figure}[ht!]%
+\centering
+\subfigure[Initial image]{\includegraphics[width=0.23\textwidth]{0012-1_rescaled}}
+\subfigure[Foreground]{\includegraphics[width=0.23\textwidth]{0012-1_rescaled}}\\
+\subfigure[Retrieved lines]{\includegraphics[width=0.23\textwidth]{0012-1_labeled_rows}}
+\subfigure[Reconstructed convex hulls]{\includegraphics[width=0.23\textwidth]{0012-1_convex_hulls}}
+\caption{Results of our line extraction pipeline.}
+\label{fig:Results}
+\end{figure}
 
 \section{Conclusion}
-Needs more work.
+Resolve overlaps/conflicts for convex hulls. Also try to preprocess image to make adjust lines orthagonal to image boundaries.
 
 % section results (end)
 % An example of a floating figure using the graphicx package.
