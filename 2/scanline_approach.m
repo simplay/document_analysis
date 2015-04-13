@@ -10,15 +10,9 @@ function [line_img ] = scanline_approach(img)
     binary_columns = sum_columns > mean(sum_columns)*threshold_factor_cols;
     
     %% Kill smaller runs of 1, set them to 0
-    idxs = find(binary_columns == 0);
-    for i = 2:length(idxs)
-        zero_count = idxs(i) - idxs(i-1) - 1;
-        if (zero_count == 0 || zero_count > 5)
-            continue;
-        else
-            binary_columns(idxs(i-1):idxs(i)) = 0;
-        end
-    end
+    binary_columns =  eliminate_runs(binary_columns, 1, 5);
+    binary_columns = eliminate_runs(binary_columns, 0, 5);
+
     %% Turn into masks
     row_binary_img = repmat(binary_rows, [size(img, 1), 1]);
     col_binary_img = repmat(binary_columns, [1, size(img, 2)]);
