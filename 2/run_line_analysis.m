@@ -40,9 +40,13 @@ for i = 1:num_rows
         if sum(reshape(current_row & jth_font_component, 1, [])) > 5
             current_row_font_components = ...
                 current_row_font_components | jth_font_component;
+            % Remove this component, so it's not reassigned.
+            labeled_font_components(labeled_font_components == j) = 0;
         end
     end
     if sum(current_row_font_components(:)) < 100
+        % TODO: if line is rejected, erased components should be
+        % reintroduced
         continue;
     end
     % TODO: somehow correct scaling.

@@ -75,10 +75,10 @@
 \ifCLASSINFOpdf
   \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
-  \graphicspath{{../Output/}}
+  \graphicspath{{../Output/}{/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.jpg,.png}
 \else
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
@@ -315,12 +315,50 @@
 % make the title area
 \maketitle
 
-\section{Problem}
+\section{Motivation}
 
 We want to extract lines of a text document for futher analysis.
 
 \section{Algorithm}
 
+\subsection{Foreground/Background segmentation}
+
+
+\subsection{Line retrieval}
+Using the foreground retrieved in the last analysis, we now apply profile analysis  \cite{ciardiello1988experimental}, which is a well proven technique in the domain of document analysis:
+For every row of the image, we count the number of black pixels, as displayed to the right of Figure \ref{fig:profile_analysis}. 
+We then choose a threshold (depending on the mean of the accumulated profile),
+for which we decided on estimating a line on a certain row. 
+While this is usually also done along the columns, 
+this only lead to complications without any improvements in our image set and was left out for this reason.
+\begin{figure}[ht!]%
+\centering
+\includegraphics[width=0.45\textwidth]{profile_analysis}
+\caption{Visualisation of the results of profile analysis along the rows. Image taken from lecture.}
+\label{fig:profile_analysis}
+\end{figure}
+Results from this procedure are however not very robust for handwriting.
+Lots of characters overflow from their lines and lead to false positives as well
+as false negatives inbetween lines. 
+But these false positives all shared the trait of being very small 
+- usually around 5 pixels at maximum. 
+So we decided to sanitize the results by doing a run for both zeros 
+(reject tiny gaps in lines) as well as ones 
+(reject lines that are too small, too far of of other lines).
+This lead to much more satisfying results.
+
+\subsection{Constructing convex hull}
+In a last step, we combine the results from the two previous steps
+to construct a rather tight convex hull around the found lines.
+For this purpose we iterate over every line retrieved in the profile
+analysis and check, 
+which connected components of the foreground are overlapping with it.
+If there is an overlap of more than 5 pixels, 
+we assign the component to this line and mark it to prevent assigning
+it again to another line.
+
+In order for getting rid of small outliers, we check if the sum of connected components in the pixels assigned to a line is below a certain threshold (100 pixels in our case). 
+If it is, we reject the line at this point.
 \section{Results}
 \begin{figure}[ht!]%
 \centering
