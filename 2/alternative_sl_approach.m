@@ -2,6 +2,7 @@
 
 % assuming we are in '../2/' 
 addpath('../vlfeat');
+addpath('../GCMex');
 addpath('src');
 
 % install dependencies:
@@ -13,9 +14,8 @@ close all;
 clc;
 
 img = imread('Input/DC3/DC3.2/0012-1.jpg');
-img = im2double(img);
+img = im2double(imresize(img, 0.2));
 img = 1-img;
-img = im2double(img);
 
 %IMAGESEGMENTATION Summary of this function goes here
 %   @param img
@@ -41,12 +41,14 @@ clc
 [fcolors, bcolors, colors] = extractBackAndForeGroundColors(img, fmask, bmask);
 
 % Fit a Gaussian mixture distribution (gmm) to data: foreground an background
-componentCount = 2;
+componentCount = 1;
+% Possibly ill conditioned? Retrieve distribution from something else? E.g.
+% much more bg than foreground approach -> binning?
 gmmForeground = fitgmdist(fcolors', componentCount);
-% gmmBackground = fitgmdist(bcolors', componentCount);
+%gmmBackground = fitgmdist(bcolors', componentCount);
 gmmBackground = gmdistribution([0 0 0; 0 0 0],gmmForeground.Sigma*0.001,ones(1,2)/2);
 
-%%    
+%%
 figure('name', 'Mean Foreground Colors');
 for k = 1:componentCount,
     subplot(1,componentCount, k);
@@ -59,7 +61,7 @@ end
 foregroundPDF = pdf(gmmForeground, colors');
 backgroundPDF = pdf(gmmBackground, colors');
 
-figure('name', 'Probability pixel belongs to foreground (brigther means higher probability)');
+figure('name', 'Probability pixel belongs to foreground (brighter means higher probability)');
 density = reshape(foregroundPDF, size(img,1), size(img,2));
 density = mat2normalied(density);
 imshow(density);
@@ -90,7 +92,7 @@ labelcost = [0,1; 1,0];
 % A 0-1 flag which determines if the swapof expansion method is used to
 % solve the minimization. 0 == swap, 1 == expansion.
 expansion = 0;
-
+%%
 % [LABELS ENERGY ENERGYAFTER] = GCMex(CLASS, UNARY, PAIRWISE, LABELCOST,EXPANSION)
 [labels, ~, ~] = GCMex(class, single(unary), pairwise, single(labelcost), expansion);
 

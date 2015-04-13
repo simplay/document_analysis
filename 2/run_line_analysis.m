@@ -1,7 +1,31 @@
-bw_smooth = ~im2bw(smoothness);
-[labeled_font_components, num_font_components] = bwlabel(bw_smooth);
+%% Read file, get line and smooth image
+addpath('../GCMex');
+addpath('src');
 
-[labeled_rows, num_rows] = bwlabel(imresize(line_img, 0.2));
+USE_PRECOMPUTED = true;
+img = imread('Input/DC3/DC3.2/0012-1.jpg');
+[M,N, ~] = size(img);
+if USE_PRECOMPUTED
+    load('DC3.2.0012-1.jpg.mat');
+    foregroundLabels = foregroundLabels(:,:,1);
+else
+    foregroundLabels = imageSegmentation(img);
+end
+line_img = scanline_approach(foregroundLabels);
+% Other term was probably resized
+%line_img = imresize(line_img, [M, N]);
+%foregroundLabels = imresize(foregroundLabels, [M, N]);
+%% Visualize
+lines_visualized = imresize(im2double(rgb2gray(img)), size(foregroundLabels));
+lines_visualized(:,:,2) = foregroundLabels;
+lines_visualized(:,:,3) = line_img;
+% imshow(lines_visualized);
+
+%% Extract connected components of smoothness image.
+bw_smooth = ~im2bw(foregroundLabels);
+[labeled_font_components, num_font_components] = bwlabel(foregroundLabels);
+
+[labeled_rows, num_rows] = bwlabel(line_img);
 %% Compute convex hull manually
 hulls = false(size(labeled_rows));
 f = fopen('test.txt', 'w');
