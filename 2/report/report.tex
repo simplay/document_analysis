@@ -338,16 +338,26 @@ convex hull around every individual line using the results of the two previous s
 In the following we describe each individual step in further detail.
 
 \subsection{Foreground/Background segmentation}
-Given a certain document that exhibits some human and machine writings, our first task is to extract the contained/included text from its background. For the purpose of extracting the fore-and background of an image, we rely on a supervised binary image segmentation algorithm. This means, given some user specified cues that are labelling some pixels in image whether the belong to its fore-or background, we want to find a binary image s.t. each pixel is assigned to a label. This problem statement can be addressed by formulating the problem as an energy minimization problem. 
+Given a certain document that exhibits some human and machine writings,
+ our first task is to extract the included text from its background. 
+ For the purpose of extracting the fore-and background of an image, 
+ we rely on a supervised binary image segmentation algorithm. 
+ This means, given some user specified cues that are labelling some pixels in the image $\footnote{labelling a pixel means marking it whether it belongs to the image's fore-or background}$, 
+ we want to find an optimal binary image s.t. each pixel is assigned to a label and matches the cues. 
+ This problem statement can be addressed by formulating the problem as an energy minimization problem. 
 
-Our energy E depends on two terms: a data-and a smoothness-term. The smoothness term describes the desired relationship between neighboring pixels whereas the data term is encoding the probability for certain output pixel value (i.e. probability, that a pixel belongs to a certain label). The described optimization problem can be numerically solved by constructing an appropriate  weighted flow graph and then computing its minimum cut. This value corresponds to the minimal energy. This network graph is constructed as the following procedure describes:
+This energy E depends on two terms: a \emph{data}-and a \emph{smoothness}-term. 
+The smoothness term describes the desired relationship between neighboring pixels whereas the data term is encoding the probability for certain output pixel value$\footnote{i.e. probability, that a pixel belongs to a certain label}$. 
+The described optimization problem can be numerically solved by constructing an appropriate weighted flow graph and then computing its minimum cut. 
+This cut value corresponds to the minimal energy. 
+This flow graph is constructed as the following procedure describes:
 \begin{itemize}
-	\item For each pixel in the given image, we add a node to the graph. Two additional nodes are added to the graph, one for each binary label having the label F and B.
-	\item We represent the smoothness term by adding edges between each pair of neighboring pixel nodes in the graph. The the data term is represented by connecting each pixel-node with both label-nodes. 
+	\item For each pixel in the given image, we add a node to the graph. Two additional nodes are added to the graph, one for each binary label called F and B.
+	\item We represent the smoothness term by adding edges between each pair of neighboring pixel-nodes in the graph. The the data term is represented by connecting each pixel-node with both label-nodes. 
 	\item The edge-weights are determined by the data and smoothness term values from a corresponding pixel.
 \end{itemize}
 
-Using the described weighted flow graph, we can find an optimal labelling by solving for its minimum cut. A cut removes edges to disconnect the label F from the label Node B (i.e. there is no path from F to B). Thus, the min. cut is minimized sum of cut edge weights (i.e. min. energy of cut). The min cut can be determined by the ford \emph{Fulkerson's algorithm}. 
+Using the described weighted flow graph, we can find an optimal labelling by solving for its minimum cut. A cut removes edges to disconnect the label F from the label Node B (i.e. there is no path from F to B). Thus, the min. cut is minimized sum of cut edge weights. The minimum cut can be determined by the ford \emph{Fulkerson's algorithm}. 
 
 In summary, our segmentation algorithm performs the following steps:
 \begin{enumerate}
