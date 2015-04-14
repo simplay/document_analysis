@@ -316,10 +316,13 @@
 \maketitle
 
 \section{Motivation}
+Although there exist many sophisticated image processing algorithms, extracting text lines from arbitrary formatted text documents is nowadays still an not generally solved issue. There are many problems that may arise when addressing this problem. The written text can either be hand-or/and machine written, the text can exhibit an unknown formatting (especially, when dealing with human handwritings) or the document itself might suffer from different types of artifacts or deformations. 
 
-We want to extract lines of a text document for futher analysis.
+\section{Problem Satement}
+In this work we describe an algorithm that allows us to extract text lines from different types of documents. In practise we are dealing with both, hand-and machine-writings. The extracted text lines may then used for further document analysis.
 
 \section{Algorithm}
+% TODO describe broadly the main steps
 
 \subsection{Foreground/Background segmentation}
 Given a certain document that exhibits some human and machine writings, our first task is to extract the contained/included text from its background. For the purpose of extracting the fore-and background of an image, we rely on a supervised binary image segmentation algorithm. This means, given some user specified cues that are labeling some pixels in image whether the belong to its fore-or background, we want to find a binary image s.t. each pixel is assigned to a label. This problem statement can be addressed by formulating the problem as an energy minimization problem. 
