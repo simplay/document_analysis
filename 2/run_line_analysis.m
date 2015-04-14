@@ -2,9 +2,11 @@
 addpath('../GCMex');
 addpath('src');
 
-USE_PRECOMPUTED = true;
+USE_PRECOMPUTED = false;
 DOWNSCALE_FACTOR = 5;
-filepath = 'Input/DC3/DC3.2/0012-1.jpg';
+VERBOSE = false;
+
+filepath = 'Input/DC3/DC3.1/0018-7.jpg';
 img = imread(filepath);
 [M,N, ~] = size(img);
 if USE_PRECOMPUTED
@@ -13,7 +15,7 @@ if USE_PRECOMPUTED
 else
     img = im2double(imresize(img, 1 / DOWNSCALE_FACTOR));
     img = 1 - img;
-    foregroundLabels = imageSegmentation(img);
+    foregroundLabels = imageSegmentation(img, true, VERBOSE);
 end
 line_img = scanline_approach(foregroundLabels);
 % Other term was probably resized

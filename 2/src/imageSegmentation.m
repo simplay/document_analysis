@@ -1,60 +1,66 @@
-function foregroundLabels = imageSegmentation( img )
+function foregroundLabels = imageSegmentation(img, use_predefined_models, verbose)
     %IMAGESEGMENTATION Summary of this function goes here
     %   @param img
 
+    if ~use_predefined_models
+        % get fore-and background separating masks.
+        [fmask, bmask] = selectionForeAndBackground(img);
+   
+        FM = mat2Img(fmask(:,:), fmask(:,:), fmask(:,:));
+        BM = mat2Img(bmask(:,:), bmask(:,:), bmask(:,:));
 
-    % get fore-and background separating masks.
-    [fmask, bmask] = selectionForeAndBackground(img);
-    %%
-    FM = mat2Img(fmask(:,:), fmask(:,:), fmask(:,:));
-    BM = mat2Img(bmask(:,:), bmask(:,:), bmask(:,:));
+        title = 'Foreground (left) and background mask(right)';
+        labels = {'Foreground Mask' 'Background Mask'};
+        imgs = zeros(size(fmask,1), size(fmask,2), 3, 2);
 
-    title = 'Foreground (left) and background mask(right)';
-    labels = {'Foreground Mask' 'Background Mask'};
-    imgs = zeros(size(fmask,1), size(fmask,2), 3, 2);
+        imgs(:,:,:,1) = FM(:,:,:);
+        imgs(:,:,:,2) = BM(:,:,:);
 
-    imgs(:,:,:,1) = FM(:,:,:);
-    imgs(:,:,:,2) = BM(:,:,:);
+        showImgSeries(title, imgs, labels);
+        clc
+        % extract fore-and background colors from masked selection
+        [fcolors, bcolors, colors] = extractBackAndForeGroundColors(img, fmask, bmask);
 
-    showImgSeries(title, imgs, labels);
-    clc
+        % Fit a Gaussian mixture distribution (gmm) to data: foreground an background
+        componentCount = 2;
+        gmmForeground = fitgmdist(fcolors', componentCount);
+        gmmBackground = fitgmdist(bcolors', componentCount);
 
-    % extract fore-and background colors from masked selection
-    [fcolors, bcolors, colors] = extractBackAndForeGroundColors(img, fmask, bmask);
+        figure('name', 'Mean Foreground Colors');
+        for k = 1:componentCount,
+            subplot(1,componentCount, k);
+            foregroundMeanColor = reshape(gmmForeground.mu(k,:,:),1,1,3);
+            imshow(imresize(foregroundMeanColor, [150,150]));
+        end
 
-    % Fit a Gaussian mixture distribution (gmm) to data: foreground an background
-    componentCount = 2;
-    gmmForeground = fitgmdist(fcolors', componentCount);
-    gmmBackground = fitgmdist(bcolors', componentCount);
-
-    figure('name', 'Mean Foreground Colors');
-    for k = 1:componentCount,
-        subplot(1,componentCount, k);
-        foregroundMeanColor = reshape(gmmForeground.mu(k,:,:),1,1,3);
-        imshow(imresize(foregroundMeanColor, [150,150]));
+        figure('name', 'Mean Background Colors');
+        for k = 1:componentCount,
+            subplot(1,componentCount, k);
+            backgroundMeanColor = reshape(gmmBackground.mu(k,:,:),1,1,3);
+            imshow(imresize(backgroundMeanColor, [150,150]));
+        end
+    else
+        load('predefined_fgbg_models.mat');
+        [M,N, ~] = size(img);
+        fmask = zeros(M, N);
+        bmask = zeros(M, N);
+        colors = reshape(shiftdim(img,2),3,size(img,1)*size(img,2));
     end
-
-    figure('name', 'Mean Background Colors');
-    for k = 1:componentCount,
-        subplot(1,componentCount, k);
-        backgroundMeanColor = reshape(gmmBackground.mu(k,:,:),1,1,3);
-        imshow(imresize(backgroundMeanColor, [150,150]));
-    end
-
     % Calculate probability density functions
     foregroundPDF = pdf(gmmForeground, colors');
     backgroundPDF = pdf(gmmBackground, colors');
 
-    figure('name', 'Probability pixel belongs to foreground (brigther means higher probability)');
-    density = reshape(foregroundPDF, size(img,1), size(img,2));
-    density = mat2normalied(density);
-    imshow(density);
+    if verbose
+        figure('name', 'Probability pixel belongs to foreground (brigther means higher probability)');
+        density = reshape(foregroundPDF, size(img,1), size(img,2));
+        density = mat2normalied(density);
+        imshow(density);
 
-    figure('name', 'Probability pixel belongs to background (brigther means higher probability)');
-    density = reshape(backgroundPDF, size(img,1), size(img,2));
-    density = mat2normalied(density);
-    imshow(density);
-
+        figure('name', 'Probability pixel belongs to background (brigther means higher probability)');
+        density = reshape(backgroundPDF, size(img,1), size(img,2));
+        density = mat2normalied(density);
+        imshow(density);
+    end
     % Task 2.3
     % 1 x N vector specifies the initial labels of each of the N nodes in the
     % graph. Initially, it is supposed to be equal zero. 
@@ -87,9 +93,12 @@ function foregroundLabels = imageSegmentation( img )
     % make a full matrix and reshape to image resolution
     smoothness = reshape(full(smoothnessEachPixel), size(img,1), size(img,2));
     smoothness = mat2normalied(smoothness);
-    figure('name', 'smoothness term');
-    imshow(smoothness);
-
+    
+    if verbose
+        figure('name', 'smoothness term');
+        imshow(smoothness);
+    end
+    
     % Visualize min cut, i.e. image segmenation.
     backgroundLabels = reshape(labels, size(img, 1), size(img, 2));
     foregroundLabels = 1-backgroundLabels;
