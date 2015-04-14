@@ -20,49 +20,56 @@ SPECIFY_CUES = false;
 DOWNSCALE_FACTOR = 5;
 
 % show some debugging information
-VERBOSE = true;
+VERBOSE = false;
 
-filepaths = loadDataSet(DATA_SET_NR);
+mat_idx = 0;
+[filepaths, dc_mat_files] = loadDataSetData(DATA_SET_NR);
 for filepath_cell = filepaths
+    mat_idx = mat_idx + 1;
     filepath = filepath_cell{1};
     img = imread(filepath);
     [M,N, ~] = size(img);
+    
     if USE_PRECOMPUTED
-        %load('DC3.2.0012-1.jpg.mat');
-        load('DC5.mat');
-        foregroundLabels = foregroundLabels(:,:,1);
-        
-        % preprocessing steps for dc 5 data-set
-        % use smoothness term instead extracted foreground
-        % apply appropriate prprocessing
         if DATA_SET_NR == 5
-            % artifact free blur kernel applied to smoothness term
-            % removes noise from data set (background page noise encoded in smoothness)
-            H = fspecial('disk',10);
-            blurredSmoothness = imfilter(smoothness,H,'replicate');
-            
-            % threshold blurred smoothness to mask text blocks extracted
-            % from smoothness image.
-            smoothnessPostMask = ((1-blurredSmoothness) > 0.5);
-            
-            % along page boundaries there are perceptually notable
-            % artifcats present: assume there is no text on the page border
-            % thus mask this out.
-            zeroBorderWidth = 5;
-            boundaryMask = ones(size(smoothnessPostMask));
-            boundaryMask(1:zeroBorderWidth,:) = 0;
-            boundaryMask(end-zeroBorderWidth:end,:) = 0;
-            boundaryMask(:,1:zeroBorderWidth) = 0;
-            boundaryMask(:,end-zeroBorderWidth:end) = 0;
-            
-            thresholdedSmoothness = ((1-smoothness) > 0.85);
-            foregroundLabels = thresholdedSmoothness .* smoothnessPostMask .* boundaryMask;
-        end
+            load(dc_mat_files{mat_idx});
+        else
+            load(dc_mat_files{1});   
+        end      
+        foregroundLabels = foregroundLabels(:,:,1);
     else
         img = im2double(imresize(img, 1 / DOWNSCALE_FACTOR));
         img = 1 - img;
         [foregroundLabels, smoothness] = imageSegmentation(img, SPECIFY_CUES, VERBOSE);
     end
+    
+    % preprocessing steps for dc 5 data-set
+    % use smoothness term instead extracted foreground
+    % apply appropriate prprocessing
+    if DATA_SET_NR == 5
+        % artifact free blur kernel applied to smoothness term
+        % removes noise from data set (background page noise encoded in smoothness)
+        H = fspecial('disk',10);
+        blurredSmoothness = imfilter(smoothness,H,'replicate');
+        
+        % threshold blurred smoothness to mask text blocks extracted
+        % from smoothness image.
+        smoothnessPostMask = ((1-blurredSmoothness) > 0.4);
+        
+        % along page boundaries there are perceptually notable
+        % artifcats present: assume there is no text on the page border
+        % thus mask this out.
+        zeroBorderWidth = 5;
+        boundaryMask = ones(size(smoothnessPostMask));
+        boundaryMask(1:zeroBorderWidth,:) = 0;
+        boundaryMask(end-zeroBorderWidth:end,:) = 0;
+        boundaryMask(:,1:zeroBorderWidth) = 0;
+        boundaryMask(:,end-zeroBorderWidth:end) = 0;
+        
+        thresholdedSmoothness = ((1-smoothness) > 0.85);
+        foregroundLabels = thresholdedSmoothness .* smoothnessPostMask .* boundaryMask;
+    end
+    
     line_img = scanline_approach(foregroundLabels);
 
     %% Visualize

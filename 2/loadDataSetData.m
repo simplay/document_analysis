@@ -1,7 +1,8 @@
-function [ filepaths ] = loadDataSet( dataset_nr )
+function [ filepaths, dc_mat_files ] = loadDataSetData( dataset_nr )
 %LOADDATASET Summary of this function goes here
 %   Detailed explanation goes here
 
+dc_mat_files = {'DC3.2.0012-1.jpg.mat'};
 if dataset_nr == 3
     filepaths = { ...
         'Input/DC3/DC3.1/0005-1.jpg', ...
@@ -15,8 +16,10 @@ if dataset_nr == 3
     };
 elseif dataset_nr == 5
     filepaths = { ...
-        'Input/DC5/e-codices_csg-0027_039_max.jpg'
+        'Input/DC5/e-codices_csg-0027_039_max.jpg', ...
+        'Input/DC5/e-codices_csg-0027_103_max.jpg'
     };  
+    dc_mat_files = {'DC5_39.mat', 'DC5_103.mat'};
 end
 
 
