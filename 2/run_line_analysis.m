@@ -6,7 +6,11 @@ USE_PRECOMPUTED = false;
 DOWNSCALE_FACTOR = 5;
 VERBOSE = false;
 
-filepath = 'Input/DC3/DC3.1/0018-7.jpg';
+filepath = [ ...
+    'Input/DC3/DC3.2/0012-1.jpg'
+%    'Input/DC3/DC3.1/0005-1.jpg', ...
+%    'Input/DC3/DC3.1/0027-7.jpg', ...
+    ];
 img = imread(filepath);
 [M,N, ~] = size(img);
 if USE_PRECOMPUTED
@@ -18,9 +22,7 @@ else
     foregroundLabels = imageSegmentation(img, true, VERBOSE);
 end
 line_img = scanline_approach(foregroundLabels);
-% Other term was probably resized
-%line_img = imresize(line_img, [M, N]);
-%foregroundLabels = imresize(foregroundLabels, [M, N]);
+
 %% Visualize
 lines_visualized = imresize(im2double(rgb2gray(img)), size(foregroundLabels));
 lines_visualized(:,:,2) = foregroundLabels;
@@ -59,7 +61,7 @@ for i = 1:num_rows
     if sum(current_row_font_components(:)) < 100
         % if line is rejected, erased components should be
         % reintroduced  
-        for k=1:length(base)
+        for k=1:length(container)
             labeled_font_components(container{k}{1}{1}) = container{k}{2}{1};
         end
 
