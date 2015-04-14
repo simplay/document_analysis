@@ -8,22 +8,13 @@ SPECIFY_CUES = false;
 DOWNSCALE_FACTOR = 5;
 VERBOSE = true;
 
-USE_DC_5 = true;
+DATA_SET_NR = 5;
 
+if DATA_SET_NR == 5
+    USE_DC_5 = true;
+end
 
-filepaths = { ...
-    'Input/DC3/DC3.1/0005-1.jpg', ...
-    'Input/DC3/DC3.1/0013-4.jpg', ...
-    'Input/DC3/DC3.1/0018-7.jpg', ...
-    'Input/DC3/DC3.1/0027-7.jpg', ... % Extremely narrow human writing.
-    'Input/DC3/DC3.2/0004-8.jpg', ...
-    'Input/DC3/DC3.2/0012-1.jpg', ... % Machine & Human writing
-    'Input/DC3/hard/8528e_lg1.jpg', ... 
-    'Input/DC3/hard/8528e_lg2.jpg', ... 
-    };
-
-filepaths = {'Input/DC5/e-codices_csg-0027_039_max.jpg'};
-
+filepaths = loadDataSet(DATA_SET_NR);
 for filepath_cell = filepaths
     filepath = filepath_cell{1};
     img = imread(filepath);
