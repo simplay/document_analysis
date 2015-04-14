@@ -371,8 +371,8 @@ In summary, our segmentation algorithm performs the following steps:
 \subsection{Line retrieval}
 Using the foreground retrieved in the last analysis, we now apply profile analysis  \cite{ciardiello1988experimental}, which is a well proven technique in the domain of document analysis:
 For every row of the image, we count the number of black pixels, as displayed to the right of Figure \ref{fig:profile_analysis}. 
-We then choose a threshold (depending on the mean of the accumulated profile),
-for which we decided on estimating a line on a certain row. 
+After a normalization step, we then choose a threshold\footnote{By analyzing the histogram of the profile} to map the profile to binary rows (See Figure \ref{fig:Results:line_image}).
+
 While this is usually also done along the columns, 
 this only lead to complications without any improvements in our image set and was left out for this reason.
 \begin{figure}[ht!]%
@@ -417,7 +417,8 @@ The final result including the intermediary outputs can be seen in Figure \ref{f
 \centering
 \subfigure[Initial image]{\includegraphics[width=0.23\textwidth]{0012-1_rescaled}}
 \subfigure[Foreground]{\includegraphics[width=0.23\textwidth]{0012-1_rescaled}}\\
-\subfigure[Lines from profile analysis]{\includegraphics[width=0.23\textwidth]{0012-1_labeled_rows}}
+\subfigure[Lines from profile analysis]{\includegraphics[width=0.23\textwidth]{0012-1_labeled_rows}
+\label{fig:Results:line_image}}
 \subfigure[Reconstructed convex hulls]{\includegraphics[width=0.23\textwidth]{0012-1_convex_hulls}}
 \caption{Results of our line extraction pipeline.}
 \label{fig:Results}
