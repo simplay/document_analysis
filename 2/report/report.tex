@@ -364,7 +364,7 @@ In summary, our segmentation algorithm performs the following steps:
 	\item Our implementation expects a user to first brush some strokes on the image that indicate whether a particular pixel belongs to the image’s fore-or background.
 	\item Model the probability for each pixel to belong to foreground or background. In order to do so, collect histograms of pixels colors covered by foreground and background strokes. The histogram$\footnote{Instead of using 3d color histograms we make use of gaussian mixture models to estimate the color distibution.}$ represents probability distribution of color values and models a pixel’s data term. the data term for a pixel is high valued if the corresponding probability is close to zero.
 	\item Label boundaries should coincide with edges,m should avoid boundaries in smooth areas. if labels are the same then term is zero, otherwise cost is high if pixel values are similar (use an exp. function). visit neighborhood of a pixel and compute this term by traversing its neighbors.
-	\item Construct the flow graph and solve for its minimum cut.
+	\item Construct the flow graph and solve for its minimum cut by using the \emph{GCMEX}\cite{Fulkerson2009} library.
 	\item The minimum cut value corresponds to the minimized energy function E.
 \end{enumerate}
 
