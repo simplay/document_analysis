@@ -7,9 +7,9 @@ DOWNSCALE_FACTOR = 5;
 VERBOSE = false;
 
 filepath = [ ...
-    'Input/DC3/DC3.2/0012-1.jpg'
+%    'Input/DC3/DC3.2/0012-1.jpg', ... % Machine & Human writing
 %    'Input/DC3/DC3.1/0005-1.jpg', ...
-%    'Input/DC3/DC3.1/0027-7.jpg', ...
+    'Input/DC3/DC3.1/0027-7.jpg', ... % Extremely narrow human writing.
     ];
 img = imread(filepath);
 [M,N, ~] = size(img);
