@@ -373,32 +373,33 @@ this only lead to complications without any improvements in our image set and wa
 \end{figure}
 Results from this procedure are however not very robust for handwriting.
 Lots of characters overflow from their lines and lead to false positives as well
-as false negatives inbetween lines. 
-But these false positives all shared the trait of being very small 
+as false negatives in between lines. 
+But these errors all share the trait of being very small 
 - usually around 5 pixels at maximum. 
-So we decided to sanitize the results by doing a run for both zeros 
+So we decided to sanitize the results by doing a run elimination for both small runs of zeros 
 (reject tiny gaps in lines) as well as ones 
-(reject lines that are too small, too far of of other lines).
+(reject lines that are too small, too far from other lines).
 This lead to much more satisfying results.
 
 \subsection{Constructing convex hull}
 In a last step, we combine the results from the two previous steps
-to construct a rather tight convex hull around the found lines.
+to construct a rather tight convex hull around the lines found.
 For this purpose we iterate over every line retrieved in the profile
-analysis and check, 
+analysis and check 
 which connected components of the foreground are overlapping with it.
 If there is an overlap of more than 5 pixels, 
 we assign the component to this line and mark it to prevent assigning
 it again to another line.
 
-In order for getting rid of small outliers, we check if the sum of connected components in the pixels assigned to a line is below a certain threshold (100 pixels in our case). 
+In order for getting rid of small outliers, 
+we check if the sum of connected components in the pixels assigned to a line is below a certain threshold (100 pixels in our case). 
 If it is, we reject the line at this point.
 
 Once we gathered all connected components belonging to the line, 
 we iterate over the rows of unified connected components and find its
 extent. 
 For every row this gives us two points 
-(the far left and the far right) that we add to our convex hull.
+(to the far left and the far right) that we add to our convex hull.
 \section{Results}
 Using the algorithm described above we could produce decent results for a data set with mixed hand- and machine-written scripture. 
 The final result including the intermediary outputs can be seen in Figure \ref{fig:Results}.
@@ -406,22 +407,21 @@ The final result including the intermediary outputs can be seen in Figure \ref{f
 \centering
 \subfigure[Initial image]{\includegraphics[width=0.23\textwidth]{0012-1_rescaled}}
 \subfigure[Foreground]{\includegraphics[width=0.23\textwidth]{0012-1_rescaled}}\\
-\subfigure[Retrieved lines]{\includegraphics[width=0.23\textwidth]{0012-1_labeled_rows}}
+\subfigure[Lines from profile analysis]{\includegraphics[width=0.23\textwidth]{0012-1_labeled_rows}}
 \subfigure[Reconstructed convex hulls]{\includegraphics[width=0.23\textwidth]{0012-1_convex_hulls}}
 \caption{Results of our line extraction pipeline.}
 \label{fig:Results}
 \end{figure}
 
 \section{Conclusion}
-While the algorithm works well if the lines are well aligned\footnote{i. e. parallel to the x-axis of the image}, 
+While this algorithm works well if the lines are well aligned\footnote{i. e. parallel to the x-axis of the image}, 
 it completely fails if this condition is not met.
 Due to time restriction, 
-we were not able to add a component that justifies the lines.
+we were not able to add a preprocessing component that justifies the lines.
 
-Additionally, the construction of the convex hull could be further refined
- to produce only non-overlapping hulls.
+Additionally, instead of constructing convex hulls around the connected components
+retrieved, we could construct polygons that could possibly add a tighter boundary.
 
-% section results (end)
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
