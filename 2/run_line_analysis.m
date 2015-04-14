@@ -3,6 +3,7 @@ addpath('../GCMex');
 addpath('src');
 
 USE_PRECOMPUTED = true;
+DOWNSCALE_FACTOR = 5;
 filepath = 'Input/DC3/DC3.2/0012-1.jpg';
 img = imread(filepath);
 [M,N, ~] = size(img);
@@ -10,6 +11,8 @@ if USE_PRECOMPUTED
     load('DC3.2.0012-1.jpg.mat');
     foregroundLabels = foregroundLabels(:,:,1);
 else
+    img = im2double(imresize(img, 1 / DOWNSCALE_FACTOR));
+    img = 1 - img;
     foregroundLabels = imageSegmentation(img);
 end
 line_img = scanline_approach(foregroundLabels);
@@ -49,10 +52,11 @@ for i = 1:num_rows
         % reintroduced
         continue;
     end
-    % TODO: somehow correct scaling.
     [convex_hull, x_convex, y_convex] = ...
         convex_hull_bw(current_row_font_components);
     output_vector = reshape([x_convex; y_convex], 1, []);
+    % Rescale to real size, shift by one pixel so that top left = (0,0).
+    output_vector = (output_vector - 1) * DOWNSCALE_FACTOR;
     hulls(logical(convex_hull)) = written_rows + 1;
     fprintf(f, '%d,', i, output_vector(1:end-1));
     fprintf(f, '%d', i, output_vector(end));
