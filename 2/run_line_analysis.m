@@ -35,7 +35,10 @@ fg_bw = ~im2bw(foregroundLabels);
 hulls = zeros(size(labeled_rows));
 f = fopen(['Output/', name, '.txt'], 'w');
 written_rows = 0;
+
 for i = 1:num_rows
+    container = {};
+    idx = 1;
     current_row = labeled_rows == i;
     current_row_font_components = false(size(current_row));
     for j = 1:num_font_components
@@ -44,12 +47,20 @@ for i = 1:num_rows
             current_row_font_components = ...
                 current_row_font_components | jth_font_component;
             % Remove this component, so it's not reassigned.
-            labeled_font_components(labeled_font_components == j) = 0;
+            target = labeled_font_components == j;
+            labeled_font_components(target) = 0;
+            
+            container{idx} = {{target}, {j}};
+            idx = idx + 1;
         end
     end
     if sum(current_row_font_components(:)) < 100
-        % TODO: if line is rejected, erased components should be
-        % reintroduced
+        % if line is rejected, erased components should be
+        % reintroduced  
+        for k=1:length(base)
+            labeled_font_components(container{k}{1}{1}) = container{k}{2}{1};
+        end
+
         continue;
     end
     [convex_hull, x_convex, y_convex] = ...
