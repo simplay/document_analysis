@@ -316,10 +316,19 @@
 \maketitle
 
 \section{Motivation}
-Although there exist many sophisticated image processing algorithms, extracting text lines from arbitrary formatted text documents is nowadays still an not generally solved issue. There are many problems that may arise when addressing this problem. The written text can either be hand-or/and machine written, the text can exhibit an unknown formatting (especially, when dealing with human handwritings) or the document itself might suffer from different types of artifacts or deformations. 
+Although there exist many sophisticated image processing algorithms, 
+extracting text lines from arbitrary formatted text documents is nowadays still an not generally solved issue. 
+There are many problems that may arise when addressing this problem. 
+The written text can either be hand-or/and machine written, 
+the text can exhibit an unknown formatting 
+(especially, when dealing with human handwritings) 
+or the document itself might suffer from different types of artifacts or deformations. 
 
 \section{Problem Satement}
-In this work we describe an algorithm that allows us to extract text lines from different types of documents. In practise we are dealing with both, hand-and machine-writings. The extracted text lines may then used for further document analysis.
+In this work we describe an algorithm that allows us to extract text lines from different types of documents. 
+In practise we are dealing with both, 
+hand-and machine-writings. 
+The extracted text lines may then used for further document analysis.
 
 \section{Algorithm}
 % TODO describe broadly the main steps
@@ -380,6 +389,12 @@ it again to another line.
 
 In order for getting rid of small outliers, we check if the sum of connected components in the pixels assigned to a line is below a certain threshold (100 pixels in our case). 
 If it is, we reject the line at this point.
+
+Once we gathered all connected components belonging to the line, 
+we iterate over the rows of unified connected components and find its
+extent. 
+For every row this gives us two points 
+(the far left and the far right) that we add to our convex hull.
 \section{Results}
 \begin{figure}[ht!]%
 \centering
