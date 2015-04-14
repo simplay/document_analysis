@@ -45,7 +45,7 @@ for i = 1:num_rows
     current_row_font_components = false(size(current_row));
     for j = 1:num_font_components
         jth_font_component = labeled_font_components == j;
-        if sum(reshape(current_row & jth_font_component, 1, [])) > 5
+        if sum(reshape(current_row & jth_font_component, 1, [])) > 1
             current_row_font_components = ...
                 current_row_font_components | jth_font_component;
             % Remove this component, so it's not reassigned.
