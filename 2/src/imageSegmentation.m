@@ -1,8 +1,8 @@
-function foregroundLabels = imageSegmentation(img, use_predefined_models, verbose)
+function [foregroundLabels, smoothness] = imageSegmentation(img, use_predefined_models, verbose)
     %IMAGESEGMENTATION Summary of this function goes here
     %   @param img
 
-    if ~use_predefined_models
+    if use_predefined_models
         % get fore-and background separating masks.
         [fmask, bmask] = selectionForeAndBackground(img);
    

@@ -2,9 +2,14 @@
 addpath('../GCMex');
 addpath('src');
 
-USE_PRECOMPUTED = false;
+USE_PRECOMPUTED = true;
+SPECIFY_CUES = false;
+
 DOWNSCALE_FACTOR = 5;
-VERBOSE = false;
+VERBOSE = true;
+
+USE_DC_5 = true;
+
 
 filepaths = { ...
     'Input/DC3/DC3.1/0005-1.jpg', ...
@@ -17,17 +22,47 @@ filepaths = { ...
     'Input/DC3/hard/8528e_lg2.jpg', ... 
     };
 
+filepaths = {'Input/DC5/e-codices_csg-0027_039_max.jpg'};
+
 for filepath_cell = filepaths
     filepath = filepath_cell{1};
     img = imread(filepath);
     [M,N, ~] = size(img);
     if USE_PRECOMPUTED
-        load('DC3.2.0012-1.jpg.mat');
+        %load('DC3.2.0012-1.jpg.mat');
+        load('DC5.mat');
         foregroundLabels = foregroundLabels(:,:,1);
+        
+        % preprocessing steps for dc 5 data-set
+        % use smoothness term instead extracted foreground
+        % apply appropriate prprocessing
+        if USE_DC_5
+            % artifact free blur kernel applied to smoothness term
+            % removes noise from data set (background page noise encoded in smoothness)
+            H = fspecial('disk',10);
+            blurredSmoothness = imfilter(smoothness,H,'replicate');
+            
+            % threshold blurred smoothness to mask text blocks extracted
+            % from smoothness image.
+            smoothnessPostMask = ((1-blurredSmoothness) > 0.5);
+            
+            % along page boundaries there are perceptually notable
+            % artifcats present: assume there is no text on the page border
+            % thus mask this out.
+            zeroBorderWidth = 5;
+            boundaryMask = ones(size(smoothnessPostMask));
+            boundaryMask(1:zeroBorderWidth,:) = 0;
+            boundaryMask(end-zeroBorderWidth:end,:) = 0;
+            boundaryMask(:,1:zeroBorderWidth) = 0;
+            boundaryMask(:,end-zeroBorderWidth:end) = 0;
+            
+            thresholdedSmoothness = ((1-smoothness) > 0.85);
+            foregroundLabels = thresholdedSmoothness .* smoothnessPostMask .* boundaryMask;
+        end
     else
         img = im2double(imresize(img, 1 / DOWNSCALE_FACTOR));
         img = 1 - img;
-        foregroundLabels = imageSegmentation(img, true, VERBOSE);
+        [foregroundLabels, smoothness] = imageSegmentation(img, SPECIFY_CUES, VERBOSE);
     end
     line_img = scanline_approach(foregroundLabels);
 
