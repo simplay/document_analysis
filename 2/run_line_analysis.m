@@ -87,7 +87,8 @@ imwrite(imresize(img, size(hulls)), ['Output/', name, '_rescaled.png'])
 imwrite(label2rgb(hulls, 'jet', 'w', 'shuffle'), ...
     ['Output/', name, '_convex_hulls.png']);
 imwrite(fg_bw, ['Output/', name, '_foreground_bw.png']);
-imwrite(labeled_rows, ['Output/', name, '_labeled_rows.png']);
+imwrite(label2rgb(labeled_rows, 'jet', 'w', 'shuffle'), ...
+    ['Output/', name, '_labeled_rows.png']);
 
 %% 
 hold on
