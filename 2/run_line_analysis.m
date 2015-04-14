@@ -1,18 +1,26 @@
+% DOCUMENT ANALYSIS PROJECT 2
+% Stefan Moser, Michael Single
+% Please use the prespecified default settings.
+
 %% Read file, get line and smooth image
 addpath('../GCMex');
 addpath('src');
 
+% what DC data set should be used: Integer from 1 .. 5
+DATA_SET_NR = 5; 
+
+% should we use precomputed data in order to speed up computation?
 USE_PRECOMPUTED = true;
+
+% should a user select new foreground and background masks to estimate a
+% new color model? Only considered in case USE_PRECOMPUTED is true
 SPECIFY_CUES = false;
 
+% image downscaling factor to speed up computation 
 DOWNSCALE_FACTOR = 5;
+
+% show some debugging information
 VERBOSE = true;
-
-DATA_SET_NR = 5;
-
-if DATA_SET_NR == 5
-    USE_DC_5 = true;
-end
 
 filepaths = loadDataSet(DATA_SET_NR);
 for filepath_cell = filepaths
@@ -27,7 +35,7 @@ for filepath_cell = filepaths
         % preprocessing steps for dc 5 data-set
         % use smoothness term instead extracted foreground
         % apply appropriate prprocessing
-        if USE_DC_5
+        if DATA_SET_NR == 5
             % artifact free blur kernel applied to smoothness term
             % removes noise from data set (background page noise encoded in smoothness)
             H = fspecial('disk',10);
