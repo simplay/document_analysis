@@ -298,7 +298,8 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Line extraction}
+\title{Line extraction via profile analysis 
+with prior foreground segmentation using cues.}
 
 % author names and affiliations
 % use a multiple column layout for up to three different
@@ -324,17 +325,20 @@ the text can exhibit an unknown formatting
 (especially, when dealing with human handwritings) 
 or the document itself might suffer from different types of artifacts or deformations. 
 
-\section{Problem Satement}
+\section{Problem Statement}
 In this work we describe an algorithm that allows us to extract text lines from different types of documents. 
 In practise we are dealing with both, 
-hand-and machine-writings. 
-The extracted text lines may then used for further document analysis.
+hand and machine-written, texts. 
+The extracted text lines may then used for further analysis such as character recognition or layout analysis.
 
 \section{Algorithm}
-% TODO describe broadly the main steps
+First, we extract the scripture\footnote{subsequently called foreground} 
+using cues, then we do profile analysis on it and finally construct a 
+convex hull around every individual line using the results of the two previous steps. 
+In the following we describe each individual step in further detail.
 
 \subsection{Foreground/Background segmentation}
-Given a certain document that exhibits some human and machine writings, our first task is to extract the contained/included text from its background. For the purpose of extracting the fore-and background of an image, we rely on a supervised binary image segmentation algorithm. This means, given some user specified cues that are labeling some pixels in image whether the belong to its fore-or background, we want to find a binary image s.t. each pixel is assigned to a label. This problem statement can be addressed by formulating the problem as an energy minimization problem. 
+Given a certain document that exhibits some human and machine writings, our first task is to extract the contained/included text from its background. For the purpose of extracting the fore-and background of an image, we rely on a supervised binary image segmentation algorithm. This means, given some user specified cues that are labelling some pixels in image whether the belong to its fore-or background, we want to find a binary image s.t. each pixel is assigned to a label. This problem statement can be addressed by formulating the problem as an energy minimization problem. 
 
 Our energy E depends on two terms: a data-and a smoothness-term. The smoothness term describes the desired relationship between neighboring pixels whereas the data term is encoding the probability for certain output pixel value (i.e. probability, that a pixel belongs to a certain label). The described optimization problem can be numerically solved by constructing an appropriate  weighted flow graph and then computing its minimum cut. This value corresponds to the minimal energy. This network graph is constructed as the following procedure describes:
 \begin{itemize}
@@ -343,7 +347,7 @@ Our energy E depends on two terms: a data-and a smoothness-term. The smoothness 
 	\item The edge-weights are determined by the data and smoothness term values from a corresponding pixel.
 \end{itemize}
 
-Using the described weighted flow graph, we can find an optimal labeling by solving for its minimum cut. A cut removes edges to disconnect the label F from the label Node B (i.e. there is no path from F to B). Thus, the min. cut is minimized sum of cut edge weights (i.e. min. energy of cut). The min cut can be determined by the ford \emph{Fulkerson's algorithm}. 
+Using the described weighted flow graph, we can find an optimal labelling by solving for its minimum cut. A cut removes edges to disconnect the label F from the label Node B (i.e. there is no path from F to B). Thus, the min. cut is minimized sum of cut edge weights (i.e. min. energy of cut). The min cut can be determined by the ford \emph{Fulkerson's algorithm}. 
 
 In summary, our segmentation algorithm performs the following steps:
 \begin{enumerate}
@@ -396,6 +400,8 @@ extent.
 For every row this gives us two points 
 (the far left and the far right) that we add to our convex hull.
 \section{Results}
+Using the algorithm described above we could produce decent results for a data set with mixed hand- and machine-written scripture. 
+The final result including the intermediary outputs can be seen in Figure \ref{fig:Results}.
 \begin{figure}[ht!]%
 \centering
 \subfigure[Initial image]{\includegraphics[width=0.23\textwidth]{0012-1_rescaled}}
@@ -407,7 +413,13 @@ For every row this gives us two points
 \end{figure}
 
 \section{Conclusion}
-Resolve overlaps/conflicts for convex hulls. Also try to preprocess image to make adjust lines orthagonal to image boundaries.
+While the algorithm works well if the lines are well aligned\footnote{i. e. parallel to the x-axis of the image}, 
+it completely fails if this condition is not met.
+Due to time restriction, 
+we were not able to add a component that justifies the lines.
+
+Additionally, the construction of the convex hull could be further refined
+ to produce only non-overlapping hulls.
 
 % section results (end)
 % An example of a floating figure using the graphicx package.
