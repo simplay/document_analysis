@@ -7,10 +7,10 @@ addpath('../GCMex');
 addpath('src');
 
 % what DC data set should be used: Integer from 1 .. 5
-DATA_SET_NR = 5; 
+DATA_SET_NR = 3; 
 
 % should we use precomputed data in order to speed up computation?
-USE_PRECOMPUTED = true;
+USE_PRECOMPUTED = false;
 
 % should a user select new foreground and background masks to estimate a
 % new color model? Only considered in case USE_PRECOMPUTED is true
@@ -21,6 +21,16 @@ DOWNSCALE_FACTOR = 5;
 
 % show some debugging information
 VERBOSE = false;
+
+% special handling for data set 5: 
+% if we do not want to
+% use precomputed data, a user also has do define new cues.
+% reason: we do not know how to apriori estimate color model then.
+if DATA_SET_NR == 5
+    if USE_PRECOMPUTED == false
+        SPECIFY_CUES = true;
+    end
+end
 
 mat_idx = 0;
 [filepaths, dc_mat_files] = loadDataSetData(DATA_SET_NR);
