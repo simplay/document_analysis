@@ -1,4 +1,4 @@
-run('../vlfeat-0.9.20/toolbox/vl_setup')
+run('../vlfeat/toolbox/vl_setup')
 set_name = 'ParzivalDB';
 
 %% Compute DSIFT on given images
