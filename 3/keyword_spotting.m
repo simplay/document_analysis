@@ -22,13 +22,13 @@ for i = 1:length(words_files)
     img_idxs = [img_idxs, repmat(i, [1 length(descriptors)])];
     waitbar(i / length(words_files));
 end
-close(h);
+
 disp('Done computing dsift...');
 %% Cluster!
 % See http://www.vlfeat.org/sandbox/overview/kmeans.html for a description
 % of available algorithms for kmeans
 % with k clusters
-k = 1;
+k = 50;
 fast = true;
 if fast
     [centers, assignments, energy] = vl_kmeans(single(all_descriptors), k, ...
@@ -40,7 +40,7 @@ disp('Done clustering...');
 
 %% find closest match for image with given id:
 nrImages = max(img_idxs(:));
-queryImg = 2;
+queryImg = 10;
 histograms = assemble_histograms(assignments, centers, img_idxs);
 similarities = computeSimilarities(histograms, histograms(:, queryImg), nrImages);
 % delete query img itself from similarity vector
@@ -59,4 +59,6 @@ for similarImg=1:5
     similar_img_idx = similaritiesCleaned(similarImg, 2);
     imshow(imgs{similar_img_idx}, [0 255]);
 end
+
+%% close open handles
 close(h);
