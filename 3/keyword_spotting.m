@@ -36,6 +36,7 @@ else
     [centers, assignments, energy] = vl_kmeans(single(all_descriptors), k);
 end
 disp('Done clustering...');
+
 %% find closest match for image with given id:
 nrImages = max(img_idxs(:));
 queryImg = 2;
@@ -43,15 +44,17 @@ histograms = assemble_histograms(assignments, centers, img_idxs);
 similarities = computeSimilarities(histograms, histograms(:, queryImg), nrImages);
 % delete query img itself from similarity vector
 similarities(similarities(:,2) == queryImg, :) = [];
+
 %% show query img and 5 closest matches
 % top left is query
 % others sorted by similarity from left to right and top to bottom.
 figure
 subplot(4,2,1);
 imshow(imgs{queryImg}, [0 255]);
+similaritiesCleaned = similarities(repmat(~isnan(similarities(:,1)), [1 2]));
+similaritiesCleaned = reshape(similaritiesCleaned, [], 2);
 for similarImg=1:5
     subplot(4, 2, 2 + similarImg);
-    similar_img_idx = similarities(similarImg, 2);
-    disp(similar_img_idx);
+    similar_img_idx = similaritiesCleaned(similarImg, 2);
     imshow(imgs{similar_img_idx}, [0 255]);
 end
