@@ -22,6 +22,7 @@ for i = 1:length(words_files)
     img_idxs = [img_idxs, repmat(i, [1 length(descriptors)])];
     waitbar(i / length(words_files));
 end
+close(h);
 disp('Done computing dsift...');
 %% Cluster!
 % See http://www.vlfeat.org/sandbox/overview/kmeans.html for a description
@@ -58,3 +59,4 @@ for similarImg=1:5
     similar_img_idx = similaritiesCleaned(similarImg, 2);
     imshow(imgs{similar_img_idx}, [0 255]);
 end
+close(h);
