@@ -27,7 +27,7 @@ disp('Done computing dsift...');
 % See http://www.vlfeat.org/sandbox/overview/kmeans.html for a description
 % of available algorithms for kmeans
 % with k clusters
-k = 200;
+k = 1;
 fast = true;
 if fast
     [centers, assignments, energy] = vl_kmeans(single(all_descriptors), k, ...
