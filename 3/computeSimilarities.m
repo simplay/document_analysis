@@ -1,4 +1,5 @@
-function similarities = computeSimilarities(histograms, compare_hist, nrImages)
+function similarities = computeSimilarities(histograms, compare_hist)
+    nrImages = length(histograms);
     similarities = zeros(nrImages, 2);
     for img=1:nrImages
         sim = sum(histograms(:,img).*compare_hist)/...
