@@ -46,7 +46,6 @@ for i = 1:size(query_histograms, 2)
 end
 
 %% For debugging: Show query img and 5 closest matches
-% TODO: Fix this
 % top left is query
 % others sorted by similarity from left to right and top to bottom.
 figure
@@ -59,5 +58,6 @@ similaritiesCleaned = reshape(similaritiesCleaned, [], 2);
 for similarImg=1:5
     subplot(4, 2, 2 + similarImg);
     similar_img_idx = similaritiesCleaned(similarImg, 2);
+    disp(gt_strings{similar_img_idx});
     imshow(imgs{similar_img_idx}, [0 255]);
 end
