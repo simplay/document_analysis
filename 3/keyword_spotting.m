@@ -46,7 +46,7 @@ for i = 1:size(query_histograms, 2)
     similaritiesCleaned = reshape(similaritiesCleaned, [], 2);
     query_word = query_words{i};
     figure
-    draw_tpr_fpr_graph(query_word, gt_strings, similaritiesCleaned);
+    hit_words = draw_tpr_fpr_graph(query_word, gt_strings, similaritiesCleaned);
 end
 
 %% For debugging: Show query img and 5 closest matches
@@ -54,7 +54,7 @@ end
 % others sorted by similarity from left to right and top to bottom.
 figure
 subplot(4,2,1);
-queryImg = db_size + 2;
+queryImg = db_size + 3;
 imshow(imgs{queryImg}, [0 255]);
 similarities = computeSimilarities(db_histograms, query_histograms(:, queryImg - db_size));
 similaritiesCleaned = similarities(repmat(~isnan(similarities(:,1)), [1 2]));
