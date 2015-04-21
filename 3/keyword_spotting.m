@@ -1,36 +1,22 @@
 run('../vlfeat/toolbox/vl_setup')
 set_name = 'ParzivalDB';
+FAST_CLUSTERING = true;
 
 %% Compute DSIFT on given images
 words_directory = ['Input/', set_name, '/words'];
 keywords_directory = ['Input/', set_name, '/keywords'];
-words_files = dir([words_directory, '/*.png']);
-all_descriptors = single([]);
+all_descriptors = uint8([]);
 img_idxs = [];
-h = waitbar(0,'Please wait while computing sift features...');
 imgs = {};
-for i = 1:length(words_files)
-    filename = words_files(i).name;
-    img = single(~imread([words_directory, '/', filename]))*255;
-    binSize = 8 ;
-    magnif = 8 ;
-    img_smooth = vl_imsmooth(img, sqrt((binSize/magnif)^2 - .25));
-    [~, descriptors] = vl_dsift(img_smooth, 'size', binSize);
-    
-    imgs{i} = img;
-    all_descriptors = [all_descriptors, descriptors];
-    img_idxs = [img_idxs, repmat(i, [1 length(descriptors)])];
-    waitbar(i / length(words_files));
-end
-
+[imgs, all_descriptors, img_idxs] = compute_descriptors(words_directory, imgs, all_descriptors, img_idxs);
+[imgs, all_descriptors, img_idxs] = compute_descriptors(keywords_directory, imgs, all_descriptors, img_idxs);
 disp('Done computing dsift...');
 %% Cluster!
 % See http://www.vlfeat.org/sandbox/overview/kmeans.html for a description
 % of available algorithms for kmeans
 % with k clusters
 k = 50;
-fast = true;
-if fast
+if FAST_CLUSTERING
     [centers, assignments, energy] = vl_kmeans(single(all_descriptors), k, ...
         'Algorithm', 'ANN', 'MaxNumComparisons', ceil(k / 50));
 else
@@ -40,7 +26,7 @@ disp('Done clustering...');
 
 %% find closest match for image with given id:
 nrImages = max(img_idxs(:));
-queryImg = 10;
+queryImg = 1001;
 histograms = assemble_histograms(assignments, centers, img_idxs);
 similarities = computeSimilarities(histograms, histograms(:, queryImg), nrImages);
 % delete query img itself from similarity vector
@@ -60,5 +46,5 @@ for similarImg=1:5
     imshow(imgs{similar_img_idx}, [0 255]);
 end
 
-%% close open handles
-close(h);
+%% Evaluation
+Stuff = {{'A-r-t-v-s'}, {'d-a-z'}, {'G-r-a-l-s'}, {'k-v-n-e-g-i-n-n-e'}};
