@@ -17,11 +17,11 @@ for i = 1:length(files)
     binSize = 8;
     magnif = 8;
     img_smooth = vl_imsmooth(img, sqrt((binSize/magnif)^2 - .25));
-    [~, descriptors] = vl_dsift(img_smooth, 'size', binSize);
+    [~, descriptors] = vl_dsift(img_smooth, 'size', binSize, 'step', 2);
     
     imgs = [imgs, {img}];
     all_descriptors = [all_descriptors, descriptors];
-    img_idxs = [img_idxs, repmat(current_idx, [1 length(descriptors)])];
+    img_idxs = [img_idxs, repmat(current_idx, [1 size(descriptors, 2)])];
     current_idx = current_idx + 1;
     waitbar(i / length(files));
 end

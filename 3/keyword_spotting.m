@@ -1,7 +1,7 @@
 clear all
 clc
 run('../vlfeat/toolbox/vl_setup')
-set_name = 'ParzivalDB';
+set_name = 'WashingtonDB';
 FAST_CLUSTERING = true;
 %% Compute DSIFT on given images
 words_directory = ['Input/', set_name, '/words'];
@@ -33,7 +33,11 @@ gt_strings = load_gt_strings(set_name, words_directory);
 query_histograms = histograms(:, db_size + 1:end);
 db_histograms = histograms(:, 1:db_size);
 % Images/descriptors etc are at the end of this array
-query_words = {{'A-r-t-v-s'}, {'d-a-z'}, {'G-r-a-l-s'}, {'k-v-n-e-g-i-n-n-e'}};
+if strcmp(set_name, 'ParzivalDB')
+    query_words = {{'A-r-t-v-s'}, {'d-a-z'}, {'G-r-a-l-s'}, {'k-v-n-e-g-i-n-n-e'}};
+else
+    query_words = {{'O-c-t-o-b-e-r'}, {'s-o-o-n'}, {'t-h-a-t'}};
+end
 for i = 1:size(query_histograms, 2)
     similarities = computeSimilarities(db_histograms, query_histograms(:, i));
     % Images/descriptors etc are at the end of this array
