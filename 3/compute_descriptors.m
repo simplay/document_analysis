@@ -1,4 +1,4 @@
-function [imgs, all_descriptors, img_idxs] = compute_descriptors(directory, imgs, all_descriptors, img_idxs)
+function [imgs, all_descriptors, img_idxs, db_size] = compute_descriptors(directory, imgs, all_descriptors, img_idxs)
 %COMPUTE_DESCRIPTOR Takes the given directory and iterates over all png
 %files within the directory. Of these images, dsift features are computed
 %and appended to the given imgs, all_descriptors and img_idxs.
@@ -26,5 +26,6 @@ for i = 1:length(files)
     waitbar(i / length(files));
 end
 close(h);
+db_size = length(files);
 end
 
