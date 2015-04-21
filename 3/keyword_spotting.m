@@ -54,12 +54,12 @@ end
 % others sorted by similarity from left to right and top to bottom.
 figure
 subplot(4,2,1);
-queryImg = 1002;
+queryImg = db_size + 2;
 imshow(imgs{queryImg}, [0 255]);
-similarities = computeSimilarities(db_histograms, query_histograms(:, queryImg - 1000));
+similarities = computeSimilarities(db_histograms, query_histograms(:, queryImg - db_size));
 similaritiesCleaned = similarities(repmat(~isnan(similarities(:,1)), [1 2]));
 similaritiesCleaned = reshape(similaritiesCleaned, [], 2);
-for similarImg=1:5
+for similarImg=1:6
     subplot(4, 2, 2 + similarImg);
     similar_img_idx = similaritiesCleaned(similarImg, 2);
     disp(gt_strings{similar_img_idx});
