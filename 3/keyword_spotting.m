@@ -40,13 +40,9 @@ else
 end
 for i = 1:size(query_histograms, 2)
     similarities = computeSimilarities(db_histograms, query_histograms(:, i));
-    % Images/descriptors etc are at the end of this array
-    % TODO: Resolve issues with NaN
-    similaritiesCleaned = similarities(repmat(~isnan(similarities(:,1)), [1 2]));
-    similaritiesCleaned = reshape(similaritiesCleaned, [], 2);
     query_word = query_words{i};
     figure
-    hit_words = draw_tpr_fpr_graph(query_word, gt_strings, similaritiesCleaned);
+    hit_words = draw_tpr_fpr_graph(query_word, gt_strings, similarities);
 end
 
 %% For debugging: Show query img and 5 closest matches
@@ -57,11 +53,9 @@ subplot(4,2,1);
 queryImg = db_size + 3;
 imshow(imgs{queryImg}, [0 255]);
 similarities = computeSimilarities(db_histograms, query_histograms(:, queryImg - db_size));
-similaritiesCleaned = similarities(repmat(~isnan(similarities(:,1)), [1 2]));
-similaritiesCleaned = reshape(similaritiesCleaned, [], 2);
 for similarImg=1:6
     subplot(4, 2, 2 + similarImg);
-    similar_img_idx = similaritiesCleaned(similarImg, 2);
+    similar_img_idx = similarities(similarImg, 2);
     disp(gt_strings{similar_img_idx});
     imshow(imgs{similar_img_idx}, [0 255]);
 end
