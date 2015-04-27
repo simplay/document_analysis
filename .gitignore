@@ -143,3 +143,5 @@ sympy-plots-for-*.tex/
 # Debuging images
 
 1/*.png
+tags
+tags.*
