@@ -39,9 +39,11 @@ function [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, simi
          (true_positives + false_positives);
     F_one = 2 * recall .* precision ./ (precision + recall);
     F_one_max = max(F_one);
+    % Compute area below graph:
+    average_precision = trapz(recall,precision);
     plot(recall, precision);    
     xlabel('Recall');
     ylabel('Precision');
-    title(sprintf('%s, F1=%f', query_word{1}, F_one_max));
+    title(sprintf('%s, F1=%f, AP=%f', query_word{1}, F_one_max, average_precision));
 end
 
