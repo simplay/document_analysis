@@ -1,8 +1,16 @@
-function [imgs, all_descriptors, img_idxs, db_size] = compute_descriptors(directory, imgs, all_descriptors, img_idxs)
+function [imgs, all_descriptors, img_idxs, db_size] = ...
+    compute_descriptors(directory, imgs, all_descriptors, img_idxs)
 %COMPUTE_DESCRIPTOR Takes the given directory and iterates over all png
 %files within the directory. Of these images, dsift features are computed
 %and appended to the given imgs, all_descriptors and img_idxs.
-%   Detailed explanation goes here
+%  @directory, the directory where the images to be treated are placed in
+%  (only format .png is supported)
+%  @imgs, a cell of all images, read images are appended here.
+%  @all_descriptors, a matrix of all descriptors, descriptors generated are
+%  appended here
+%  @img_idxs, a matrix that contains the corresponding image index for every
+%  descriptor. Has the same length as all_descriptors.
+
 h = waitbar(0,'Please wait while computing sift features...');
 if isempty(img_idxs)
     current_idx = 1;
@@ -19,7 +27,6 @@ for i = 1:length(files)
     binSize = 20;
     magnif = 20;
     img_smooth = vl_imsmooth(img, sqrt((binSize/magnif)^2 - .25));
-    %[~, descriptors] = vl_dsift(img_smooth, 'size', binSize, 'step', 10);
     if USE_DSIFT
         [~, descriptors] = vl_dsift(img_smooth, 'size', binSize, 'step', 20);
     else

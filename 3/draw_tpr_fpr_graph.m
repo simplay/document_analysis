@@ -1,6 +1,12 @@
 function [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, similarities )
-%DRAW_TPR_FPR_GRAPH Summary of this function goes here
-%   Detailed explanation goes here
+%DRAW_TPR_FPR_GRAPH Draws various graphs for evaluation of the results.
+%   @query_word, a string of the current query word. Should correspond to
+%   its representation in gt_strings
+%   @gt_strings, a cell array with the ground truth of every image in the
+%   database.
+%   @similarities, a matrix of the format [similarity, img_idx] sorted
+%   descendingly by similarity (i. e. most similar image is at the top).
+
     keywords_in_manuscript = length(find(strcmp(query_word, gt_strings)));
     non_keywords_in_manuscript = length(gt_strings) - keywords_in_manuscript;
     correct_count = 0;
@@ -8,11 +14,14 @@ function [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, simi
     true_positives = zeros(1, length(similarities));
     false_positives = zeros(1, length(similarities));
     hit_words = {length(similarities)};
+    % Go over all similarities descendingly, compare with ground truth and
+    % increment correct_count resp. wrong_count. Also computes true/false
+    % positives (when pulling n-images).
     for i=1:length(similarities)
         hit_idx = similarities(i, 2);
         hit_word = gt_strings{hit_idx};
         hit_words{i} = hit_word;
-        if hit_idx <= 1000 && strcmp(hit_word, query_word);
+        if strcmp(hit_word, query_word);
             correct_count = correct_count + 1;
         else
             wrong_count = wrong_count + 1;
