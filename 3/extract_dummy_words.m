@@ -67,8 +67,14 @@ for k=1:length(candidates)-1,
     second = 2;
     end_idx = candidates{k+1}{first}{1};
     start_idx = candidates{k}{second}{1};
-    access_index_set{tt} = {{start_idx},{end_idx}};
-    disp(['s: ', num2str(start_idx), ' e: ', num2str(end_idx) ])
+    
+    if (end_idx - start_idx > 50)
+        access_index_set{tt} = {{start_idx},{end_idx}};
+        tt = tt + 1;
+        disp(['s: ', num2str(start_idx), ' e: ', num2str(end_idx) ])
+    end
+    
+
 end
 
 for k=1:length(access_index_set),
@@ -79,6 +85,3 @@ for k=1:length(access_index_set),
     imshow(a_line(:,fro:till));
 end
 
-
-% process/visit candidate indices to extract words
-imshow(a_line(:,1:candidates{1}{1}{1}))
