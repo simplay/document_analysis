@@ -57,6 +57,28 @@ for k=1:N,
     end
     
 end
+%%
+access_index_set = {};
+access_index_set{1} = {{1},{candidates{1}{1}{1} } };
+disp(['s: ', num2str(1), ' e: ', num2str(candidates{1}{1}{1}) ])
+tt = 2;
+for k=1:length(candidates)-1,
+    first = 1;
+    second = 2;
+    end_idx = candidates{k+1}{first}{1};
+    start_idx = candidates{k}{second}{1};
+    access_index_set{tt} = {{start_idx},{end_idx}};
+    disp(['s: ', num2str(start_idx), ' e: ', num2str(end_idx) ])
+end
+
+for k=1:length(access_index_set),
+    figure
+    index_set = access_index_set{k};
+    fro = index_set{1}{1};
+    till = index_set{2}{1};
+    imshow(a_line(:,fro:till));
+end
+
 
 % process/visit candidate indices to extract words
-imshow(a_line)
+imshow(a_line(:,1:candidates{1}{1}{1}))
