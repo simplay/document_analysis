@@ -5,14 +5,14 @@ a_line = 1 - a_line;
 % word = from to till cursor column indices range
 from_cursor = 1;
 may_check = true;
-min_zero_run_widt = 100;
+min_zero_run_widt = 20;
 
 zero_run_map = zeros(1,N);
 counter = 0;
 for a=1:N,
     a_line_row = a_line(:, a);
     
-    if (sum(a_line_row(:)) < 2)
+    if (sum(a_line_row(:)) < 1)
         zero_run_map(:, a) = 0;
     else
         zero_run_map(:, a) = 1;
@@ -68,7 +68,7 @@ for k=1:length(candidates)-1,
     end_idx = candidates{k+1}{first}{1};
     start_idx = candidates{k}{second}{1};
     
-    if (end_idx - start_idx > 50)
+    if (end_idx - start_idx > 30)
         access_index_set{tt} = {{start_idx},{end_idx}};
         tt = tt + 1;
         disp(['s: ', num2str(start_idx), ' e: ', num2str(end_idx) ])
