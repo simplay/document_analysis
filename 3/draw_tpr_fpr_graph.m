@@ -1,4 +1,5 @@
-function [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, similarities )
+function [hit_words, tpr, fpr] = ...
+    draw_tpr_fpr_graph(query_word, gt_strings, similarities)
 %DRAW_TPR_FPR_GRAPH Draws various graphs for evaluation of the results.
 %   @query_word, a string of the current query word. Should correspond to
 %   its representation in gt_strings
@@ -6,8 +7,12 @@ function [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, simi
 %   database.
 %   @similarities, a matrix of the format [similarity, img_idx] sorted
 %   descendingly by similarity (i. e. most similar image is at the top).
-
-    keywords_in_manuscript = length(find(strcmp(query_word, gt_strings)));
+    keywords_in_manuscript = 0;
+    for gt_string = gt_strings
+        if any(strcmp(query_word, gt_string{1}))
+            keywords_in_manuscript = keywords_in_manuscript + 1;
+        end
+    end
     non_keywords_in_manuscript = length(gt_strings) - keywords_in_manuscript;
     correct_count = 0;
     wrong_count = 0;
@@ -21,7 +26,9 @@ function [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, simi
         hit_idx = similarities(i, 2);
         hit_word = gt_strings{hit_idx};
         hit_words{i} = hit_word;
-        if strcmp(hit_word, query_word);
+        % This works for cell arrays of strings as well as single strings 
+        % (Returns 'contains' in case of array)
+        if any(strcmp(hit_word, query_word));
             correct_count = correct_count + 1;
         else
             wrong_count = wrong_count + 1;
