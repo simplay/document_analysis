@@ -20,20 +20,28 @@ function [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, simi
         true_positives(i) = correct_count;
         false_positives(i) = wrong_count;
     end
-
+    figure
+    subplot(1,2,1)
     tpr = true_positives ./ keywords_in_manuscript;
     fpr = false_positives ./ non_keywords_in_manuscript;
     plot(fpr, tpr);
     xlabel('False positive rate');
     ylabel('True positive rate');
-    title(query_word)
+    title(sprintf('%s, %d occurences', query_word{1}, keywords_in_manuscript));
     
+    [~, equal_error_rate_idx] = min(abs(1 - tpr - fpr));
+    fprintf('%s: At EER point, we have tpr: %f, fpr: %f\n', ...
+        query_word{1}, tpr(equal_error_rate_idx), fpr(equal_error_rate_idx));
+    
+    subplot(1,2,2)
     recall = tpr;
     precision = true_positives ./ ...
-        (true_positives + false_positives);
-    plot(recall, precision, '.');    
+         (true_positives + false_positives);
+    F_one = 2 * recall .* precision ./ (precision + recall);
+    F_one_max = max(F_one);
+    plot(recall, precision);    
     xlabel('Recall');
     ylabel('Precision');
-    title(query_word);
+    title(sprintf('%s, F1=%f', query_word{1}, F_one_max));
 end
 

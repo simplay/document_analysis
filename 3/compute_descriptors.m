@@ -10,15 +10,21 @@ else
     current_idx = max(img_idxs) + 1;
 end
 
+USE_DSIFT = true;
+
 files = dir([directory, '/*.png']);
 for i = 1:length(files)
     filename = files(i).name;
     img = single(~imread([directory, '/', filename]))*255;
-    binSize = 8;
-    magnif = 8;
+    binSize = 20;
+    magnif = 20;
     img_smooth = vl_imsmooth(img, sqrt((binSize/magnif)^2 - .25));
-    [~, descriptors] = vl_dsift(img_smooth, 'size', binSize, 'step', 2);
-    
+    %[~, descriptors] = vl_dsift(img_smooth, 'size', binSize, 'step', 10);
+    if USE_DSIFT
+        [~, descriptors] = vl_dsift(img_smooth, 'size', binSize, 'step', 20);
+    else
+        [~, descriptors] = vl_sift(img_smooth, 'levels', 4, 'Magnif', 5, 'windowsize', 5);
+    end
     imgs = [imgs, {img}];
     all_descriptors = [all_descriptors, descriptors];
     img_idxs = [img_idxs, repmat(current_idx, [1 size(descriptors, 2)])];

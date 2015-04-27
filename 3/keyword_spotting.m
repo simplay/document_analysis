@@ -41,7 +41,6 @@ end
 for i = 1:size(query_histograms, 2)
     similarities = computeSimilarities(db_histograms, query_histograms(:, i));
     query_word = query_words{i};
-    figure
     hit_words = draw_tpr_fpr_graph(query_word, gt_strings, similarities);
 end
 
