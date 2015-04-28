@@ -5,7 +5,7 @@ function similarities = computeSimilarities(histograms, compare_hist)%
     nrImages = length(histograms);
     similarities = zeros(nrImages, 2);
     for img=1:nrImages
-        divisor = (norm(histograms(:,img) * norm(compare_hist)));
+        divisor = norm(histograms(:,img) * norm(compare_hist));
         sim = -1;
         if divisor > 0
             sim = sum(histograms(:,img).*compare_hist)/divisor;

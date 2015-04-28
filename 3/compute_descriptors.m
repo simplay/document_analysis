@@ -1,5 +1,5 @@
-function [imgs, all_descriptors, img_idxs, db_size] = ...
-    compute_descriptors(directory, imgs, all_descriptors, img_idxs)
+function [imgs, all_descriptors, img_idxs, db_size, descriptors_per_x_pos] = ...
+    compute_descriptors(directory)
 %COMPUTE_DESCRIPTOR Takes the given directory and iterates over all png
 %files within the directory. Of these images, dsift features are computed
 %and appended to the given imgs, all_descriptors and img_idxs.
@@ -11,14 +11,14 @@ function [imgs, all_descriptors, img_idxs, db_size] = ...
 %  @img_idxs, a matrix that contains the corresponding image index for every
 %  descriptor. Has the same length as all_descriptors.
 
-h = waitbar(0,'Please wait while computing sift features...');
-if isempty(img_idxs)
-    current_idx = 1;
-else
-    current_idx = max(img_idxs) + 1;
-end
+all_descriptors = uint8([]);
+img_idxs = [];
+imgs = {};
 
-USE_DSIFT = true;
+handle = waitbar(0,'Please wait while computing sift features...');
+current_idx = 1;
+
+USE_DSIFT = false;
 
 files = dir([directory, '/*.png']);
 for i = 1:length(files)
@@ -30,7 +30,18 @@ for i = 1:length(files)
     if USE_DSIFT
         [~, descriptors] = vl_dsift(img_smooth, 'size', binSize, 'step', 20);
     else
-        [~, descriptors] = vl_sift(img_smooth, 'levels', 4, 'Magnif', 5, 'windowsize', 5);
+        [w, h] = size(img);
+        descriptors_per_x_pos = 4;
+        x_pos = repmat(5:10:h, descriptors_per_x_pos, 1);
+        % Flatten, such that each x position is repeated twice sequentially.
+        x_pos = x_pos(:)'; 
+        y_pos = 40:10:70;
+        scale = repmat(20, 1, descriptors_per_x_pos); 
+        angle = repmat(0, 1, descriptors_per_x_pos); 
+        frames = [x_pos; repmat([y_pos; scale; angle;], 1, ...
+            size(x_pos, 2)/descriptors_per_x_pos)]; 
+        [~, descriptors] = vl_sift(img_smooth, 'frames', frames);
+        %[~, descriptors] = vl_sift(img_smooth, 'levels', 4, 'Magnif', 5, 'windowsize', 5);
     end
     imgs = [imgs, {img}];
     all_descriptors = [all_descriptors, descriptors];
@@ -38,7 +49,7 @@ for i = 1:length(files)
     current_idx = current_idx + 1;
     waitbar(i / length(files));
 end
-close(h);
+close(handle);
 db_size = length(files);
 end
 

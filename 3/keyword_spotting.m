@@ -4,8 +4,8 @@ run('../vlfeat/toolbox/vl_setup')
 set_name = 'ParzivalDB';
 FAST_CLUSTERING = false;
 
-%% Compute DSIFT on given images
-is_week2 = true;
+%% Compute DSIFT on database images
+is_week2 = false;
 if is_week2
     words_directory = ['Input/data-week2/', set_name, '/lines'];
     keywords_directory = ['Input/data-week2/', set_name, '/keywords'];
@@ -13,15 +13,8 @@ else
     words_directory = ['Input/', set_name, '/words'];
     keywords_directory = ['Input/', set_name, '/keywords'];
 end
-all_descriptors = uint8([]);
-img_idxs = [];
-imgs = {};
-[imgs, all_descriptors, img_idxs, db_size] = ...
-    compute_descriptors(words_directory, imgs, all_descriptors, img_idxs);
-% Information of keywords are appended to the information of other words.
-[imgs, all_descriptors, img_idxs] = ...
-    compute_descriptors(keywords_directory, imgs, all_descriptors, img_idxs);
-disp('Done computing dsift...');
+[imgs, all_descriptors, img_idxs, db_size] = compute_descriptors(words_directory);
+disp('Done computing sift on database...');
 
 %% Cluster!
 % See http://www.vlfeat.org/sandbox/overview/kmeans.html for a description
@@ -37,18 +30,21 @@ end
 disp('Done clustering...');
 
 %% Assemble histograms for computing similarities later on.
-histograms = assemble_histograms(assignments, centers, img_idxs);
+% i. e. count which word occurs how many times on which image.
+db_histograms = assemble_histograms(assignments, k, img_idxs);
 disp('Done assembling histograms...');
 
-%% find closest match for image with given id:
+%% Compute descriptors on keywords, assign to words using centers above. 
+[key_imgs, key_descriptors, key_img_idxs] = compute_descriptors(keywords_directory);
+query_histograms = compute_query_histograms(centers, key_descriptors, key_img_idxs);
+
+%% Find closest match for image with given id:
 if is_week2
     gt_file = fopen(['Input/data-week2/', set_name, '/lines/', 'Lines',set_name '.txt'], 'r');
 else
     gt_file = fopen(['Input/', set_name, '/', set_name '.txt'], 'r');
 end
 gt_strings = load_gt_strings(set_name, words_directory, gt_file, is_week2);
-query_histograms = histograms(:, db_size + 1:end);
-db_histograms = histograms(:, 1:db_size);
 
 % Expect, that the name of a query file is the word it contains.
 query_files = dir([keywords_directory '/*.png']);
@@ -62,13 +58,17 @@ end
 % top left is query
 % others sorted by similarity from left to right and top to bottom.
 figure
-subplot(4,2,1);
-queryImg = 2;
+subplot(4,2,2);
+queryImg = 3;
 imshow(imgs{queryImg + db_size}, [0 255]);
 similarities = computeSimilarities(db_histograms, query_histograms(:, queryImg));
 for topHits = 1:6
     subplot(4, 2, 2 + topHits);
     similar_img_idx = similarities(topHits, 2);
-    disp(gt_strings{similar_img_idx});
+    if iscell(gt_strings{similar_img_idx})
+        disp(strjoin(gt_strings{similar_img_idx}, '|'));
+    else
+        disp(gt_strings{similar_img_idx});
+    end
     imshow(imgs{similar_img_idx}, [0 255]);
 end
