@@ -40,7 +40,7 @@ query_histograms = compute_query_histograms(centers, key_descriptors, key_img_id
 
 %% Find closest match for image with given id:
 if is_week2
-    gt_file = fopen(['Input/data-week2/', set_name, '/lines/', 'Lines',set_name '.txt'], 'r');
+    gt_file = fopen(['Input/data-week2/', set_name, '/lines/', 'Lines', set_name '.txt'], 'r');
 else
     gt_file = fopen(['Input/', set_name, '/', set_name '.txt'], 'r');
 end
@@ -59,8 +59,8 @@ end
 % others sorted by similarity from left to right and top to bottom.
 figure
 subplot(4,2,2);
-queryImg = 3;
-imshow(imgs{queryImg + db_size}, [0 255]);
+queryImg = 4;
+imshow(key_imgs{queryImg}, [0 255]);
 similarities = computeSimilarities(db_histograms, query_histograms(:, queryImg));
 for topHits = 1:6
     subplot(4, 2, 2 + topHits);
