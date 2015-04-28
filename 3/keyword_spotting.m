@@ -5,7 +5,7 @@ set_name = 'ParzivalDB';
 FAST_CLUSTERING = false;
 
 %% Compute DSIFT on given images
-is_week2 = false;
+is_week2 = true;
 if is_week2
     words_directory = ['Input/data-week2/', set_name, '/lines'];
     keywords_directory = ['Input/data-week2/', set_name, '/keywords'];
@@ -42,7 +42,7 @@ disp('Done assembling histograms...');
 
 %% find closest match for image with given id:
 if is_week2
-    gt_file = fopen(['Input/data-week2/', set_name, '/Lines', set_name '.txt'], 'r');
+    gt_file = fopen(['Input/data-week2/', set_name, '/lines', set_name '.txt'], 'r');
 else
     gt_file = fopen(['Input/', set_name, '/', set_name '.txt'], 'r');
 end
