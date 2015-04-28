@@ -49,17 +49,13 @@ end
 gt_strings = load_gt_strings(set_name, words_directory, gt_file, is_week2);
 query_histograms = histograms(:, db_size + 1:end);
 db_histograms = histograms(:, 1:db_size);
-% Images/descriptors etc are at the end of this array
-% Query words must be alphabetically sorted, UPPERCASE COME FIRST.
-if strcmp(set_name, 'ParzivalDB')
-    query_words = {{'A-r-t-v-s'}, {'G-r-a-l-s'}, {'d-a-z'}, {'k-v-n-e-g-i-n-n-e'}};
-else
-    query_words = {{'O-c-t-o-b-e-r'}, {'s-o-o-n'}, {'t-h-a-t'}};
-end
+
+% Expect, that the name of a query file is the word it contains.
+query_files = dir([keywords_directory '/*.png']);
 for i = 1:size(query_histograms, 2)
     similarities = computeSimilarities(db_histograms, query_histograms(:, i));
-    query_word = query_words{i};
-    hit_words = draw_tpr_fpr_graph(query_word, gt_strings, similarities);
+    [~, query_word] = fileparts(query_files(i).name);
+    [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, similarities);
 end
 
 %% For debugging: Show query img and 5 closest matches

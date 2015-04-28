@@ -43,11 +43,11 @@ function [hit_words, tpr, fpr] = ...
     plot(fpr, tpr);
     xlabel('False positive rate');
     ylabel('True positive rate');
-    title(sprintf('%s, %d occurences', query_word{1}, keywords_in_manuscript));
+    title(sprintf('%s, %d occurences', query_word, keywords_in_manuscript));
     
     [~, equal_error_rate_idx] = min(abs(1 - tpr - fpr));
     fprintf('%s: At EER point, we have tpr: %f, fpr: %f\n', ...
-        query_word{1}, tpr(equal_error_rate_idx), fpr(equal_error_rate_idx));
+        query_word, tpr(equal_error_rate_idx), fpr(equal_error_rate_idx));
     
     subplot(1,2,2)
     recall = tpr;
@@ -60,6 +60,7 @@ function [hit_words, tpr, fpr] = ...
     plot(recall, precision);    
     xlabel('Recall');
     ylabel('Precision');
-    title(sprintf('%s, F1=%f, AP=%f', query_word{1}, F_one_max, average_precision));
+    axis([0 1 0 1]);
+    title(sprintf('%s, F1=%f, AP=%f', query_word, F_one_max, average_precision));
 end
 
