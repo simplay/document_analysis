@@ -10,7 +10,7 @@
 *.pdf
 
 ## generated txt files
-**/*.txt
+**/Output/**/*.txt
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
