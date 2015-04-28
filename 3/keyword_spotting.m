@@ -42,7 +42,7 @@ disp('Done assembling histograms...');
 
 %% find closest match for image with given id:
 if is_week2
-    gt_file = fopen(['Input/data-week2/', set_name, '/lines', set_name '.txt'], 'r');
+    gt_file = fopen(['Input/data-week2/', set_name, '/lines/', 'Lines',set_name '.txt'], 'r');
 else
     gt_file = fopen(['Input/', set_name, '/', set_name '.txt'], 'r');
 end
