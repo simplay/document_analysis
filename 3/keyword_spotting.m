@@ -5,7 +5,7 @@ set_name = 'ParzivalDB';
 FAST_CLUSTERING = false;
 
 %% Compute DSIFT on database images
-is_week2 = false;
+is_week2 = true;
 if is_week2
     words_directory = ['Input/data-week2/', set_name, '/lines'];
     keywords_directory = ['Input/data-week2/', set_name, '/keywords'];
@@ -49,7 +49,7 @@ gt_strings = load_gt_strings(set_name, words_directory, gt_file, is_week2);
 % Expect, that the name of a query file is the word it contains.
 query_files = dir([keywords_directory '/*.png']);
 for i = 1:size(query_histograms, 2)
-    similarities = computeSimilarities(db_histograms, query_histograms(:, i));
+    similarities = computeSimilarities(db_histograms, query_histograms{i});
     [~, query_word] = fileparts(query_files(i).name);
     [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, similarities);
 end
@@ -61,7 +61,7 @@ figure
 subplot(4,2,2);
 queryImg = 4;
 imshow(key_imgs{queryImg}, [0 255]);
-similarities = computeSimilarities(db_histograms, query_histograms(:, queryImg));
+similarities = computeSimilarities(db_histograms, query_histograms{queryImg});
 for topHits = 1:6
     subplot(4, 2, 2 + topHits);
     similar_img_idx = similarities(topHits, 2);
@@ -72,3 +72,9 @@ for topHits = 1:6
     end
     imshow(imgs{similar_img_idx}, [0 255]);
 end
+
+% A-r-t-v-s: tpr@EER=0.529412, AP=0.036435
+% G-r-a-l-s: tpr@EER=0.437500, AP=0.021212
+% d-a-z: tpr@EER=0.375315, AP=0.650224
+% k-v-n-e-g-i-n-n-e: tpr@EER=0.578947, AP=0.033114
+

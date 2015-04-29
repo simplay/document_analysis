@@ -5,14 +5,13 @@ function similarities = computeSimilarities(histograms, compare_hist)%
     nrImages = length(histograms);
     similarities = zeros(nrImages, 2);
     for img=1:nrImages
-        divisor = norm(histograms(:,img) * norm(compare_hist));
-        sim = -1;
-        if divisor > 0
-            sim = sum(histograms(:,img).*compare_hist)/divisor;
-        end 
-        similarities(img, :) = [sim img];
+        %sim_mat = simmx(histograms{img}, compare_hist);
+        %[p,q,D,dist] = dpfast(sim_mat);
+        %[p2,q2,D2] = dp(sim_mat);
+        dist = dtw(histograms{img}', compare_hist', 2);
+        similarities(img, :) = [dist img];
     end
     
-    [x, i] = sort(similarities(:, 1), 'descend');
+    [x, i] = sort(similarities(:, 1), 'ascend');
     similarities = [x, similarities(i, 2)];    
 end

@@ -32,7 +32,7 @@ for i = 1:length(files)
     else
         [w, h] = size(img);
         descriptors_per_x_pos = 4;
-        x_pos = repmat(5:10:h, descriptors_per_x_pos, 1);
+        x_pos = repmat(5:5:h, descriptors_per_x_pos, 1);
         % Flatten, such that each x position is repeated twice sequentially.
         x_pos = x_pos(:)'; 
         y_pos = 40:10:70;

@@ -1,8 +1,14 @@
 function histograms = assemble_histograms(assignments, nr_bins, img_idxs)
 %ASSEMBLE_HISTOGRAMS 
+    descriptors_per_slot = 8;
 	max_idx = max(img_idxs(:));
+    histograms = {};
 	for img_nr = 1:max_idx
 		img_assignments = assignments(img_idxs == img_nr);
-		histograms(:,img_nr) = histc(img_assignments, 1:nr_bins);
+        for slot_nr = 0:length(img_assignments)/descriptors_per_slot - 1
+            slot_start = slot_nr*descriptors_per_slot + 1;
+            slot_end = slot_start + descriptors_per_slot - 1;
+            histograms{img_nr}(:,slot_nr + 1) = histc(img_assignments(slot_start:slot_end), 1:nr_bins);
+        end
 	end
 end
