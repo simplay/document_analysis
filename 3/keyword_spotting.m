@@ -59,9 +59,16 @@ end
 % others sorted by similarity from left to right and top to bottom.
 figure
 subplot(4,2,1);
-queryImg = 4;
+queryImg = 2;
 imshow(key_imgs{queryImg}, [0 255]);
 [similarities, p_all, q_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
+hold on
+% Paint matched descriptors on input image for first image.
+for l = q_all{similarities(1, 2)}
+    line([l, l]*5, [1 size(img, 2)]);
+end
+hold off
+
 for topHits = 1:6
     subplot(4, 2, 2 + topHits);
     dist = similarities(topHits, 1);

@@ -33,9 +33,10 @@ for i = 1:length(files)
         [w, h] = size(img);
         descriptors_per_x_pos = 4;
         x_pos = repmat(5:5:h, descriptors_per_x_pos, 1);
-        % Flatten, such that each x position is repeated twice sequentially.
+        % Flatten, such that each x position is repeated four times sequentially.
         x_pos = x_pos(:)'; 
         y_pos = 40:10:70;
+        % Angle/Scale stay the same for all.
         scale = repmat(20, 1, descriptors_per_x_pos); 
         angle = repmat(0, 1, descriptors_per_x_pos); 
         frames = [x_pos; repmat([y_pos; scale; angle;], 1, ...

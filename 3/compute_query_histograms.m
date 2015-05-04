@@ -6,7 +6,7 @@ function histograms = compute_query_histograms(centers, key_descriptors, img_idx
     
     max_idx = max(img_idxs(:));
     nr_bins = size(centers, 2);
-    descriptors_per_slot = 8;
+    descriptors_per_slot = 4;
     histograms = {};
     for img_nr = 1:max_idx
         current_img_descriptors = single(key_descriptors(:, img_idxs == img_nr));

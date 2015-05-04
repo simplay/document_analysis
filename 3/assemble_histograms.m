@@ -1,6 +1,6 @@
 function histograms = assemble_histograms(assignments, nr_bins, img_idxs)
 %ASSEMBLE_HISTOGRAMS 
-    descriptors_per_slot = 8;
+    descriptors_per_slot = 4;
 	max_idx = max(img_idxs(:));
     histograms = {};
 	for img_nr = 1:max_idx
