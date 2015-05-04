@@ -47,7 +47,7 @@ function [hit_words, tpr, fpr] = ...
     [~, equal_error_rate_idx] = min(abs(1 - tpr - fpr));
     title(sprintf('%s, ROC curve, %d occurences', query_word, ...
        keywords_in_manuscript));
-    saveas(hFig, sprintf('%s_roc', query_word),'png');
+    saveas(hFig, sprintf('%s_sent_roc', query_word),'png');
 
     %s = subplot(1,2,2);
     hFig = figure;
@@ -65,6 +65,6 @@ function [hit_words, tpr, fpr] = ...
     title(sprintf('%s, Recall-precision', query_word));
     fprintf('%s: tpr@EER=%f, AP=%f\n', ...
         query_word, tpr(equal_error_rate_idx), average_precision);
-    saveas(hFig, sprintf('%s_rp', query_word),'png');
+    saveas(hFig, sprintf('%s_sent_rp', query_word),'png');
 end
 

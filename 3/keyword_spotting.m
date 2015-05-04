@@ -66,7 +66,7 @@ queryImg = 3;
 figure
 subplot(4,4,1);
 imshow(key_imgs{queryImg}, [0 255]);
-slot_size = 5;
+slot_size = 2;
 % hold on
 % % Paint matched slots on input image for first image.
 % for l = q_all{similarities(1, 2)}
@@ -74,7 +74,7 @@ slot_size = 5;
 % end
 % hold off
 plot_pos = 2;
-for topHits = (1:15)
+for topHits = (1:7)
     subplot(4, 4, plot_pos);
     plot_pos = plot_pos + 1;
     dist = similarities(topHits, 1);
@@ -89,7 +89,10 @@ for topHits = (1:15)
     imshow(img, [0 255]);
     % paint a line on sentences where slots were matched to query image.
     hold on;
-    [~, start_index] = max(p_all{similar_img_idx});
-    %line([start_index, start_index]*slot_size, [1 size(img, 1)]);
+    [~, start_index] = min(p_all{similar_img_idx});
+    line([start_index, start_index]*slot_size, [1 size(img, 1)]);
     hold off;
+    subplot(4, 4, plot_pos);
+    plot(p_all{similar_img_idx});
+    plot_pos = plot_pos + 1;
 end
