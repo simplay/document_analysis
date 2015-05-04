@@ -403,8 +403,9 @@ we create a ranking and return the top n entries.
 % subsection user interaction (end)
 
 \section{Results}
-While our keyword spotting framework achieved very promising results in some cases when matching single words (See e. g. Figure \ref{fig:results_words:roxx}), very short words (Figure \ref{fig:results_words:suxx}) were troublesome until the very end. 
-Additionally, results for the short words, worsened as we tried to generalize our method to finding keywords in full sentences instead of
+While our keyword spotting framework achieved very promising results in some cases, when matching single words (See e.g. Figure \ref{fig:results_words:roxx}), very short words (Figure \ref{fig:results_words:suxx}) were troublesome until the very end. Additional results are depicted in figure $\ref{fig:Results_nice2}$.
+
+Unfortunately, the results for the short words worsened as we tried to generalize our method for finding keywords in full sentences instead of
 matching only words.
 \begin{figure}[ht!]%
 \centering
@@ -424,11 +425,11 @@ matching only words.
 \subfigure[d-a-z AP=0.256762]{\includegraphics[width=0.23\textwidth]{d-a-z_rp}}
 \subfigure[k-v-n-e-g-i-n-n-e AP=1.000000]{\includegraphics[width=0.23\textwidth]{k-v-n-e-g-i-n-n-e_rp}}
 \caption{Recall-Precision graphs when matching single words.}
-\label{fig:Results}
+\label{fig:Results_nice2}
 \end{figure}
 
 When querying full sentences with a keyword, however, 
-our method does unfortunately not yield satisfying results. 
+our method does unfortunately not yield satisfying results. The quality of our algorithm for matching a query words in sentences is illustrated in figure $\ref{fig:Results}$ and in figure $\ref{fig:Results_sentences}$.
 \begin{figure}[ht!]%
 \centering
 \subfigure[A-r-t-v-s EER=0.647059]{\includegraphics[width=0.23\textwidth]{A-r-t-v-s_sent_roc}}
@@ -438,6 +439,7 @@ our method does unfortunately not yield satisfying results.
 \caption{ROC graphs when matching full sentences.}
 \label{fig:Results}
 \end{figure}
+
 \begin{figure}[ht!]%
 \centering
 \subfigure[A-r-t-v-s AP=0.051786]{\includegraphics[width=0.23\textwidth]{A-r-t-v-s_sent_rp}}
