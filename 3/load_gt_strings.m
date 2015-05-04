@@ -1,4 +1,4 @@
-function [ gt_strings ] = load_gt_strings(set_name, words_directory, gt_file, is_line)
+function [ gt_strings ] = load_gt_strings(words_directory, gt_file, is_line)
 %LOAD_GT_STRINGS Returns a cell array with the gt strings corresponding to
 %the images found in the words directory. 
     % Retrieve gt string for every image in our database (.txt contains many

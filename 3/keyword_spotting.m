@@ -44,7 +44,7 @@ if is_week2
 else
     gt_file = fopen(['Input/', set_name, '/', set_name '.txt'], 'r');
 end
-gt_strings = load_gt_strings(set_name, words_directory, gt_file, is_week2);
+gt_strings = load_gt_strings(words_directory, gt_file, is_week2);
 
 % Expect, that the name of a query file is the word it contains.
 query_files = dir([keywords_directory '/*.png']);
@@ -63,7 +63,7 @@ queryImg = 2;
 imshow(key_imgs{queryImg}, [0 255]);
 [similarities, p_all, q_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
 hold on
-% Paint matched descriptors on input image for first image.
+% Paint matched slots on input image for first image.
 for l = q_all{similarities(1, 2)}
     line([l, l]*5, [1 size(img, 2)]);
 end
