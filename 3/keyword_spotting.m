@@ -2,7 +2,7 @@ clear all
 clc
 run('../vlfeat/toolbox/vl_setup')
 set_name = 'ParzivalDB';
-FAST_CLUSTERING = false;
+FAST_CLUSTERING = true;
 
 %% Compute DSIFT on database images
 is_week2 = true;
@@ -59,20 +59,24 @@ end
 %% For debugging: Show query img and 5 closest matches
 % top left is query
 % others sorted by similarity from left to right and top to bottom.
+queryImg = 2;
+[similarities, p_all, q_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
+
+%% Without recomputing similarities
 figure
 subplot(4,2,1);
-queryImg = 2;
 imshow(key_imgs{queryImg}, [0 255]);
-[similarities, p_all, q_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
+slot_size = 5;
 hold on
 % Paint matched slots on input image for first image.
 for l = q_all{similarities(1, 2)}
-    line([l, l]*5, [1 size(img, 2)]);
+    line([l, l]*slot_size, [1 size(key_imgs{queryImg}, 1)]);
 end
 hold off
-
-for topHits = 1:6
-    subplot(4, 2, 2 + topHits);
+plot_pos = 2;
+for topHits = (1:6) + 0
+    subplot(4, 2, plot_pos);
+    plot_pos = plot_pos + 1;
     dist = similarities(topHits, 1);
     similar_img_idx = similarities(topHits, 2);
     if iscell(gt_strings{similar_img_idx})
@@ -86,7 +90,7 @@ for topHits = 1:6
     % paint a line on sentences where slots were matched to query image.
     hold on;
     for l = p_all{similar_img_idx}
-        line([l, l]*5, [1 size(img, 2)]);
+        line([l, l]*slot_size, [1 size(img, 1)]);
     end
     hold off;
 end
