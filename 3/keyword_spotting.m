@@ -64,12 +64,14 @@ imshow(key_imgs{queryImg}, [0 255]);
 [similarities, p_all, q_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
 for topHits = 1:6
     subplot(4, 2, 2 + topHits);
+    dist = similarities(topHits, 1);
     similar_img_idx = similarities(topHits, 2);
     if iscell(gt_strings{similar_img_idx})
-        disp(strjoin(gt_strings{similar_img_idx}, '|'));
+        gt_string = strjoin(gt_strings{similar_img_idx}, '|');
     else
-        disp(gt_strings{similar_img_idx});
+        gt_string = gt_strings{similar_img_idx};
     end
+    fprintf('%f: %s\n', dist, gt_string);
     img = imgs{similar_img_idx};
     imshow(img, [0 255]);
     % paint a line on sentences where slots were matched to query image.
