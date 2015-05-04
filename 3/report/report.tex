@@ -327,10 +327,16 @@ In this work we discuss a method how to address the issue of spotting a keyword 
 Blah \cite{rusinol2015efficient};
 
 \section{Problem Statement}
-blah
+For a given image database containing handwritten documents produced by the same author and a set of visual query words we want to detect the documents and their line numbers of all occurrences of the corresponding query words.
 
 \section{Algorithm}
-blahblah
+compute image features relying on sift 
+perform a k-means clustering on detected image features
+map image features to bag of words histogram
+compute similarities between the extracted histograms using the 2-norm.
+sort all the similarity scores in an ascending order and take the best k neighbors. 
+
+
 
 \section{Results}
 blah
