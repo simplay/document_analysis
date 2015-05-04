@@ -61,7 +61,7 @@ figure
 subplot(4,2,2);
 queryImg = 4;
 imshow(key_imgs{queryImg}, [0 255]);
-similarities = computeSimilarities(db_histograms, query_histograms{queryImg});
+[similarities, p_all, q_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
 for topHits = 1:6
     subplot(4, 2, 2 + topHits);
     similar_img_idx = similarities(topHits, 2);
@@ -70,11 +70,12 @@ for topHits = 1:6
     else
         disp(gt_strings{similar_img_idx});
     end
-    imshow(imgs{similar_img_idx}, [0 255]);
+    img = imgs{similar_img_idx};
+    imshow(img, [0 255]);
+    % paint a line on sentences where slots were matched to query image.
+    hold on;
+    for l = q_all{similar_img_idx}
+        line([l, l]*5, [1 size(img, 2)]);
+    end
+    hold off;
 end
-
-% A-r-t-v-s: tpr@EER=0.529412, AP=0.036435
-% G-r-a-l-s: tpr@EER=0.437500, AP=0.021212
-% d-a-z: tpr@EER=0.375315, AP=0.650224
-% k-v-n-e-g-i-n-n-e: tpr@EER=0.578947, AP=0.033114
-
