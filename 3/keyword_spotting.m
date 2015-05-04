@@ -58,7 +58,7 @@ end
 % top left is query
 % others sorted by similarity from left to right and top to bottom.
 figure
-subplot(4,2,2);
+subplot(4,2,1);
 queryImg = 4;
 imshow(key_imgs{queryImg}, [0 255]);
 [similarities, p_all, q_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
@@ -76,7 +76,7 @@ for topHits = 1:6
     imshow(img, [0 255]);
     % paint a line on sentences where slots were matched to query image.
     hold on;
-    for l = q_all{similar_img_idx}
+    for l = p_all{similar_img_idx}
         line([l, l]*5, [1 size(img, 2)]);
     end
     hold off;
