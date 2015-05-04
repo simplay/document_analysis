@@ -366,18 +366,64 @@ descriptor using the bag of words technique.
 For this purpose, we cluster the all descriptors retrieved from the database using k-means to
 50 clusters. Then we segment the image vertically into slots and count the number of words 
 in each slot. This gives us a histogram with 50 bins for every slot, that we concatenate to one
-big structure representing an image.
+big structure representing an image (See Figure \ref{fig:histogram}).
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.5\textwidth]{kvniginne_histogram}
+\caption{The concatenated histogram of words for the image from Figure \ref{SIFT}.}
+\label{fig:histogram}
+\end{figure}
 % subsection words (end)
 
+\subsection{Computing similarities}
+\label{sub:similarities}
+For computing the similarity between a query image and a database image, 
+we compare their histograms. While other authors have proven that dynamic time warping can be
+used effectively for this in keyword spotting, we did not have any success with it. We ended
+up just trying to match the query image $q$ 
+at every possible offset $o$ of a database image $d$, then taking
+the minimum over all possibilities.
+ For a given offset, we compute the distance as L2 norm over all slots.
+\begin{equation}
+	dist(d, q) = \min_o \sum_{i \in S} || d_{i + o} - q_{i}  ||_2
+\end{equation}
 
-compute similarities between the extracted histograms using the 2-norm.
-sort all the similarity scores in an ascending order and take the best k neighbors. 
+% subsection similarities (end)
 
-
+\subsection{User interaction}
+\label{sub:user interaction}
+We expect a user query to be of the form "Retrieve the n most similar image to the given query
+image". Using our distance measure defined above, 
+we create a ranking and return the top n entries.
+% subsection user interaction (end)
 
 \section{Results}
-blah
-
+While our keyword spotting framework achieved very promising results in some cases when matching single words (See e. g. Figure \ref{fig:results_words:roxx}), very short words (Figure \ref{fig:results_words:suxx}) were troublesome until the very end. 
+Additionally, results for the short words, worsened as we tried to generalize our method to finding keywords in full sentences instead of
+matching only words.
+\begin{figure}[ht!]%
+\centering
+\subfigure[A-r-t-v-s EER=0.941176]{\includegraphics[width=0.23\textwidth]{A-r-t-v-s_roc}}
+\subfigure[G-r-a-l-s EER=0.875000]{\includegraphics[width=0.23\textwidth]{G-r-a-l-s_roc}}\\
+\subfigure[d-a-z EER=0.201493]{\includegraphics[width=0.23\textwidth]{d-a-z_roc}
+\label{fig:results_words:suxx}}
+\subfigure[k-v-n-e-g-i-n-n-e EER=1.000000]{\includegraphics[width=0.23\textwidth]{k-v-n-e-g-i-n-n-e_roc}
+\label{fig:results_words:roxx}}
+\caption{ROC graphs when matching single words.}
+\label{fig:Results}
+\end{figure}
+\begin{figure}[ht!]%
+\centering
+\subfigure[A-r-t-v-s AP=0.638034]{\includegraphics[width=0.23\textwidth]{A-r-t-v-s_rp}}
+\subfigure[G-r-a-l-s AP=0.418035]{\includegraphics[width=0.23\textwidth]{G-r-a-l-s_rp}}\\
+\subfigure[d-a-z AP=0.256762]{\includegraphics[width=0.23\textwidth]{d-a-z_rp}
+\label{fig:results_words:suxx}}
+\subfigure[k-v-n-e-g-i-n-n-e AP=1.000000]{\includegraphics[width=0.23\textwidth]{k-v-n-e-g-i-n-n-e_rp}
+\label{fig:results_words:roxx}}
+\caption{ROC graphs when matching single words.}
+\label{fig:Results}
+\end{figure}
+The generalization, 
 \section{Conclusion}
 blahblah
 

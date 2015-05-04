@@ -36,18 +36,21 @@ function [hit_words, tpr, fpr] = ...
         true_positives(i) = correct_count;
         false_positives(i) = wrong_count;
     end
-    figure
-    subplot(1,2,1)
+    hFig = figure;
+    %set(hFig, 'Position', [0 0 1000 400])
+    %s = subplot(1,2,1);
     tpr = true_positives ./ keywords_in_manuscript;
     fpr = false_positives ./ non_keywords_in_manuscript;
     plot(fpr, tpr);
     xlabel('False positive rate');
     ylabel('True positive rate');
     [~, equal_error_rate_idx] = min(abs(1 - tpr - fpr));
-    title(sprintf('%s, tpr@EER=%f, %d occurences', query_word, ...
-        tpr(equal_error_rate_idx), keywords_in_manuscript));
-        
-    subplot(1,2,2)
+    title(sprintf('%s, ROC curve, %d occurences', query_word, ...
+       keywords_in_manuscript));
+    saveas(hFig, sprintf('%s_roc', query_word),'png');
+
+    %s = subplot(1,2,2);
+    hFig = figure;
     recall = tpr;
     precision = true_positives ./ ...
          (true_positives + false_positives);
@@ -59,9 +62,9 @@ function [hit_words, tpr, fpr] = ...
     xlabel('Recall');
     ylabel('Precision');
     axis([0 1 0 1]);
-    title(sprintf('%s, F1=%f, AP=%f', query_word, F_one_max, average_precision));
-    
+    title(sprintf('%s, Recall-precision', query_word));
     fprintf('%s: tpr@EER=%f, AP=%f\n', ...
         query_word, tpr(equal_error_rate_idx), average_precision);
+    saveas(hFig, sprintf('%s_rp', query_word),'png');
 end
 
