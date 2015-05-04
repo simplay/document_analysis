@@ -345,8 +345,10 @@ then find for every descriptor the closest word and compare
 it in a last step with all images in the database.
 
 \subsection{Descriptors}
+\label{sub:descriptors}
 As already mentioned, we use SIFT as our main descriptor tool. Using the matlab library vlfeat\cite{vedaldi08vlfeat}, we retrieve SIFT descriptors on a predefined grid on the image (See figure \ref{fig:SIFT}). Placing them on a regular grid rather than region of interest points
 has proven more robust.
+% subsection descriptors (end)
 
 \begin{figure}[!t]
 \centering
@@ -355,12 +357,19 @@ has proven more robust.
 \label{fig:SIFT}
 \end{figure}
 
-\label{sub:descriptors}
-In a first step, 
-% subsection descriptors (end)
-compute image features relying on sift 
-perform a k-means clustering on detected image features
-map image features to bag of words histogram
+\subsection{Words}
+\label{sub:words}
+Since SIFT descriptors have a quite high dimensionality (every is a vector with 128 components)
+and our sampling is quite dense (88 descriptors for Figure \ref{SIFT}), we condense the
+descriptor using the bag of words technique. 
+
+For this purpose, we cluster the all descriptors retrieved from the database using k-means to
+50 clusters. Then we segment the image vertically into slots and count the number of words 
+in each slot. This gives us a histogram with 50 bins for every slot, that we concatenate to one
+big structure representing an image.
+% subsection words (end)
+
+
 compute similarities between the extracted histograms using the 2-norm.
 sort all the similarity scores in an ascending order and take the best k neighbors. 
 
