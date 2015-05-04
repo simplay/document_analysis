@@ -327,9 +327,37 @@ In this work we discuss a method how to address the issue of spotting a keyword 
 Blah \cite{rusinol2015efficient};
 
 \section{Problem Statement}
-For a given image database containing handwritten documents produced by the same author and a set of visual query words we want to detect the documents and their line numbers of all occurrences of the corresponding query words.
+For a given image database containing handwritten documents produced by the same author and a
+ set of visual query words we want to detect the documents and their line numbers of all
+ occurrences of the corresponding query words. We assume that the lines of the documents
+were exported using some other framework and focused on finding occurences within 
+a given text line.
 
 \section{Algorithm}
+In a first step, we retrieve descriptors from all database images. 
+The retrieved descriptors are then reduced to 50 types 
+(or so called \emph{words}). For every image
+we create then a representation using only the count of occurences of these 50 words.
+
+
+When receiving a query image, we compute descriptors on it the same way as on a database image, 
+then find for every descriptor the closest word and compare 
+it in a last step with all images in the database.
+
+\subsection{Descriptors}
+As already mentioned, we use SIFT as our main descriptor tool. Using the matlab library vlfeat\cite{vedaldi08vlfeat}, we retrieve SIFT descriptors on a predefined grid on the image (See figure \ref{fig:SIFT}). Placing them on a regular grid rather than region of interest points
+has proven more robust.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.5\textwidth]{descriptor_placement}
+\caption{Placement of SFIT descriptors on a regular grid.}
+\label{fig:SIFT}
+\end{figure}
+
+\label{sub:descriptors}
+In a first step, 
+% subsection descriptors (end)
 compute image features relying on sift 
 perform a k-means clustering on detected image features
 map image features to bag of words histogram
