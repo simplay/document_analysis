@@ -416,14 +416,33 @@ matching only words.
 \centering
 \subfigure[A-r-t-v-s AP=0.638034]{\includegraphics[width=0.23\textwidth]{A-r-t-v-s_rp}}
 \subfigure[G-r-a-l-s AP=0.418035]{\includegraphics[width=0.23\textwidth]{G-r-a-l-s_rp}}\\
-\subfigure[d-a-z AP=0.256762]{\includegraphics[width=0.23\textwidth]{d-a-z_rp}
-\label{fig:results_words:suxx}}
-\subfigure[k-v-n-e-g-i-n-n-e AP=1.000000]{\includegraphics[width=0.23\textwidth]{k-v-n-e-g-i-n-n-e_rp}
-\label{fig:results_words:roxx}}
+\subfigure[d-a-z AP=0.256762]{\includegraphics[width=0.23\textwidth]{d-a-z_rp}}
+\subfigure[k-v-n-e-g-i-n-n-e AP=1.000000]{\includegraphics[width=0.23\textwidth]{k-v-n-e-g-i-n-n-e_rp}}
 \caption{Recall-Precision graphs when matching single words.}
 \label{fig:Results}
 \end{figure}
-The generalization, 
+
+When querying full sentences with a keyword, however, 
+our method does unfortunately not yield satisfying results. 
+\begin{figure}[ht!]%
+\centering
+\subfigure[A-r-t-v-s EER=0.647059]{\includegraphics[width=0.23\textwidth]{A-r-t-v-s_sent_roc}}
+\subfigure[G-r-a-l-s EER=0.375000]{\includegraphics[width=0.23\textwidth]{G-r-a-l-s_sent_roc}}\\
+\subfigure[d-a-z EER=0.0.405542]{\includegraphics[width=0.23\textwidth]{d-a-z_sent_roc}}
+\subfigure[k-v-n-e-g-i-n-n-e EER=0.631579]{\includegraphics[width=0.23\textwidth]{k-v-n-e-g-i-n-n-e_sent_roc}}
+\caption{ROC graphs when matching full sentences.}
+\label{fig:Results}
+\end{figure}
+\begin{figure}[ht!]%
+\centering
+\subfigure[A-r-t-v-s AP=0.051786]{\includegraphics[width=0.23\textwidth]{A-r-t-v-s_sent_rp}}
+\subfigure[G-r-a-l-s AP=0.028053]{\includegraphics[width=0.23\textwidth]{G-r-a-l-s_sent_rp}}\\
+\subfigure[d-a-z AP=0.678544]{\includegraphics[width=0.23\textwidth]{d-a-z_sent_rp}}
+\subfigure[k-v-n-e-g-i-n-n-e AP=0.045262]{\includegraphics[width=0.23\textwidth]{k-v-n-e-g-i-n-n-e_sent_rp}}
+\caption{Recall-Precision graphs when matching full sentences.}
+\label{fig:Results_sentences}
+\end{figure}
+
 \section{Conclusion}
 blahblah
 
