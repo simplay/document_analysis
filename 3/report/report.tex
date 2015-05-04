@@ -316,13 +316,27 @@
 \maketitle
 
 \section{Motivation}
+Examining historical manuscripts often involves a comparison of different word occurrences. Usually a historian has to manually spot some keywords in a handwritten text. However, such a task is very tedious and error-prone. 
+
+However, doing this manually is quite a tiring task since this requires a person to carefully compare every word in a given text with each other.
+
+Since libraries all over the world have digitalized a vast amount of historical manuscripts for cultural heritage preservation, researchers are interested in automated and reliable detection for searching and browsing their scanned pages.
+
+In this work we discuss a method how to address the issue of spotting a keyword in a handwritten document. For this purpose we rely on a SIFT feature detection approach and try to find the best matches.
+
 Blah \cite{rusinol2015efficient};
 
 \section{Problem Statement}
-blah
+For a given image database containing handwritten documents produced by the same author and a set of visual query words we want to detect the documents and their line numbers of all occurrences of the corresponding query words.
 
 \section{Algorithm}
-blahblah
+compute image features relying on sift 
+perform a k-means clustering on detected image features
+map image features to bag of words histogram
+compute similarities between the extracted histograms using the 2-norm.
+sort all the similarity scores in an ascending order and take the best k neighbors. 
+
+
 
 \section{Results}
 blah
