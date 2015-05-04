@@ -330,19 +330,24 @@ Blah \cite{rusinol2015efficient};
 For a given image database containing handwritten documents produced by the same author and a
  set of visual query words we want to detect the documents and their line numbers of all
  occurrences of the corresponding query words. We assume that the lines of the documents
-were exported using some other framework and focused on finding occurences within 
+were exported using some other framework and focused on finding occurrences within 
 a given text line.
 
 \section{Algorithm}
-In a first step, we retrieve descriptors from all database images. 
-The retrieved descriptors are then reduced to 50 types 
-(or so called \emph{words}). For every image
-we create then a representation using only the count of occurences of these 50 words.
+In a first step, we retrieve the descriptors from all database images. 
+Those descriptors are then reduced to 50 types 
+(or so called \emph{words}) by applying a k-means clustering $\footnote{We interpret the computed descriptors as points in a high-dimensional space and assume this space is classified by 50 different representatives (so called cluster center). K means determines these centers and furthermore assigns all data-points in this high dimensional space to one of these representatives.}$. Next, for every image 
 
+for each image we count how many times 
 
-When receiving a query image, we compute descriptors on it the same way as on a database image, 
-then find for every descriptor the closest word and compare 
-it in a last step with all images in the database.
+Therefore, each feature is now mapped to either one of these fifty words. We further compressed the representation of an image by building a histogram counting the occurrences of all the clusters in an image. Hence, we end up by representing an image by a word-histogram.
+
+When receiving a query image, we compute its descriptors and histograms similar as we did for our database images. 
+
+Lastly, for every such query descriptor we determine the closest word and compare 
+it in a last step with all images in the database. This is achieved by computing the similarity between the query image histogram and every other database image.
+
+In the following we explain the algorithm in more detail.
 
 \subsection{Descriptors}
 \label{sub:descriptors}
