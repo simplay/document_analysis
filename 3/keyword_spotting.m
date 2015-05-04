@@ -56,26 +56,26 @@ for i = 1:size(query_histograms, 2)
     [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, similarities);
 end
 
-%% For debugging: Show query img and 5 closest matches
+%% For debugging: Show query img and 15 closest matches
 % top left is query
 % others sorted by similarity from left to right and top to bottom.
-queryImg = 2;
-[similarities, p_all, q_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
+queryImg = 3;
+[similarities, p_all] = computeSimilarities(db_histograms, query_histograms{queryImg});
 
 %% Without recomputing similarities
 figure
-subplot(4,2,1);
+subplot(4,4,1);
 imshow(key_imgs{queryImg}, [0 255]);
 slot_size = 5;
-hold on
-% Paint matched slots on input image for first image.
-for l = q_all{similarities(1, 2)}
-    line([l, l]*slot_size, [1 size(key_imgs{queryImg}, 1)]);
-end
-hold off
+% hold on
+% % Paint matched slots on input image for first image.
+% for l = q_all{similarities(1, 2)}
+%     line([l, l]*slot_size, [1 size(key_imgs{queryImg}, 1)]);
+% end
+% hold off
 plot_pos = 2;
-for topHits = (1:6) + 0
-    subplot(4, 2, plot_pos);
+for topHits = (1:15)
+    subplot(4, 4, plot_pos);
     plot_pos = plot_pos + 1;
     dist = similarities(topHits, 1);
     similar_img_idx = similarities(topHits, 2);
@@ -89,8 +89,7 @@ for topHits = (1:6) + 0
     imshow(img, [0 255]);
     % paint a line on sentences where slots were matched to query image.
     hold on;
-    for l = p_all{similar_img_idx}
-        line([l, l]*slot_size, [1 size(img, 1)]);
-    end
+    [~, start_index] = max(p_all{similar_img_idx});
+    %line([start_index, start_index]*slot_size, [1 size(img, 1)]);
     hold off;
 end
