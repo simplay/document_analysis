@@ -31,14 +31,15 @@ for i = 1:length(files)
         [~, descriptors] = vl_dsift(img_smooth, 'size', binSize, 'step', 20);
     else
         [w, h] = size(img);
-        descriptors_per_x_pos = 4;
+        descriptors_per_x_pos = 20;
         x_pos = repmat(5:5:h, descriptors_per_x_pos, 1);
         % Flatten, such that each x position is repeated four times sequentially.
         x_pos = x_pos(:)'; 
-        y_pos = 40:10:70;
-        % Angle/Scale stay the same for all.
-        scale = repmat(20, 1, descriptors_per_x_pos); 
-        angle = repmat(0, 1, descriptors_per_x_pos); 
+        y_pos = repmat(40:10:70, 1, descriptors_per_x_pos/4);
+        % Scale stays the same for all.
+        scale = repmat(20, 1, descriptors_per_x_pos);
+        % 5 different angles 
+        angle = repmat([-0.1 0.05, 0, 0.05, 0.1], 1, descriptors_per_x_pos/5); 
         frames = [x_pos; repmat([y_pos; scale; angle;], 1, ...
             size(x_pos, 2)/descriptors_per_x_pos)]; 
         [~, descriptors] = vl_sift(img_smooth, 'frames', frames);

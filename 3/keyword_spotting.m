@@ -13,7 +13,8 @@ else
     words_directory = ['Input/', set_name, '/words'];
     keywords_directory = ['Input/', set_name, '/keywords'];
 end
-[imgs, all_descriptors, img_idxs, db_size] = compute_descriptors(words_directory);
+[imgs, all_descriptors, img_idxs, db_size, descriptors_per_slot] = ...
+    compute_descriptors(words_directory);
 disp('Done computing sift on database...');
 
 %% Cluster!
@@ -31,12 +32,13 @@ disp('Done clustering...');
 
 %% Assemble histograms for computing similarities later on.
 % i. e. count which word occurs how many times on which image.
-db_histograms = assemble_histograms(assignments, k, img_idxs);
+db_histograms = assemble_histograms(assignments, k, img_idxs, descriptors_per_slot);
 disp('Done assembling histograms...');
 
 %% Compute descriptors on keywords, assign to words using centers above. 
 [key_imgs, key_descriptors, key_img_idxs] = compute_descriptors(keywords_directory);
-query_histograms = compute_query_histograms(centers, key_descriptors, key_img_idxs);
+query_histograms = compute_query_histograms(centers, key_descriptors, ...
+    key_img_idxs, descriptors_per_slot);
 
 %% Find closest match for image with given id:
 if is_week2
