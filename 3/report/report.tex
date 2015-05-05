@@ -324,30 +324,31 @@ In this work we discuss a method how to address the issue of spotting a keyword 
 
 \section{Problem Statement}
 For a given image database containing handwritten documents produced by the same author and a
- set of visual query words we want to detect the documents and their line numbers of all
- occurrences of the corresponding query words. We assume that the lines of the documents
+given visual query word we want to detect the documents and line numbers of all
+ occurrences of the queried word. We assume that the lines of the documents
 were exported using some other framework and focused on finding occurrences within 
-a given text line.
+ given text lines.
 
 \section{Algorithm}
-In a first step, we retrieve the descriptors from all database images. 
+In a first step, we retrieve descriptors from all database images. 
 Those descriptors are then reduced to 50 types 
-(or so called \emph{words}) by applying a k-means clustering $\footnote{We interpret the computed descriptors as points in a high-dimensional space and assume this space is classified by 50 different representatives (so called cluster center). K means determines these centers and furthermore assigns all data-points in this high dimensional space to one of these representatives.}$. Next, for every image 
+(or so called \emph{words}) by applying k-means clustering\footnote{We interpret the computed descriptors as points in a high-dimensional space and assume this space is classified by 50 different representatives (so called cluster centers). K means determines these centers and furthermore assigns all data-points in this high dimensional space to one of these representatives.}.
 
-for each image we count how many times 
-
-Therefore, each feature is now mapped to either one of these fifty words. We further compressed the representation of an image by building a histogram counting the occurrences of all the clusters in an image. Hence, we end up by representing an image by a word-histogram.
+Therefore, each feature is now mapped to either one of these fifty words. We further compressed the representation of an image by building a histogram counting the occurrences of all the words in an image. Hence, we end up by representing an image by a word-histogram.
 
 When receiving a query image, we compute its descriptors and histograms similar as we did for our database images. 
 
-Lastly, for every such query descriptor we determine the closest word and compare 
-it in a last step with all images in the database. This is achieved by computing the similarity between the query image histogram and every other database image.
+Lastly, for every such query image we compare 
+it in a last step with all images in the database. This is achieved by computing the similarity between the query image histogram and the histogram of every database image.
 
 In the following we explain the algorithm in more detail.
 
 \subsection{Descriptors}
 \label{sub:descriptors}
-As already mentioned, we use SIFT as our main descriptor tool. Using the matlab library vlfeat\cite{vedaldi08vlfeat}, we retrieve SIFT descriptors on a predefined grid on the image (See figure \ref{fig:SIFT}). Placing them on a regular grid rather than region of interest points
+As already mentioned, we use SIFT as our main descriptor tool. 
+Using the matlab library vlfeat\cite{vedaldi08vlfeat}, 
+we retrieve SIFT descriptors on a predefined grid on the image (See Figure \ref{fig:SIFT}). 
+Placing them on a regular grid rather than region of interest points
 has proven more robust.
 % subsection descriptors (end)
 
@@ -360,12 +361,12 @@ has proven more robust.
 
 \subsection{Words}
 \label{sub:words}
-Since SIFT descriptors have a quite high dimensionality (every is a vector with 128 components)
-and our sampling is quite dense (88 descriptors for Figure \ref{SIFT}), we condense the
+Since SIFT descriptors have a quite high dimensionality\footnote{ every descriptor is a vector with 128 components}
+and our sampling is quite dense\footnote{88 descriptors for Figure \ref{SIFT}}, we condense the
 descriptor using the bag of words technique. 
 
-For this purpose, we cluster the all descriptors retrieved from the database using k-means to
-50 clusters. Then we segment the image vertically into slots and count the number of words 
+For this purpose, we cluster all descriptors retrieved from the database using k-means to
+50 clusters. Then we segment the image vertically into slots and count the number of word occurences
 in each slot. This gives us a histogram with 50 bins for every slot, that we concatenate to one
 big structure representing an image (See Figure \ref{fig:histogram}).
 \begin{figure}[!t]
@@ -386,20 +387,20 @@ at every possible offset $o$ of a database image $d$, then taking
 the minimum over all possibilities.
  For a given offset, we compute the distance as L2 norm over all slots.
 \begin{equation}
-	dist(d, q) = \min_o \sum_{i \in S} || d_{i + o} - q_{i}  ||_2
+	dist(d, q) = \min_o \sum_{i = 0}^{n_s} || d_{i + o} - q_{i}  ||_2
 \end{equation}
 
 % subsection similarities (end)
 
 \subsection{User interaction}
 \label{sub:user interaction}
-We expect a user query to be of the form "Retrieve the n most similar image to the given query
+We expect a user query to be of the form "Retrieve the n most similar images to the given query
 image". Using our distance measure defined above, 
 we create a ranking and return the top n entries.
 % subsection user interaction (end)
 
 \section{Results}
-While our keyword spotting framework achieved very promising results in some cases, when matching single words (See e.g. Figure \ref{fig:results_words:roxx}), very short words (Figure \ref{fig:results_words:suxx}) were troublesome until the very end. Additional results are depicted in figure $\ref{fig:Results_nice2}$.
+While our keyword spotting framework achieved very promising results in some cases when matching single words (See e.g. Figure \ref{fig:results_words:roxx}), very short words (Figure \ref{fig:results_words:suxx}) were troublesome until the very end. Additional results are depicted in Figure $\ref{fig:Results_nice2}$.
 
 Unfortunately, the results for the short words worsened as we tried to generalize our method for finding keywords in full sentences instead of
 matching only words.
@@ -447,14 +448,17 @@ our method does unfortunately not yield satisfying results. The quality of our a
 \end{figure}
 
 \section{Conclusion}
-In this work we developed and discussed a method how to detect keywords in handwritten document. The underlying idea of our approach is based on SIFT feature extraction and a bog of words approach. The reason for following such an approach was that we wanted to invariant to the orientation, scale, position of the historical documents. 
+In this work we developed and discussed a method how to detect keywords in handwritten document. The underlying idea of our approach is based on SIFT feature extraction and a bag of words approach. The reason for following such an approach was that we wanted to invariant to the orientation, scale, position of the writing. 
 
-Referring to our findings in the result section we observe that our approach performs rather well for detecting visual query words in a word database. However, when we try to spot query-keywords in a visual sentence database our current algorithm the performance of our algorithm is rather poor. This last finding seems somewhat counterintuitive since from our point of view SIFT features ensure different types of invariances. 
+Referring to our findings in the result section we observe that our approach performs rather well for detecting visual query words in a word database. 
+However, when we try to spot query-keywords in a visual sentence database, 
+the performance of our algorithm is rather poor. 
+This last finding seems somewhat counterintuitive since from our point of view SIFT features should ensure different types of invariances. 
 
-Since all words in the visual word database are normalized we suppose that this helped our algorithm to achieve its good performance whereas the sentence database is not normalized. Thus the second task does not yield equally well results when running our algorithm. Furthermore, we also thought of the possibility that SIFT is not the appropriate choice of feature descriptor for detecting handwritten words visual sentences. 
+Since all words in the visual word database are normalized, we suppose that this helped our algorithm to achieve its good performance whereas the sentence database is not normalized. Thus the second task does not yield equally well results when running our algorithm. Furthermore, we also thought of the possibility that SIFT is not the appropriate choice of feature descriptor for detecting handwritten words visual sentences. 
 
 For future work we could try different strategies to increase the performance of our algorithm such as: using different feature descriptors such as Gabor filters or apply an an improved dynamic-time warping algorithm. 
-We also could further examine the impact of preprocessing the dataset (i.e. normalizing the sentences). 
+We also could further examine the impact of preprocessing the dataset (i. e. normalizing the sentences). 
 Last, we could also try to generalize our aglorithm such that it can handle the task of spotting keywords in complete handwritten pages instead of only handwritten sentences or words. 
 
 
