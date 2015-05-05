@@ -366,7 +366,7 @@ and our sampling is quite dense\footnote{88 descriptors for Figure \ref{fig:SIFT
 descriptor using the bag of words technique. 
 
 For this purpose, we cluster all descriptors retrieved from the database using k-means to
-50 clusters. Then we segment the image vertically into slots and count the number of word occurences
+50 clusters. Then we segment the image vertically into slots and count the number of word occurrences
 in each slot. This gives us a histogram with 50 bins for every slot, that we concatenate to one
 big structure representing an image (See Figure \ref{fig:histogram}).
 \begin{figure}[!t]
@@ -380,7 +380,7 @@ big structure representing an image (See Figure \ref{fig:histogram}).
 \subsection{Computing similarities}
 \label{sub:similarities}
 For computing the similarity between a query image and a database image, 
-we compare their histograms. While other authors have proven that dynamic time warping can be
+we compare their histograms. While other authors have proven that \emph{dynamic time warping} can be
 used effectively for this in keyword spotting, we did not have any success with it. We ended
 up just trying to match the query image $q$ 
 at every possible offset $o$ of a database image $d$, then taking
@@ -459,7 +459,7 @@ Since all words in the visual word database are normalized, we suppose that this
 
 For future work we could try different strategies to increase the performance of our algorithm such as: using different feature descriptors such as Gabor filters or apply an an improved dynamic-time warping algorithm. 
 We also could further examine the impact of preprocessing the dataset (i. e. normalizing the sentences). 
-Last, we could also try to generalize our aglorithm such that it can handle the task of spotting keywords in complete handwritten pages instead of only handwritten sentences or words.
+Last, we could also try to generalize our algorithm such that it can handle the task of spotting keywords in complete handwritten pages instead of only handwritten sentences or words.
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
