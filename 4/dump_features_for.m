@@ -17,8 +17,8 @@ function [ ] = dump_features_for( folder, output_file )
         features = compute_features(imread([folder, file.name]));
         fprintf(output_file, '%s,', lbl_number);
         
-        % TODO: possibly get rid of trailing comma.
-        fprintf(output_file, '%f,', features);
+        fprintf(output_file, '%f,', features(1:end-1));
+        fprintf(output_file, '%f', features(end));
         fprintf(output_file, '\n');
     end
 
