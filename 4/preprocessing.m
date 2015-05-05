@@ -1,5 +1,5 @@
-train_folder = 'input/train/';
-test_folder = 'input/test/';
+train_folder = 'input/images/train/';
+test_folder = 'input/images/test/';
 
 train_output = fopen('mnist.train.txt', 'w');
 test_output = fopen('mnist.test.txt', 'w');
