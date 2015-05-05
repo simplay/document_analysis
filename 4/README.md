@@ -4,4 +4,11 @@
 
 1. Download the [MNIST dataset](https://dl.dropboxusercontent.com/u/663533/da_ex4/mnist.zip).
 2. Extract the files of the archieve `mnist.zip` into `input/`.
-3. Run `ruby start.rb`
+3. Run `ruby start.rb -p PREPROCESS_MODE`
+
+## Parameters
+
++ Preprocess Mode -p PREPROCESS_MODE
+ + optional argument, Integer value
+ + PREPROCESS_MODE == 0 => No Preprocessing
+ + PREPROCESS_MODE == 1 => Run Matlab Preprocessing
