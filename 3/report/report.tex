@@ -451,7 +451,12 @@ our method does unfortunately not yield satisfying results. The quality of our a
 \end{figure}
 
 \section{Conclusion}
-blahblah
+In this work we developed and discussed a method how to detect keywords in handwritten document. The underlying idea of our approach is based on SIFT feature extraction and a bog of words approach. The reason for following such an approach was that we wanted to invariant to the orientation, scale, position of the historical documents. 
+
+Referring to our findings in the result section we observe that our approach performs rather well for detecting visual query words in a word database. However, when we try to spot query-keywords in a visual sentence database our current algorithm the performance of our algorithm is rather poor. This last finding seems somewhat counterintuitive since from our point of view SIFT features ensure different types of invariances. 
+
+Since all words in the visual word database are normalized we suppose that this helped our algorithm to achieve its good performance whereas the sentence database is not normalized. Thus the second task does not yield equally well results when running our algorithm. Furthermore, we also thought of the possibility that SIFT is not the appropriate choice of feature descriptor for detecting handwritten words visual sentences. 
+
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
