@@ -362,7 +362,7 @@ has proven more robust.
 \subsection{Words}
 \label{sub:words}
 Since SIFT descriptors have a quite high dimensionality\footnote{ every descriptor is a vector with 128 components}
-and our sampling is quite dense\footnote{88 descriptors for Figure \ref{SIFT}}, we condense the
+and our sampling is quite dense\footnote{88 descriptors for Figure \ref{fig:SIFT}}, we condense the
 descriptor using the bag of words technique. 
 
 For this purpose, we cluster all descriptors retrieved from the database using k-means to
@@ -372,7 +372,7 @@ big structure representing an image (See Figure \ref{fig:histogram}).
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.5\textwidth]{kvniginne_histogram}
-\caption{The concatenated histogram of words for the image from Figure \ref{SIFT}.}
+\caption{The concatenated histogram of words for the image from Figure \ref{fig:SIFT}.}
 \label{fig:histogram}
 \end{figure}
 % subsection words (end)
@@ -459,8 +459,7 @@ Since all words in the visual word database are normalized, we suppose that this
 
 For future work we could try different strategies to increase the performance of our algorithm such as: using different feature descriptors such as Gabor filters or apply an an improved dynamic-time warping algorithm. 
 We also could further examine the impact of preprocessing the dataset (i. e. normalizing the sentences). 
-Last, we could also try to generalize our aglorithm such that it can handle the task of spotting keywords in complete handwritten pages instead of only handwritten sentences or words. 
-
+Last, we could also try to generalize our aglorithm such that it can handle the task of spotting keywords in complete handwritten pages instead of only handwritten sentences or words.
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
