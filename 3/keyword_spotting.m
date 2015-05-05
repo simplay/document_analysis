@@ -46,14 +46,15 @@ if is_week2
 else
     gt_file = fopen(['Input/', set_name, '/', set_name '.txt'], 'r');
 end
-gt_strings = load_gt_strings(words_directory, gt_file, is_week2);
+[gt_strings, gt_filenames] = load_gt_strings(words_directory, gt_file, is_week2);
 
 % Expect, that the name of a query file is the word it contains.
 query_files = dir([keywords_directory '/*.png']);
 for i = 1:size(query_histograms, 2)
     similarities = computeSimilarities(db_histograms, query_histograms{i});
     [~, query_word] = fileparts(query_files(i).name);
-    [hit_words, tpr, fpr] = draw_tpr_fpr_graph(query_word, gt_strings, similarities);
+    [hit_words, tpr, fpr] = draw_tpr_fpr_graph(set_name, query_word, ...
+        gt_strings, gt_filenames, similarities, true, is_week2);
 end
 
 %% For debugging: Show query img and 15 closest matches

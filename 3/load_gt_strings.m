@@ -1,4 +1,4 @@
-function [ gt_strings ] = load_gt_strings(words_directory, gt_file, is_line)
+function [ gt_strings, gt_filenames ] = load_gt_strings(words_directory, gt_file, is_line)
 %LOAD_GT_STRINGS Returns a cell array with the gt strings corresponding to
 %the images found in the words directory. 
     % Retrieve gt string for every image in our database (.txt contains many
@@ -6,6 +6,7 @@ function [ gt_strings ] = load_gt_strings(words_directory, gt_file, is_line)
     scanned = textscan(gt_file, '%s %s');
     word_files = dir([words_directory '/*.png']);
     gt_strings = {length(word_files)};
+    gt_filenames = {length(word_files)};
     scanned_idx = 1;
     for i = 1:length(word_files)
         [~, name] = fileparts(word_files(i).name);
@@ -18,6 +19,7 @@ function [ gt_strings ] = load_gt_strings(words_directory, gt_file, is_line)
             gt = scanned{2}{scanned_idx};
         end
         gt_strings{i} = gt;
+        gt_filenames{i} = name;
     end
 end
 
