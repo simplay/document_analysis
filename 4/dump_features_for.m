@@ -3,9 +3,13 @@ function [ ] = dump_features_for( folder, output_file )
 % to the given output file. The correct label is prepended in the beginning.
 % Features are computed using the function compute_features(img)
 
-    train_files = dir([folder '*.png']);
-    for file_number=1:length(train_files)
-        file = train_files(file_number);
+    files = dir([folder '*.png']);
+    % A sampling rate of n means every n-th image is used.
+    sampling_rate = 1;
+    results = {length(files)/sampling_rate};
+    parfor file_number=1:length(files)/sampling_rate
+        %file = files(file_number*sampling_rate);
+        file = files(file_number);
         [~, filename] = fileparts(file.name);
         
         % file name convention example: 
@@ -15,12 +19,15 @@ function [ ] = dump_features_for( folder, output_file )
         lbl = split_filename(2);
         lbl_number = lbl{1}(end);
         features = compute_features(imread([folder, file.name]));
-        fprintf(output_file, '%s,', lbl_number);
+        label = sprintf('%s,', lbl_number);
         
-        fprintf(output_file, '%f,', features(1:end-1));
-        fprintf(output_file, '%f', features(end));
-        fprintf(output_file, '\n');
+        features = sprintf('%f,', features(1:end-1));
+        last_feature = sprintf('%f', features(end));
+        results{file_number} = [label, features, last_feature];
     end
 
+    for i=1:numel(results)
+         fprintf(output_file, [results{i} '\n']);
+    end
 end
 
