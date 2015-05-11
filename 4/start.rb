@@ -42,8 +42,8 @@ end
 number_neurons = [5, 10, 50, 100, 200, 500, 784, 1000]
 number_epochs = [5, 10, 50, 100]
 learning_rates = [0.0001, 0.001, 0.01, 0.1]
-training_data_files = [6, 12, 30, 60, 600, 3000]
-parameters_list = [number_neurons, number_epochs, learning_rates]
+training_data_file_idxs = [6, 12, 30, 60, 600, 3000]
+parameters_list = [number_neurons, number_epochs, learning_rates, training_data_file_idxs]
 parameters_list = parameters_list.first.product(*parameters_list[1..-1])
 
 parameters_list.each do |parameters|
