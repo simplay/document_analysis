@@ -46,7 +46,8 @@ parameters_list.each do |parameters|
   e = parameters[1]
   lr = parameters[2]
   puts "Parameters: nn=#{nn} e=#{e} lr=#{lr}"
-  command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} mnist.train.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt"
+  filename = "a_SIGMOID_f_#{feature_size}_n_#{nn}_o_10_l_#{lr}_e_#{e}.txt"
+  command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} mnist.train.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt > #{filename}"
   system(command)
 end
 
