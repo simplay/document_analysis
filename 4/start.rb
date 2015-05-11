@@ -39,8 +39,8 @@ training_samples = [20, 100, 1000, 2000, 5000, 10000]
 training_samples.each do |samples|
   PrepareTraningData.new("mnist.train.txt", samples)
 end
-number_neurons = [5, 10, 50, 100, 200, 500, 784, 1000]
-number_epochs = [5, 10, 50, 100]
+number_neurons = [5, 10, 50, 100, 200, 500, 784, 1000, 2*784]
+number_epochs = [100]
 learning_rates = [0.0001, 0.001, 0.01, 0.1]
 training_data_file_idxs = [6, 12, 30, 60, 600, 3000]
 parameters_list = [number_neurons, number_epochs, learning_rates, training_data_file_idxs]
