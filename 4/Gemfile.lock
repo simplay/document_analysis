@@ -1,0 +1,11 @@
+GEM
+  specs:
+    gruff (0.5.1)
+      rmagick
+    rmagick (2.13.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  gruff (= 0.5.1)
