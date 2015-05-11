@@ -33,4 +33,7 @@ begin
 rescue
     raise 'Somethings wrong with input file, try to run with argument -p 1 to generate features'
 end
+
+# Train neuronal network.
+command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n 100 -o 10 -l 0.001 -e 10 mnist.train.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt"
 system(command)
