@@ -1,1 +1,2 @@
-gem 'gruff', '0.5.1' 
+source "http://rubygems.org"
+gem 'gruff', '0.5.1'
