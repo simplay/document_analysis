@@ -35,7 +35,7 @@ rescue
     raise 'Somethings wrong with input file, try to run with argument -p 1 to generate features'
 end
 
-training_samples = [20, 100, 1000, 2000, 5000, 10000] #TODO adapt tran.txt file
+training_samples = [20, 100, 1000, 2000, 5000, 10000]
 training_samples.each do |samples|
   PrepareTraningData.new("mnist.train.txt", samples)
 end
@@ -46,6 +46,7 @@ training_data_file_idxs = [6, 12, 30, 60, 600, 3000]
 parameters_list = [number_neurons, number_epochs, learning_rates, training_data_file_idxs]
 parameters_list = parameters_list.first.product(*parameters_list[1..-1])
 
+# Train neuronal network.
 parameters_list.each do |parameters|
   nn = parameters[0]
   e = parameters[1]
@@ -57,6 +58,3 @@ parameters_list.each do |parameters|
   system(command)
 end
 
-# Train neuronal network.
-#command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n 100 -o 10 -l 0.001 -e 10 mnist.train.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt"
-#system(command)
