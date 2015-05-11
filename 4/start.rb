@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
+require_relative 'prepare_training_data.rb'
 
 user_args = {}
 opt_parser = OptionParser.new do |opt|
@@ -33,11 +34,15 @@ begin
 rescue
     raise 'Somethings wrong with input file, try to run with argument -p 1 to generate features'
 end
+
+training_samples = [20, 100, 1000, 2000, 5000, 10000] #TODO adapt tran.txt file
+training_samples.each do |samples|
+  PrepareTraningData.new("mnist.train.txt", samples)
+end
 number_neurons = [5, 10, 50, 100, 200, 500, 784, 1000]
 number_epochs = [5, 10, 50, 100]
 learning_rates = [0.0001, 0.001, 0.01, 0.1]
-training_samples = [20, 100, 1000, 2000, 5000, 10000] #TODO adapt tran.txt file
-
+training_data_files = [6, 12, 30, 60, 600, 3000]
 parameters_list = [number_neurons, number_epochs, learning_rates]
 parameters_list = parameters_list.first.product(*parameters_list[1..-1])
 
@@ -45,9 +50,10 @@ parameters_list.each do |parameters|
   nn = parameters[0]
   e = parameters[1]
   lr = parameters[2]
+  training_data_file_idx = parameters[3]
   puts "Parameters: nn=#{nn} e=#{e} lr=#{lr}"
   filename = "a_SIGMOID_f_#{feature_size}_n_#{nn}_o_10_l_#{lr}_e_#{e}.txt"
-  command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} mnist.train.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt > #{filename}"
+  command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} mnist.train.#{training_data_file_idx}.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt > #{filename}"
   system(command)
 end
 
