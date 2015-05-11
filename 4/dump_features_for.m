@@ -21,9 +21,9 @@ function [ ] = dump_features_for( folder, output_file )
         features = compute_features(imread([folder, file.name]));
         label = sprintf('%s,', lbl_number);
         
-        features = sprintf('%f,', features(1:end-1));
-        last_feature = sprintf('%f', features(end));
-        results{file_number} = [label, features, last_feature];
+        features_string = sprintf('%f,', features(1:end-1));
+        last_feature_string = sprintf('%f', features(end));
+        results{file_number} = [label, features_string, last_feature_string];
     end
 
     for i=1:numel(results)
