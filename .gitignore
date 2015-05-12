@@ -153,4 +153,4 @@ tags.*
 4/input/images
 mnist.*.txt
 4/*.txt
-4/*.png
+4/output/evaluation/*.png
