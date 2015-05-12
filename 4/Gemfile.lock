@@ -2,7 +2,7 @@ GEM
   specs:
     gruff (0.5.1)
       rmagick
-    rmagick (2.13.3)
+    rmagick (2.15.0)
 
 PLATFORMS
   ruby
