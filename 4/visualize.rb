@@ -1,11 +1,11 @@
 require 'gruff'
 require 'rmagick'
 g = Gruff::Line.new
-g.title = 'Learning rate impact'
 g.y_axis_label = 'Accuracy'
-g.x_axis_label = 'Number of neurons'
-g.labels = { 0 => '5', 1 => '10', 2 => '50' }
-nr_epochs = 10
+g.x_axis_label = '#Neurons'
+g.labels = { 0 => '5', 1 => '10', 2 => '50', 3 => '100', 4 => '200' }
+nr_epochs = 50
+g.title = "Learning rate impact, #epochs=#{nr_epochs}"
 learning_rates = %w(0.1 0.01 0.001 0.0001)
 
 learning_rates.each do |lr|
