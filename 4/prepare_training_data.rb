@@ -5,7 +5,6 @@ class PrepareTraningData
     file = File.new(filename, 'r')
     file_line_count = file.each_line.count
     take_idx_multiple = (file_line_count / samples).to_i
-    training_data_filename = "mnist.train.#{take_idx_multiple}.txt"
     collected_lines = []
     file = File.new(filename, 'r')
     file.lines.select.with_index do |line, line_idx|
@@ -15,7 +14,8 @@ class PrepareTraningData
     end
     file.close
 
-    out_file = File.new(training_data_filename, "w")
+    training_data_filename_path = "input/training_data/mnist.train.#{take_idx_multiple}.txt"
+    out_file = File.new(training_data_filename_path, "w")
     collected_lines.each do |collected_line|
       out_file.puts(collected_line)
     end

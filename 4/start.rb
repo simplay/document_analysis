@@ -52,10 +52,11 @@ parameters_list.each do |parameters|
   e = parameters[1]
   lr = parameters[2]
   training_data_file_idx = parameters[3]
-  puts "Parameters: nn=#{nn} e=#{e} lr=#{lr} training_data_file_idx=#{training_data_file_idx}"
   filename = "a_SIGMOID_f_#{feature_size}_n_#{nn}_o_10_l_#{lr}_e_#{e}_td_#{training_data_file_idx}.txt"
-  unless File.exist?(filename)
-    command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} mnist.train.#{training_data_file_idx}.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt > #{filename}"
+  file_path_name = "output/#{filename}"
+  unless File.exist?(file_path_name)
+    puts "Running NN with parameters: nn=#{nn} e=#{e} lr=#{lr} training_data_file_idx=#{training_data_file_idx}"
+    command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} mnist.train.#{training_data_file_idx}.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt > #{file_path_name}"
     system(command)
   else
     puts "Skipping file #{filename} - it already exists!"
