@@ -13,10 +13,10 @@ learning_rates.each do |lr|
   results = []
   evaluation_files.sort_by! { |ele| ele.split('n_').last.split('_').first.to_i }
   puts evaluation_files.join(', ')
-  evaluation_files.each do |file|
-    File.open(file) do |f|
-      f.each_line do |line|
-        row = line.split /\s/
+  evaluation_files.each do |filename|
+    File.open(filename) do |file|
+      file.each_line do |line|
+        row = line.split(/\s/)
         if row[0] == 'accuracy:'
           results << row[1].to_f
         end
