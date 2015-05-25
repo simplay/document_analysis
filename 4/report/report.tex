@@ -317,7 +317,7 @@
 % make the title area
 \maketitle
 
-\section{Method}
+\section{Artificial neural networks}
 \begin{figure}
 \begin{tikzpicture}[shorten >=1pt,->,draw=black!50, node distance=\layersep]
     \tikzstyle{every pin edge}=[<-,shorten <=1pt]
@@ -359,10 +359,35 @@
     \node[annot,right of=hl] {Output layer};
 \end{tikzpicture}
 \caption{Structure of a artificial neuronal network with 5 
-		 input features, a hidden layer with 10 nodes and our 10 output classes, the numbers from 0 to 9.}
+		 input features, a hidden layer with 10 nodes and our 10 output classes, the numbers from 0 to 9. Every node is connected to all nodes of the next level. }
 \end{figure}
 
+Every neuron as a number of input signals $x$ that are weighted with
+the neurons weights $w$. The \emph{activation} $a$ of a neuron is computed as
+\begin{equation}
+	a = \sum_{i = 1}^n x_i \cdot w_i
+\end{equation}
+The \emph{output signal} $y$ further refines the activation by applying a bias $w_0$
+and applying a non linear function $f$
+\begin{equation}
+	y = f(a - w_0)
+\end{equation}
+For the results obtained in this report, we used the sigmoid function for $f$
+\begin{equation}
+	f(t) = \operatorname{sig}(t) = \frac{1}{1 + e^{-t}} = \frac{1}{2}\cdot\left(1 + \tanh \frac{t}{2}\right)
+\end{equation}
+
+The weights $w$ of each neuron are learnt using \emph{reinforcement learning}. 
+Since we never received any source code for the library we used,
+we can not comment on how exactly this is done, 
+except that the initial weights are chosen randomly, 
+leading to a slightly different outcome in every run.
+
 \section{Results}
+
+The structure of the neural network largely decides its performance. 
+The main focus of this report is to analyse the results produced by different
+structures and different input features.
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
