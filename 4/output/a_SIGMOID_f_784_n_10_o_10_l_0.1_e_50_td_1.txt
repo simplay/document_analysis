@@ -1,0 +1,63 @@
+activation function: SIGMOID
+feature size: 784
+neurons: 10
+output size: 10
+learning rate: 0.1
+epochs: 50
+training file path: mnist.train.txt
+test file path: mnist.test.txt
+training log file path: mnist.train.output.txt
+test result file path: mnist.test.output.txt
+#epoch: 1 error: 0.08922563	time=3.369	mismatches: 24.686666
+#epoch: 2 error: 0.073565476	time=3.174	mismatches: 21.538334
+#epoch: 3 error: 0.071259566	time=3.109	mismatches: 21.258333
+#epoch: 4 error: 0.06986531	time=3.169	mismatches: 20.846666
+#epoch: 5 error: 0.06907416	time=3.146	mismatches: 20.811666
+#epoch: 6 error: 0.068481155	time=3.154	mismatches: 20.58
+#epoch: 7 error: 0.06794947	time=3.144	mismatches: 20.478333
+#epoch: 8 error: 0.067622356	time=3.154	mismatches: 20.44
+#epoch: 9 error: 0.067199424	time=3.141	mismatches: 20.261667
+#epoch: 10 error: 0.06717795	time=3.148	mismatches: 20.413334
+#epoch: 11 error: 0.06673681	time=3.207	mismatches: 20.4
+#epoch: 12 error: 0.0664936	time=3.134	mismatches: 20.181667
+#epoch: 13 error: 0.06626831	time=3.142	mismatches: 20.185
+#epoch: 14 error: 0.06607043	time=3.145	mismatches: 20.166666
+#epoch: 15 error: 0.0659758	time=3.135	mismatches: 20.128334
+#epoch: 16 error: 0.065929405	time=3.148	mismatches: 19.998333
+#epoch: 17 error: 0.065855816	time=3.139	mismatches: 20.183332
+#epoch: 18 error: 0.065794855	time=3.135	mismatches: 19.933332
+#epoch: 19 error: 0.06582996	time=3.192	mismatches: 19.89
+#epoch: 20 error: 0.065479815	time=3.126	mismatches: 19.891666
+#epoch: 21 error: 0.065634966	time=3.26	mismatches: 19.96
+#epoch: 22 error: 0.065356806	time=3.472	mismatches: 19.885
+#epoch: 23 error: 0.065412454	time=3.144	mismatches: 19.936666
+#epoch: 24 error: 0.06518749	time=3.265	mismatches: 19.826666
+#epoch: 25 error: 0.065365896	time=3.41	mismatches: 19.868334
+#epoch: 26 error: 0.06526376	time=3.348	mismatches: 19.816668
+#epoch: 27 error: 0.06503867	time=3.135	mismatches: 19.743334
+#epoch: 28 error: 0.0655418	time=3.124	mismatches: 19.873333
+#epoch: 29 error: 0.06528752	time=3.156	mismatches: 19.808332
+#epoch: 30 error: 0.06510781	time=3.142	mismatches: 19.67
+#epoch: 31 error: 0.065208666	time=3.128	mismatches: 19.765
+#epoch: 32 error: 0.065107904	time=3.143	mismatches: 19.463333
+#epoch: 33 error: 0.06500774	time=3.125	mismatches: 19.703333
+#epoch: 34 error: 0.065132074	time=3.119	mismatches: 19.95
+#epoch: 35 error: 0.06490054	time=3.123	mismatches: 19.666666
+#epoch: 36 error: 0.06505623	time=3.112	mismatches: 19.668333
+#epoch: 37 error: 0.06522799	time=3.113	mismatches: 19.8
+#epoch: 38 error: 0.064803645	time=3.117	mismatches: 19.69
+#epoch: 39 error: 0.064689934	time=3.12	mismatches: 19.56
+#epoch: 40 error: 0.06495693	time=3.153	mismatches: 19.666666
+#epoch: 41 error: 0.06497812	time=3.12	mismatches: 19.736666
+#epoch: 42 error: 0.06472499	time=3.122	mismatches: 19.595
+#epoch: 43 error: 0.064607754	time=3.116	mismatches: 19.545
+#epoch: 44 error: 0.06459253	time=3.125	mismatches: 19.433332
+#epoch: 45 error: 0.0644573	time=3.123	mismatches: 19.418333
+#epoch: 46 error: 0.0646195	time=3.121	mismatches: 19.546667
+#epoch: 47 error: 0.064401664	time=3.114	mismatches: 19.538334
+#epoch: 48 error: 0.064430326	time=3.178	mismatches: 19.618334
+#epoch: 49 error: 0.06457317	time=3.149	mismatches: 19.726667
+#epoch: 50 error: 0.064226255	time=3.112	mismatches: 19.453333
+Training finished.
+accuracy: 0.7875
+Done.

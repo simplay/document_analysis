@@ -1,0 +1,23 @@
+activation function: SIGMOID
+feature size: 784
+neurons: 100
+output size: 10
+learning rate: 0.01
+epochs: 10
+training file path: mnist.train.txt
+test file path: mnist.test.txt
+training log file path: mnist.train.output.txt
+test result file path: mnist.test.output.txt
+#epoch: 1 error: 0.13204026	time=49.749	mismatches: 17.985
+#epoch: 2 error: 0.08871957	time=46.215	mismatches: 10.42
+#epoch: 3 error: 0.07404315	time=48.435	mismatches: 8.845
+#epoch: 4 error: 0.06701792	time=45.392	mismatches: 7.826667
+#epoch: 5 error: 0.0627885	time=45.505	mismatches: 7.1266665
+#epoch: 6 error: 0.05978388	time=45.458	mismatches: 6.675
+#epoch: 7 error: 0.057312973	time=44.353	mismatches: 6.17
+#epoch: 8 error: 0.055180255	time=45.25	mismatches: 5.835
+#epoch: 9 error: 0.053254403	time=46.656	mismatches: 5.6216664
+#epoch: 10 error: 0.051695693	time=46.058	mismatches: 5.33
+Training finished.
+accuracy: 0.9401
+Done.
