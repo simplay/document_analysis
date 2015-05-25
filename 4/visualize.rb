@@ -26,5 +26,5 @@ learning_rates.each do |lr|
   puts results.join(',')
   g.data lr, results
 end
-
-g.write('learning_rates.png')
+file_path = 'output/evaluation'
+g.write("#{file_path}/learning_rates.png")
