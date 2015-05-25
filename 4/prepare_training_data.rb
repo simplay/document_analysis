@@ -1,4 +1,3 @@
-require 'pry'
 class PrepareTraningData
   # @param filename [String] trainingdata file name.
   def initialize(filename, samples)

@@ -1,4 +1,4 @@
 source "http://rubygems.org"
 gem 'rmagick', '2.15.0'
 gem 'gruff', '0.5.1'
-
+gem 'parallel'

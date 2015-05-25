@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
+require 'parallel'
 require_relative 'prepare_training_data.rb'
 
 user_args = {}
@@ -47,7 +48,7 @@ parameters_list = [number_neurons, number_epochs, learning_rates, training_data_
 parameters_list = parameters_list.first.product(*parameters_list[1..-1])
 
 # Train neuronal network.
-parameters_list.each do |parameters|
+Parallel.each(parameters_list) do |parameters|
   nn = parameters[0]
   e = parameters[1]
   lr = parameters[2]
@@ -56,7 +57,8 @@ parameters_list.each do |parameters|
   file_path_name = "output/#{filename}"
   unless File.exist?(file_path_name)
     puts "Running NN with parameters: nn=#{nn} e=#{e} lr=#{lr} training_data_file_idx=#{training_data_file_idx}"
-    command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} mnist.train.#{training_data_file_idx}.txt mnist.test.txt mnist.train.output.txt mnist.test.output.txt > #{file_path_name}"
+    training_data_file_name = "input/training_data/mnist.train.#{training_data_file_idx}.txt"
+    command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} #{training_data_file_name} mnist.test.txt mnist.train.output.txt mnist.test.output.txt > #{file_path_name}"
     system(command)
   else
     puts "Skipping file #{filename} - it already exists!"

@@ -3,6 +3,7 @@ GEM
   specs:
     gruff (0.5.1)
       rmagick
+    parallel (1.5.1)
     rmagick (2.15.0)
 
 PLATFORMS
@@ -10,4 +11,5 @@ PLATFORMS
 
 DEPENDENCIES
   gruff (= 0.5.1)
+  parallel
   rmagick (= 2.15.0)
