@@ -7,8 +7,8 @@ function [ features ] = compute_features(img, method)
 %   1: Dump pixel values directly
     grayscale_img = rgb2gray(img);
     %[w, h] = size(grayscale_img);
-    w = 28;
     
+    w = 28;
     if method == 2
         range = (w * 255)/2;
         features_scaled = [sum(grayscale_img) sum(grayscale_img, 2)'];
@@ -20,6 +20,14 @@ function [ features ] = compute_features(img, method)
         % Bring to range [0, 1] with double precision.
         d_grayscale_img = im2double(grayscale_img);
         % Flatten and bring to range [-1, 1].
+        features = d_grayscale_img(:)*2 - 1;
+    elseif method == 3
+        grayscale_img = imresize(grayscale_img, 0.5);
+        d_grayscale_img = im2double(grayscale_img);
+        features = d_grayscale_img(:)*2 - 1;  
+    elseif method == 4
+        grayscale_img = imresize(grayscale_img, 0.25);
+        d_grayscale_img = im2double(grayscale_img);
         features = d_grayscale_img(:)*2 - 1;
     end
 end

@@ -3,13 +3,18 @@
 require 'optparse'
 require 'parallel'
 require_relative 'prepare_training_data.rb'
-
+used_method = 1
 user_args = {}
 opt_parser = OptionParser.new do |opt|
   opt.banner = "Usage example: ruby start.rb -p 1 to run with Matlab preprocessing"
   opt.separator ""
-  opt.on("-p", "--preprocess g", Integer, "Preprocessing mode: Runs preprocessing if 1 otherwise not.") do |preprocess|
+  opt.on("-p", "--preprocess p", Integer, "Preprocessing mode: Runs preprocessing if 1 otherwise not.") do |preprocess|
     user_args[:preprocess] = preprocess
+  end
+
+  opt.on("-m", "--method m", Integer, "Use preprocessing method m: Either 1,2,3,4.") do |method|
+    user_args[:method] = method
+    used_method = method.to_i
   end
 end
 
@@ -21,14 +26,15 @@ rescue OptionParser::MissingArgument
   exit
 end
 
+method = used_method
 # Run preprocessing.
-matlab_file = "preprocessing.m"
-run_matlab = "matlab -nodisplay -nosplash -nodesktop -r \"run('${PWD}/#{matlab_file}'); quit\""
+matlab_file = "preprocessing"
+run_matlab = "matlab -nodisplay -nosplash -nodesktop -r \"run('${PWD}/#{matlab_file}(#{method})'); quit\""
 system(run_matlab) if user_args[:preprocess] == 1
 
 # Determine number of features retrieved in preprocessing.
 begin
-  file = File.open("mnist.train.txt", "r")
+  file = File.open("mnist_#{method}.train.txt", "r")
   line = file.gets
   feature_size = line.split(',').count-1
   file.close
@@ -38,7 +44,7 @@ end
 
 training_samples = [20, 100, 1000, 2000, 5000, 10000]
 training_samples.each do |samples|
-  PrepareTraningData.new("mnist.train.txt", samples)
+  PrepareTraningData.new("mnist_#{method}.train.txt", samples)
 end
 number_neurons = [5, 10, 50, 100, 200, 500, 784, 1000, 2*784]
 number_epochs = [100]
