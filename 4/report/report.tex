@@ -392,6 +392,19 @@ An example structure can be seen in Figure \ref{fig:example_ann}.
 The main focus of this report is to analyse the results produced by different
 structures and different input features.
 
+One observation we made was, that the learning rate must be set dependent on
+the the number of neurons used. A plot comparing these two properties can
+be seen in Figure \ref{fig:learning_rate_vs_number_neurons}.
+
+\begin{figure}
+	\center
+	\includegraphics[width=0.4\textwidth]{../output/evaluation/learning_rates_e_100.png}
+	\caption{Different learning rates with different number of neurons. 
+	It becomes apparent, that very low learning rates work well with low numbers
+	of neurons, but high learning rates work well with higher number of neurons.}
+	\label{fig:learning_rate_vs_number_neurons}
+\end{figure}
+
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
