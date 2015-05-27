@@ -390,7 +390,8 @@ leading to a slightly different outcome in every run.
 The structure of the neural network largely decides its performance. 
 An example structure can be seen in Figure \ref{fig:example_ann}.
 The main focus of this report is to analyse the results produced by different
-structures and different input features.
+structures and different input features. 
+Our first experiments were done using the pixel values\footnote{Normalized to the range $[-1, 1]$} directly as features.
 
 One observation we made was, that the learning rate must be set dependent on
 the the number of neurons used. A plot comparing these two properties can
@@ -417,6 +418,27 @@ Some trials showing this behavior can be seen in Figure \ref{fig:trainig_set_siz
 	As expected, the more training samples available, the better the results. 
 	However, the time used for learning does also grow with training set size.}
 	\label{fig:trainig_set_size_vs_number_neurons}
+\end{figure}
+
+\subsection{Advanced Features}
+To decrease the time needed for training, we reduced the dimensionality of the
+problem by decreasing the number of features. We did this by simply downscaling
+the image to a fourth.
+As expected, this brought a great improvement in learning time, 
+as the dimensionality of the problem was brought down from 748 to 49.
+But at the same time accuracy decreased for high number of neurons. 
+The effect was larger, 
+the smaller the learning rate was, as can be seen in Figure \ref{fig:features_comparison}. 
+With only few neurons used in the hidden layer, the accuracy was about the same. 
+
+\begin{figure}[ht!]%
+\centering
+\subfigure[Learning rate 0.1]{\includegraphics[width=0.45\textwidth]{../output/evaluation/{different_features_e_100_lr_0.1}.png}} \\
+\subfigure[Learning rate 0.01]{\includegraphics[width=0.45\textwidth]{../output/evaluation/{different_features_e_100_lr_0.01}.png}}\\
+\subfigure[Learning rate 0.001]{\includegraphics[width=0.45\textwidth]{../output/evaluation/{different_features_e_100_lr_0.001}.png}}
+\caption{Comparisons between our two tested features: In yellow the pixel values
+of the full image (748 scalar values), in blue the pixel values of the image scaled to one fourth (49 scalar values).}
+\label{fig:features_comparison}
 \end{figure}
 
 % An example of a floating figure using the graphicx package.
