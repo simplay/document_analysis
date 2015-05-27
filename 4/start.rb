@@ -44,7 +44,7 @@ end
 
 training_samples = [20, 100, 1000, 2000, 5000, 10000]
 training_samples.each do |samples|
-  PrepareTraningData.new("mnist_#{method}.train.txt", samples)
+  PrepareTraningData.new("mnist_#{method}.train.txt", samples, method)
 end
 number_neurons = [5, 10, 50, 100, 200, 500, 784, 1000, 2*784]
 number_epochs = [100]
@@ -59,12 +59,12 @@ Parallel.each(parameters_list) do |parameters|
   e = parameters[1]
   lr = parameters[2]
   training_data_file_idx = parameters[3]
-  filename = "a_SIGMOID_f_#{feature_size}_n_#{nn}_o_10_l_#{lr}_e_#{e}_td_#{training_data_file_idx}.txt"
+  filename = "m_#{method}_a_SIGMOID_f_#{feature_size}_n_#{nn}_o_10_l_#{lr}_e_#{e}_td_#{training_data_file_idx}.txt"
   file_path_name = "output/#{filename}"
   unless File.exist?(file_path_name)
     puts "Running NN with parameters: nn=#{nn} e=#{e} lr=#{lr} training_data_file_idx=#{training_data_file_idx}"
-    training_data_file_name = "input/training_data/mnist.train.#{training_data_file_idx}.txt"
-    command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} #{training_data_file_name} mnist.test.txt mnist.train.output.txt mnist.test.output.txt > #{file_path_name}"
+    training_data_file_name = "input/training_data/mnist.train.#{training_data_file_idx}_m_#{method}.txt"
+    command = "java -jar -Xmx512m nn.jar -a SIGMOID -f #{feature_size} -n #{nn} -o 10 -l #{lr} -e #{e} #{training_data_file_name} mnist_4.test.txt mnist.train.output.txt mnist.test.output.txt > #{file_path_name}"
     system(command)
   else
     puts "Skipping file #{filename} - it already exists!"
