@@ -1,0 +1,113 @@
+activation function: SIGMOID
+feature size: 49
+neurons: 10
+output size: 10
+learning rate: 0.1
+epochs: 100
+training file path: input/training_data/mnist.train.600_m_4.txt
+test file path: mnist_4.test.txt
+training log file path: mnist.train.output.txt
+test result file path: mnist.test.output.txt
+#epoch: 1 error: 0.16016996	time=0.01	mismatches: 92.0
+#epoch: 2 error: 0.18124656	time=0.003	mismatches: 92.0
+#epoch: 3 error: 0.1795298	time=0.002	mismatches: 89.0
+#epoch: 4 error: 0.17899708	time=0.002	mismatches: 91.0
+#epoch: 5 error: 0.17824282	time=0.002	mismatches: 88.0
+#epoch: 6 error: 0.1779266	time=0.002	mismatches: 87.0
+#epoch: 7 error: 0.17653172	time=0.002	mismatches: 85.0
+#epoch: 8 error: 0.17723736	time=0.003	mismatches: 85.0
+#epoch: 9 error: 0.17537218	time=0.003	mismatches: 84.0
+#epoch: 10 error: 0.17499308	time=0.002	mismatches: 82.0
+#epoch: 11 error: 0.17448427	time=0.003	mismatches: 79.0
+#epoch: 12 error: 0.17413202	time=0.003	mismatches: 80.0
+#epoch: 13 error: 0.17266789	time=0.003	mismatches: 78.0
+#epoch: 14 error: 0.17149664	time=0.002	mismatches: 69.0
+#epoch: 15 error: 0.17137915	time=0.001	mismatches: 71.0
+#epoch: 16 error: 0.17035761	time=0.001	mismatches: 65.0
+#epoch: 17 error: 0.16849639	time=0.001	mismatches: 73.0
+#epoch: 18 error: 0.16881631	time=0.001	mismatches: 64.0
+#epoch: 19 error: 0.16861357	time=0.001	mismatches: 66.0
+#epoch: 20 error: 0.1675552	time=0.001	mismatches: 65.0
+#epoch: 21 error: 0.16644219	time=0.002	mismatches: 61.0
+#epoch: 22 error: 0.16775092	time=0.002	mismatches: 59.0
+#epoch: 23 error: 0.16593558	time=0.001	mismatches: 58.0
+#epoch: 24 error: 0.16730243	time=0.001	mismatches: 53.0
+#epoch: 25 error: 0.16598818	time=0.001	mismatches: 57.0
+#epoch: 26 error: 0.16622101	time=0.002	mismatches: 50.0
+#epoch: 27 error: 0.16578422	time=0.001	mismatches: 51.0
+#epoch: 28 error: 0.16617675	time=0.001	mismatches: 46.0
+#epoch: 29 error: 0.165577	time=0.001	mismatches: 45.0
+#epoch: 30 error: 0.16568895	time=0.001	mismatches: 44.0
+#epoch: 31 error: 0.16637518	time=0.001	mismatches: 39.0
+#epoch: 32 error: 0.16540046	time=0.001	mismatches: 44.0
+#epoch: 33 error: 0.16655853	time=0.001	mismatches: 42.0
+#epoch: 34 error: 0.16538823	time=0.001	mismatches: 41.0
+#epoch: 35 error: 0.16546284	time=0.001	mismatches: 38.0
+#epoch: 36 error: 0.16749476	time=0.001	mismatches: 34.0
+#epoch: 37 error: 0.166698	time=0.001	mismatches: 31.0
+#epoch: 38 error: 0.16694547	time=0.001	mismatches: 36.0
+#epoch: 39 error: 0.16667113	time=0.001	mismatches: 38.0
+#epoch: 40 error: 0.16701955	time=0.001	mismatches: 35.0
+#epoch: 41 error: 0.16642047	time=0.001	mismatches: 30.0
+#epoch: 42 error: 0.1671071	time=0.001	mismatches: 38.0
+#epoch: 43 error: 0.16748294	time=0.001	mismatches: 35.0
+#epoch: 44 error: 0.16792268	time=0.001	mismatches: 38.0
+#epoch: 45 error: 0.16759728	time=0.001	mismatches: 37.0
+#epoch: 46 error: 0.16836223	time=0.0	mismatches: 31.0
+#epoch: 47 error: 0.1670058	time=0.0	mismatches: 35.0
+#epoch: 48 error: 0.16792323	time=0.001	mismatches: 32.0
+#epoch: 49 error: 0.16695473	time=0.001	mismatches: 35.0
+#epoch: 50 error: 0.16711673	time=0.001	mismatches: 33.0
+#epoch: 51 error: 0.16739653	time=0.001	mismatches: 30.0
+#epoch: 52 error: 0.16890766	time=0.001	mismatches: 30.0
+#epoch: 53 error: 0.1659422	time=0.001	mismatches: 34.0
+#epoch: 54 error: 0.16627	time=0.001	mismatches: 33.0
+#epoch: 55 error: 0.1676543	time=0.001	mismatches: 28.0
+#epoch: 56 error: 0.16679518	time=0.001	mismatches: 29.0
+#epoch: 57 error: 0.16638947	time=0.001	mismatches: 28.0
+#epoch: 58 error: 0.16729517	time=0.001	mismatches: 31.0
+#epoch: 59 error: 0.1655401	time=0.001	mismatches: 33.0
+#epoch: 60 error: 0.16597421	time=0.0	mismatches: 33.0
+#epoch: 61 error: 0.16640201	time=0.0	mismatches: 30.0
+#epoch: 62 error: 0.16563192	time=0.001	mismatches: 31.0
+#epoch: 63 error: 0.16594824	time=0.001	mismatches: 28.0
+#epoch: 64 error: 0.16496336	time=0.001	mismatches: 30.0
+#epoch: 65 error: 0.16546175	time=0.001	mismatches: 30.0
+#epoch: 66 error: 0.16332816	time=0.001	mismatches: 32.0
+#epoch: 67 error: 0.16448715	time=0.001	mismatches: 26.0
+#epoch: 68 error: 0.1645932	time=0.001	mismatches: 29.0
+#epoch: 69 error: 0.16374952	time=0.001	mismatches: 28.0
+#epoch: 70 error: 0.16280666	time=0.001	mismatches: 28.0
+#epoch: 71 error: 0.16374445	time=0.0	mismatches: 26.0
+#epoch: 72 error: 0.1620362	time=0.0	mismatches: 29.0
+#epoch: 73 error: 0.16197339	time=0.001	mismatches: 27.0
+#epoch: 74 error: 0.1616863	time=0.001	mismatches: 25.0
+#epoch: 75 error: 0.16282342	time=0.001	mismatches: 25.0
+#epoch: 76 error: 0.16130379	time=0.001	mismatches: 31.0
+#epoch: 77 error: 0.16074792	time=0.001	mismatches: 27.0
+#epoch: 78 error: 0.16042097	time=0.001	mismatches: 27.0
+#epoch: 79 error: 0.16106758	time=0.001	mismatches: 29.0
+#epoch: 80 error: 0.15994172	time=0.001	mismatches: 27.0
+#epoch: 81 error: 0.16063027	time=0.001	mismatches: 26.0
+#epoch: 82 error: 0.15981622	time=0.0	mismatches: 28.0
+#epoch: 83 error: 0.1590249	time=0.0	mismatches: 26.0
+#epoch: 84 error: 0.16107394	time=0.0	mismatches: 25.0
+#epoch: 85 error: 0.15936176	time=0.001	mismatches: 26.0
+#epoch: 86 error: 0.15946588	time=0.001	mismatches: 25.0
+#epoch: 87 error: 0.15988289	time=0.001	mismatches: 25.0
+#epoch: 88 error: 0.15730289	time=0.001	mismatches: 25.0
+#epoch: 89 error: 0.15895021	time=0.001	mismatches: 27.0
+#epoch: 90 error: 0.16077644	time=0.0	mismatches: 24.0
+#epoch: 91 error: 0.15705237	time=0.001	mismatches: 28.0
+#epoch: 92 error: 0.15769817	time=0.002	mismatches: 27.0
+#epoch: 93 error: 0.1566099	time=0.0	mismatches: 26.0
+#epoch: 94 error: 0.15840459	time=0.0	mismatches: 27.0
+#epoch: 95 error: 0.1602858	time=0.001	mismatches: 23.0
+#epoch: 96 error: 0.15829925	time=0.001	mismatches: 27.0
+#epoch: 97 error: 0.15881732	time=0.001	mismatches: 26.0
+#epoch: 98 error: 0.1586053	time=0.001	mismatches: 26.0
+#epoch: 99 error: 0.15710334	time=0.001	mismatches: 26.0
+#epoch: 100 error: 0.1585818	time=0.001	mismatches: 26.0
+Training finished.
+accuracy: 0.68
+Done.

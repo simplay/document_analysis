@@ -1,0 +1,113 @@
+activation function: SIGMOID
+feature size: 49
+neurons: 100
+output size: 10
+learning rate: 0.001
+epochs: 100
+training file path: input/training_data/mnist.train.600_m_4.txt
+test file path: mnist_4.test.txt
+training log file path: mnist.train.output.txt
+test result file path: mnist.test.output.txt
+#epoch: 1 error: 0.1542287	time=0.033	mismatches: 89.0
+#epoch: 2 error: 0.15147881	time=0.021	mismatches: 89.0
+#epoch: 3 error: 0.14842634	time=0.007	mismatches: 90.0
+#epoch: 4 error: 0.14650264	time=0.007	mismatches: 88.0
+#epoch: 5 error: 0.14517567	time=0.007	mismatches: 87.0
+#epoch: 6 error: 0.1439021	time=0.007	mismatches: 83.0
+#epoch: 7 error: 0.14272313	time=0.007	mismatches: 81.0
+#epoch: 8 error: 0.14274023	time=0.007	mismatches: 82.0
+#epoch: 9 error: 0.14273405	time=0.007	mismatches: 82.0
+#epoch: 10 error: 0.14329906	time=0.007	mismatches: 82.0
+#epoch: 11 error: 0.14438146	time=0.006	mismatches: 81.0
+#epoch: 12 error: 0.14586598	time=0.008	mismatches: 78.0
+#epoch: 13 error: 0.1475433	time=0.007	mismatches: 79.0
+#epoch: 14 error: 0.14935346	time=0.006	mismatches: 77.0
+#epoch: 15 error: 0.15131377	time=0.007	mismatches: 79.0
+#epoch: 16 error: 0.15313502	time=0.007	mismatches: 78.0
+#epoch: 17 error: 0.15491433	time=0.007	mismatches: 79.0
+#epoch: 18 error: 0.15656981	time=0.007	mismatches: 79.0
+#epoch: 19 error: 0.15811846	time=0.006	mismatches: 79.0
+#epoch: 20 error: 0.15949716	time=0.006	mismatches: 79.0
+#epoch: 21 error: 0.16081987	time=0.007	mismatches: 79.0
+#epoch: 22 error: 0.16204832	time=0.007	mismatches: 79.0
+#epoch: 23 error: 0.16320956	time=0.007	mismatches: 78.0
+#epoch: 24 error: 0.16426475	time=0.008	mismatches: 79.0
+#epoch: 25 error: 0.16526023	time=0.009	mismatches: 79.0
+#epoch: 26 error: 0.16608982	time=0.007	mismatches: 79.0
+#epoch: 27 error: 0.16693157	time=0.007	mismatches: 79.0
+#epoch: 28 error: 0.16765672	time=0.007	mismatches: 79.0
+#epoch: 29 error: 0.16837174	time=0.006	mismatches: 79.0
+#epoch: 30 error: 0.16896904	time=0.007	mismatches: 78.0
+#epoch: 31 error: 0.16958535	time=0.006	mismatches: 77.0
+#epoch: 32 error: 0.17011106	time=0.006	mismatches: 78.0
+#epoch: 33 error: 0.17055532	time=0.007	mismatches: 77.0
+#epoch: 34 error: 0.17103086	time=0.006	mismatches: 78.0
+#epoch: 35 error: 0.17145872	time=0.006	mismatches: 77.0
+#epoch: 36 error: 0.17175154	time=0.007	mismatches: 77.0
+#epoch: 37 error: 0.17207812	time=0.006	mismatches: 76.0
+#epoch: 38 error: 0.1724086	time=0.007	mismatches: 76.0
+#epoch: 39 error: 0.17259231	time=0.006	mismatches: 76.0
+#epoch: 40 error: 0.1728771	time=0.006	mismatches: 76.0
+#epoch: 41 error: 0.17309034	time=0.007	mismatches: 77.0
+#epoch: 42 error: 0.17329623	time=0.006	mismatches: 75.0
+#epoch: 43 error: 0.17342983	time=0.006	mismatches: 73.0
+#epoch: 44 error: 0.17354645	time=0.006	mismatches: 74.0
+#epoch: 45 error: 0.17370242	time=0.006	mismatches: 75.0
+#epoch: 46 error: 0.17382528	time=0.007	mismatches: 76.0
+#epoch: 47 error: 0.17394558	time=0.006	mismatches: 74.0
+#epoch: 48 error: 0.17400257	time=0.007	mismatches: 74.0
+#epoch: 49 error: 0.17411245	time=0.006	mismatches: 73.0
+#epoch: 50 error: 0.17419901	time=0.006	mismatches: 74.0
+#epoch: 51 error: 0.17419404	time=0.007	mismatches: 73.0
+#epoch: 52 error: 0.17427392	time=0.006	mismatches: 73.0
+#epoch: 53 error: 0.1743472	time=0.007	mismatches: 72.0
+#epoch: 54 error: 0.17434576	time=0.006	mismatches: 72.0
+#epoch: 55 error: 0.1742929	time=0.007	mismatches: 71.0
+#epoch: 56 error: 0.17435998	time=0.006	mismatches: 72.0
+#epoch: 57 error: 0.17437057	time=0.006	mismatches: 71.0
+#epoch: 58 error: 0.1743557	time=0.007	mismatches: 70.0
+#epoch: 59 error: 0.17434329	time=0.006	mismatches: 69.0
+#epoch: 60 error: 0.1743252	time=0.006	mismatches: 70.0
+#epoch: 61 error: 0.17430142	time=0.006	mismatches: 69.0
+#epoch: 62 error: 0.17431062	time=0.006	mismatches: 69.0
+#epoch: 63 error: 0.17429022	time=0.007	mismatches: 68.0
+#epoch: 64 error: 0.1741823	time=0.006	mismatches: 68.0
+#epoch: 65 error: 0.17424585	time=0.007	mismatches: 68.0
+#epoch: 66 error: 0.17418727	time=0.006	mismatches: 67.0
+#epoch: 67 error: 0.17416656	time=0.006	mismatches: 67.0
+#epoch: 68 error: 0.1740944	time=0.006	mismatches: 66.0
+#epoch: 69 error: 0.17404135	time=0.006	mismatches: 66.0
+#epoch: 70 error: 0.17401367	time=0.007	mismatches: 64.0
+#epoch: 71 error: 0.17396146	time=0.006	mismatches: 65.0
+#epoch: 72 error: 0.17390245	time=0.007	mismatches: 64.0
+#epoch: 73 error: 0.17387241	time=0.006	mismatches: 64.0
+#epoch: 74 error: 0.17381918	time=0.006	mismatches: 64.0
+#epoch: 75 error: 0.17376366	time=0.006	mismatches: 64.0
+#epoch: 76 error: 0.17367028	time=0.006	mismatches: 64.0
+#epoch: 77 error: 0.17365314	time=0.008	mismatches: 65.0
+#epoch: 78 error: 0.17361237	time=0.007	mismatches: 65.0
+#epoch: 79 error: 0.17355788	time=0.006	mismatches: 64.0
+#epoch: 80 error: 0.17344177	time=0.007	mismatches: 64.0
+#epoch: 81 error: 0.17341955	time=0.006	mismatches: 63.0
+#epoch: 82 error: 0.17338571	time=0.009	mismatches: 63.0
+#epoch: 83 error: 0.17326333	time=0.007	mismatches: 63.0
+#epoch: 84 error: 0.17326255	time=0.006	mismatches: 63.0
+#epoch: 85 error: 0.17316689	time=0.006	mismatches: 63.0
+#epoch: 86 error: 0.17311217	time=0.006	mismatches: 63.0
+#epoch: 87 error: 0.17304112	time=0.006	mismatches: 63.0
+#epoch: 88 error: 0.17301308	time=0.011	mismatches: 62.0
+#epoch: 89 error: 0.17293343	time=0.006	mismatches: 61.0
+#epoch: 90 error: 0.17286421	time=0.006	mismatches: 61.0
+#epoch: 91 error: 0.17279194	time=0.007	mismatches: 61.0
+#epoch: 92 error: 0.17273441	time=0.007	mismatches: 61.0
+#epoch: 93 error: 0.1726916	time=0.007	mismatches: 62.0
+#epoch: 94 error: 0.17257935	time=0.006	mismatches: 60.0
+#epoch: 95 error: 0.17255032	time=0.007	mismatches: 59.0
+#epoch: 96 error: 0.17251557	time=0.006	mismatches: 61.0
+#epoch: 97 error: 0.17241146	time=0.007	mismatches: 61.0
+#epoch: 98 error: 0.172394	time=0.007	mismatches: 59.0
+#epoch: 99 error: 0.17228493	time=0.007	mismatches: 60.0
+#epoch: 100 error: 0.17221554	time=0.007	mismatches: 61.0
+Training finished.
+accuracy: 0.3408
+Done.
